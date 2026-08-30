@@ -1,0 +1,1 @@
+fn main() { dioxus::launch(daemon_ui::App); }

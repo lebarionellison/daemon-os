@@ -1,0 +1,8 @@
+/target/
+/dist/
+*.env
+*.pem
+*.key
+*.db
+*.sqlite
+/crates/daemon-core/secrets/

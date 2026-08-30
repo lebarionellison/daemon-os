@@ -1,0 +1,6 @@
+[workspace]
+members = [
+    "daemon-core",
+    "daemon-ui",
+]
+resolver = "2"
