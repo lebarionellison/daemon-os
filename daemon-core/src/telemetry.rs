@@ -1,6 +1,7 @@
+use serde::Serialize;
 use sysinfo::{Disks, System};
 
-#[derive(Clone, Debug)]
+#[derive(Clone, Debug, Serialize)]
 pub struct SystemSnapshot {
     pub cpu_usage: f32,
     pub memory_used: u64,

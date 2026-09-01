@@ -7,3 +7,4 @@ edition = "2021"
 bloomfilter = "1.0"
 sysinfo = "0.36"
 windows-service = "0.8.1"
+serde = { version = "1", features = ["derive"] }
