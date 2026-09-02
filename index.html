@@ -1,0 +1,368 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Daemon OS | Infrastructure Intelligence</title>
+<style>
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+:root{
+ --bg:#03060a;--panel:#071018;--panel2:#0a141d;--line:#163040;
+ --text:#edf9ff;--muted:#8195a8;--cyan:#25d9ff;--blue:#638cff;
+ --green:#42f59b;--amber:#ffc857;--red:#ff5570
+}
+body{margin:0;background:var(--bg);color:var(--text);font-family:Segoe UI,Arial,sans-serif;overflow-x:hidden}
+body:before{content:"";position:fixed;inset:0;pointer-events:none;background:
+ radial-gradient(circle at 50% -10%,rgba(0,210,255,.15),transparent 35%),
+ radial-gradient(circle at 10% 50%,rgba(70,90,255,.06),transparent 30%);
+z-index:-2}
+body:after{content:"";position:fixed;inset:0;pointer-events:none;opacity:.035;
+background-image:linear-gradient(rgba(255,255,255,.3) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.3) 1px,transparent 1px);
+background-size:55px 55px;z-index:-1}
+a{text-decoration:none;color:inherit}
+nav{height:72px;border-bottom:1px solid #132430;background:rgba(3,6,10,.86);
+backdrop-filter:blur(18px);display:flex;align-items:center;justify-content:space-between;
+padding:0 5%;position:sticky;top:0;z-index:20}
+.logo{display:flex;align-items:center;gap:11px;font-weight:900;letter-spacing:.18em;font-size:17px}
+.logo-mark{width:35px;height:35px;border:1px solid #22bddd;border-radius:10px;display:grid;place-items:center;
+color:var(--cyan);box-shadow:0 0 25px rgba(37,217,255,.22);position:relative}
+.logo-mark:after{content:"";width:7px;height:7px;border-radius:50%;background:var(--cyan);box-shadow:0 0 16px var(--cyan)}
+.nav{display:flex;align-items:center;gap:25px;color:#8293a5;font-size:12px;font-weight:700}
+.nav a:hover{color:#fff}
+.signin{border:1px solid #29404e;border-radius:7px;padding:9px 15px;color:#eaf8ff}
+.hero{max-width:1250px;margin:auto;padding:88px 24px 55px;text-align:center}
+.eyebrow{display:inline-flex;gap:8px;align-items:center;color:var(--cyan);font-size:10px;font-weight:900;letter-spacing:.2em;border:1px solid #17495b;
+padding:8px 12px;border-radius:999px;background:rgba(15,50,65,.25)}
+.eyebrow:before{content:"";width:6px;height:6px;border-radius:50%;background:var(--green);box-shadow:0 0 12px var(--green)}
+h1{font-size:clamp(48px,8vw,94px);line-height:.94;letter-spacing:-.065em;margin:25px 0 22px}
+h1 span{background:linear-gradient(90deg,#fff,var(--cyan),#7f9dff);-webkit-background-clip:text;color:transparent}
+.hero-copy{max-width:760px;margin:auto;color:#91a3b5;font-size:17px;line-height:1.7}
+.ctas{display:flex;justify-content:center;gap:12px;margin:30px 0 48px;flex-wrap:wrap}
+.btn{padding:14px 23px;border-radius:8px;font-weight:900;font-size:13px}
+.primary{background:#eafcff;color:#031018;box-shadow:0 0 35px rgba(37,217,255,.18)}
+.secondary{border:1px solid #29404e;background:#071018;color:#dceaf3}
+.command{border:1px solid #173444;border-radius:18px;background:#050b11;box-shadow:0 35px 100px rgba(0,0,0,.65),0 0 80px rgba(0,190,255,.08);overflow:hidden;text-align:left}
+.cmdbar{height:52px;border-bottom:1px solid #142833;display:flex;align-items:center;justify-content:space-between;padding:0 17px;font-size:10px}
+.cmdtitle{font-weight:900;letter-spacing:.16em}
+.status{color:var(--green);font-weight:900;letter-spacing:.1em}
+.command-main{padding:18px}
+.command-grid{display:grid;grid-template-columns:1.25fr .75fr;gap:13px}
+.core{border:1px solid #15394a;border-radius:12px;min-height:270px;padding:22px;
+background:radial-gradient(circle at 50% 45%,rgba(0,205,255,.12),transparent 35%),#071018;position:relative;overflow:hidden}
+.core:after{content:"";position:absolute;inset:15%;border:1px dashed #164454;border-radius:50%;animation:spin 22s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.orb{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:92px;height:92px;border-radius:50%;
+border:1px solid var(--cyan);display:grid;place-items:center;color:var(--cyan);font-weight:900;
+box-shadow:0 0 35px rgba(37,217,255,.35),inset 0 0 30px rgba(37,217,255,.12);z-index:2}
+.core-label{position:relative;z-index:3;font-size:9px;color:var(--cyan);font-weight:900;letter-spacing:.16em}
+.core-bottom{position:absolute;z-index:3;bottom:20px;left:22px;color:#708598;font-size:10px}
+.ai-status{position:absolute;z-index:3;right:20px;top:20px;color:var(--green);font-size:9px;font-weight:900}
+.side-stack{display:grid;gap:13px}
+.mini{border:1px solid #172c38;border-radius:12px;background:#071018;padding:17px;min-height:128px}
+.mini-title{display:flex;justify-content:space-between;font-size:9px;font-weight:900;letter-spacing:.12em;color:#8ba0b1}
+.live{color:var(--green)}
+.big{font-size:30px;font-weight:900;margin:17px 0 3px}
+.sub{font-size:9px;color:#63788b}
+.bars{display:flex;align-items:end;gap:5px;height:48px;margin-top:14px}
+.bar{width:7px;background:linear-gradient(180deg,var(--cyan),#18516b);border-radius:3px 3px 0 0;animation:pulse 1.7s infinite alternate}
+.bar:nth-child(2){height:55%}.bar:nth-child(3){height:85%}.bar:nth-child(4){height:42%}.bar:nth-child(5){height:72%}.bar:nth-child(6){height:95%}.bar:nth-child(7){height:65%}.bar:nth-child(8){height:80%}
+@keyframes pulse{from{opacity:.45}to{opacity:1}}
+.metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:13px}
+.metric{border:1px solid #152a36;border-radius:10px;padding:15px;background:#060d13}
+.metric label{font-size:8px;color:#657b8e;letter-spacing:.15em}
+.metric strong{display:block;font-size:23px;margin-top:8px}
+.metric span{font-size:8px;color:#5d7285}
+.section{max-width:1150px;margin:auto;padding:90px 24px}
+.section-head{text-align:center;max-width:760px;margin:auto auto 45px}
+.section-head h2{font-size:clamp(31px,4vw,46px);letter-spacing:-.045em;margin:0 0 13px}
+.section-head p{color:#8195a8;line-height:1.7}
+.features{display:grid;grid-template-columns:repeat(3,1fr);gap:13px}
+.card{border:1px solid #152b37;background:linear-gradient(145deg,#071018,#050a10);border-radius:13px;padding:24px;min-height:205px;transition:.25s}
+.card:hover{transform:translateY(-4px);border-color:#23647c;box-shadow:0 20px 50px rgba(0,180,255,.08)}
+.card .tag{font-size:8px;color:var(--cyan);letter-spacing:.14em;font-weight:900}
+.icon{font-size:20px;color:var(--cyan);margin-top:17px}
+.card h3{margin:12px 0 8px;font-size:18px}
+.card p{color:#788d9f;font-size:12px;line-height:1.7;margin:0}
+.capabilities{display:grid;grid-template-columns:repeat(2,1fr);gap:13px}
+.cap{border:1px solid #172e3b;border-radius:13px;background:#060d13;padding:23px}
+.cap-head{display:flex;justify-content:space-between;align-items:center}
+.cap h3{margin:0;font-size:17px}
+.cap-badge{font-size:8px;color:var(--cyan);border:1px solid #1a5266;border-radius:999px;padding:5px 8px}
+.cap p{color:#788d9f;font-size:12px;line-height:1.7}
+.signal{margin-top:15px;padding:12px;border-left:2px solid var(--cyan);background:#08151d;color:#a7bbc9;font-size:10px}
+.pricing{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.price-card{border:1px solid #172c38;background:#071018;border-radius:13px;padding:26px;position:relative}
+.price-card.pro{border-color:#2694b8;box-shadow:0 0 55px rgba(0,190,255,.09)}
+.price-card.business{border-color:#536bba;box-shadow:0 0 55px rgba(80,110,255,.08)}
+.popular{position:absolute;top:14px;right:14px;font-size:8px;color:#061018;background:var(--cyan);padding:5px 8px;border-radius:999px;font-weight:900}
+.price{font-size:39px;font-weight:900;margin:15px 0 4px}
+.price span{font-size:11px;color:#718497;font-weight:400}
+.price-card p{color:#718497;font-size:11px;min-height:32px}
+.price-card ul{padding-left:18px;color:#9aacbb;line-height:2;font-size:12px}
+.buy{display:block;text-align:center;margin-top:22px;padding:13px;border-radius:7px;border:1px solid #29404e;font-size:12px;font-weight:900}
+.pro .buy{background:#eafcff;color:#031018}
+.business .buy{background:#111d39;border-color:#38558f;color:#dce8ff}
+.trial{text-align:center;color:var(--cyan);font-size:9px;margin-top:11px;letter-spacing:.08em}
+.footer{text-align:center;border-top:1px solid #132630;padding:42px 20px;color:#53697b;font-size:9px;letter-spacing:.14em}
+@media(max-width:850px){
+.command-grid,.capabilities{grid-template-columns:1fr}
+.metrics,.features,.pricing{grid-template-columns:1fr 1fr}
+}
+@media(max-width:560px){
+.nav a:not(.signin){display:none}
+.hero{padding-top:65px}
+h1{font-size:48px}
+.metrics,.features,.pricing{grid-template-columns:1fr}
+.command-main{padding:10px}
+.core{min-height:240px}
+}
+</style>
+</head>
+<body>
+
+<nav>
+<div class="logo"><div class="logo-mark"></div>DAEMON OS</div>
+<div class="nav">
+<a href="#platform">Platform</a>
+<a href="#intelligence">Intelligence</a>
+<a href="#pricing">Pricing</a>
+<a class="signin" href="#">Sign In</a>
+</div>
+</nav>
+
+<section class="hero">
+<div class="eyebrow">AI-NATIVE INFRASTRUCTURE OPERATING SYSTEM</div>
+<h1>Your infrastructure is alive.<br><span>Give it intelligence.</span></h1>
+<p class="hero-copy">
+Daemon OS unifies telemetry, security, infrastructure dependencies, AI operations,
+GPU intelligence and predictive failure analysis into one living command center.
+</p>
+<div class="ctas">
+<a class="btn primary" href="#pricing">Start 14-Day Pro Trial</a>
+<a class="btn secondary" href="#intelligence">Enter Command Center</a>
+</div>
+
+<div class="command">
+<div class="cmdbar">
+<div class="cmdtitle">DAEMON OS / LIVE INFRASTRUCTURE GRAPH</div>
+<div class="status">â— ALL SYSTEMS NOMINAL</div>
+</div>
+<div class="command-main">
+<div class="command-grid">
+<div class="core">
+<div class="core-label">INFRASTRUCTURE DNA</div>
+<div class="ai-status">AI CORE ONLINE</div>
+<div class="orb">D</div>
+<div class="core-bottom">14 NODES Â· 42 SERVICES Â· 3 CLUSTERS Â· 0 ACTIVE INCIDENTS</div>
+</div>
+<div class="side-stack">
+<div class="mini">
+<div class="mini-title">FAILURE FORECAST <span class="live">PREDICTIVE</span></div>
+<div class="big">LOW</div>
+<div class="sub">NEXT 60 MINUTES Â· SYSTEM STABILITY 98.7%</div>
+<div class="bars">
+<div class="bar" style="height:45%"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div>
+<div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div>
+</div>
+</div>
+<div class="mini">
+<div class="mini-title">GPU INTELLIGENCE <span class="live">ONLINE</span></div>
+<div class="big">87%</div>
+<div class="sub">ACCELERATOR UTILIZATION Â· VRAM HEALTH NOMINAL</div>
+</div>
+</div>
+</div>
+
+<div class="metrics">
+<div class="metric"><label>CPU FABRIC</label><strong id="cpu">6.6%</strong><span>LIVE UTILIZATION</span></div>
+<div class="metric"><label>MEMORY</label><strong id="mem">48.4%</strong><span>ACTIVE WORKLOAD</span></div>
+<div class="metric"><label>THREAT POSTURE</label><strong id="security">--</strong><span id="security-status">CONNECTING</span></div>
+<div class="metric"><label>AI CONFIDENCE</label><strong>98%</strong><span>OPERATIONAL MODEL</span></div>
+</div>
+</div>
+</div>
+</section>
+
+<section class="section" id="platform">
+<div class="section-head">
+<h2>Not another monitoring dashboard.</h2>
+<p>Daemon OS builds a living model of your infrastructure so engineers can see what is happening, why it is happening and what could happen next.</p>
+</div>
+
+<div class="features">
+<div class="card">
+<div class="tag">01 / INFRASTRUCTURE DNA</div>
+<div class="icon">â—ˆ</div>
+<h3>Living Infrastructure Graph</h3>
+<p>Map hosts, containers, clusters, GPUs, services and dependencies into one continuously evolving infrastructure model.</p>
+</div>
+
+<div class="card">
+<div class="tag">02 / FAILURE FORECAST</div>
+<div class="icon">â—‰</div>
+<h3>Know What Breaks Next</h3>
+<p>Detect rising resource pressure and operational signals before they become incidents. See probability, timing and affected systems.</p>
+</div>
+
+<div class="card">
+<div class="tag">03 / BLAST RADIUS</div>
+<div class="icon">â—‡</div>
+<h3>See the Impact Before You Act</h3>
+<p>Trace dependencies and visualize the potential blast radius of a node, service, workload or cluster failure.</p>
+</div>
+
+<div class="card">
+<div class="tag">04 / INCIDENT REPLAY</div>
+<div class="icon">â†»</div>
+<h3>AI Incident Reconstruction</h3>
+<p>Replay telemetry and security signals across a timeline to understand exactly how an infrastructure event developed.</p>
+</div>
+
+<div class="card">
+<div class="tag">05 / DAEMON AUTOPILOT</div>
+<div class="icon">âš¡</div>
+<h3>Simulate Before Remediation</h3>
+<p>Daemon proposes operational actions and lets engineers simulate the expected outcome before approving a change.</p>
+</div>
+
+<div class="card">
+<div class="tag">06 / GPU INTELLIGENCE</div>
+<div class="icon">â–£</div>
+<h3>AI Infrastructure Visibility</h3>
+<p>Understand GPU utilization, memory pressure, workload placement and accelerator health across modern AI infrastructure.</p>
+</div>
+</div>
+</section>
+
+<section class="section" id="intelligence">
+<div class="section-head">
+<h2>Infrastructure intelligence that thinks in relationships.</h2>
+<p>The difference is not another metric. It is understanding how every signal connects to the system around it.</p>
+</div>
+
+<div class="capabilities">
+<div class="cap">
+<div class="cap-head"><h3>Blast Radius Engine</h3><span class="cap-badge">BUSINESS</span></div>
+<p>Select a system and Daemon traces dependent workloads, services and infrastructure paths.</p>
+<div class="signal">IMPACT ANALYSIS â†’ 3 SERVICES Â· 2 WORKLOADS Â· 1 CLUSTER</div>
+</div>
+
+<div class="cap">
+<div class="cap-head"><h3>AI Incident Replay</h3><span class="cap-badge">PRO</span></div>
+<p>Move through the infrastructure timeline and reconstruct the chain of events behind an operational anomaly.</p>
+<div class="signal">TIMELINE â†’ 10M Â· 1H Â· 6H Â· 24H Â· 7D</div>
+</div>
+
+<div class="cap">
+<div class="cap-head"><h3>Daemon Autopilot</h3><span class="cap-badge">BUSINESS</span></div>
+<p>Generate a proposed remediation, inspect the reasoning and simulate its projected infrastructure impact.</p>
+<div class="signal">PROPOSAL â†’ SIMULATE â†’ REVIEW â†’ APPROVE</div>
+</div>
+
+<div class="cap">
+<div class="cap-head"><h3>GPU Fabric Intelligence</h3><span class="cap-badge">BUSINESS</span></div>
+<p>Connect accelerator health with nodes, containers and workloads to expose AI infrastructure bottlenecks.</p>
+<div class="signal">GPU â†’ NODE â†’ CONTAINER â†’ WORKLOAD</div>
+</div>
+</div>
+</section>
+
+<section class="section" id="pricing">
+<div class="section-head">
+<h2>Serious infrastructure intelligence. $9.99 to start.</h2>
+<p>No artificial free tier. Start with the professional command center and scale when your infrastructure does.</p>
+</div>
+
+<div class="pricing">
+<div class="price-card pro">
+<h3>Pro</h3>
+<div class="price">$9.99 <span>/ month</span></div>
+<p>For engineers who want intelligence around their infrastructure.</p>
+<ul>
+<li>Up to 10 systems</li>
+<li>Live telemetry</li>
+<li>Infrastructure DNA</li>
+<li>Failure Forecast</li>
+<li>AI Incident Replay</li>
+<li>Security posture monitoring</li>
+<li>AI-assisted insights</li>
+<li>Priority support</li>
+</ul>
+<a class="buy" href="#">START PRO TRIAL</a>
+<div class="trial">14 DAYS FREE Â· THEN $9.99/MONTH</div>
+</div>
+
+<div class="price-card business">
+<div class="popular">MOST POWERFUL</div>
+<h3>Business</h3>
+<div class="price">$29.99 <span>/ month</span></div>
+<p>For teams operating real production infrastructure.</p>
+<ul>
+<li>Multiple systems & environments</li>
+<li>Multi-user access</li>
+<li>Advanced security monitoring</li>
+<li>Blast Radius Engine</li>
+<li>Daemon Autopilot simulations</li>
+<li>GPU infrastructure intelligence</li>
+<li>Platform integrations</li>
+<li>Priority support</li>
+</ul>
+<a class="buy" href="#">START BUSINESS</a>
+</div>
+
+<div class="price-card">
+<h3>Enterprise</h3>
+<div class="price">Custom</div>
+<p>For organizations operating infrastructure at scale.</p>
+<ul>
+<li>Unlimited systems</li>
+<li>Advanced security</li>
+<li>Custom integrations</li>
+<li>Enterprise deployment</li>
+<li>Dedicated support</li>
+<li>Custom requirements</li>
+</ul>
+<a class="buy" href="#">TALK TO DAEMON OS</a>
+</div>
+</div>
+</section>
+
+<footer class="footer">
+DAEMON OS Â· AI-NATIVE INFRASTRUCTURE OPERATING SYSTEM Â· SECURITY Â· INTELLIGENCE Â· OPERATIONS
+</footer>
+
+<script>
+async function updateTelemetry() {
+  try {
+    const [telemetryResponse, securityResponse] = await Promise.all([
+      fetch("http://127.0.0.1:8787/telemetry"),
+      fetch("http://127.0.0.1:8787/security")
+    ]);
+
+    const telemetry = await telemetryResponse.json();
+    const security = await securityResponse.json();
+
+    const cpu = Number(telemetry.cpu_usage).toFixed(1);
+    const memory = telemetry.memory_total > 0
+      ? ((telemetry.memory_used / telemetry.memory_total) * 100).toFixed(1)
+      : "0.0";
+
+    document.getElementById("cpu").textContent = cpu + "%";
+    document.getElementById("mem").textContent = memory + "%";
+    document.getElementById("security").textContent = security.security_score;
+    document.getElementById("security-status").textContent =
+      security.status + " / 100";
+  } catch (error) {
+    console.error("Daemon OS API unavailable:", error);
+  }
+}
+
+updateTelemetry();
+setInterval(updateTelemetry, 1800);
+</script>
+
+</body>
+</html>
+
+
