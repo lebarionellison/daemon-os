@@ -754,6 +754,8 @@ async function updateTelemetry() {
 
         const data = await response.json();
 
+document.getElementById("api-status").textContent = "CONNECTED";
+
         const memoryPercent =
             data.memory_total === 0
             ? 0
