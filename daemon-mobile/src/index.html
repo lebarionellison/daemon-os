@@ -1,0 +1,849 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#05070b">
+<title>Daemon OS — AI Command Center</title>
+
+<style>
+* {
+    box-sizing: border-box;
+}
+
+:root {
+    --bg: #05070b;
+    --panel: #0a0e15;
+    --panel2: #0d131d;
+    --border: #1b2635;
+    --text: #e8edf5;
+    --muted: #6f7d91;
+    --cyan: #45d9ff;
+    --green: #55e69a;
+    --amber: #ffc857;
+    --red: #ff5c6c;
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    background:
+        radial-gradient(circle at 50% -10%, #11253a 0%, transparent 42%),
+        linear-gradient(180deg, #05070b, #070a10 60%, #05070b);
+    color: var(--text);
+    font-family: Inter, Segoe UI, Arial, sans-serif;
+}
+
+.app {
+    width: min(1500px, 100%);
+    margin: auto;
+    padding: 22px;
+}
+
+/* HEADER */
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 22px;
+    border-bottom: 1px solid var(--border);
+}
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.logo {
+    width: 48px;
+    height: 48px;
+    border: 1px solid #294052;
+    border-radius: 14px;
+    display: grid;
+    place-items: center;
+    color: var(--cyan);
+    background: #08131c;
+    box-shadow: 0 0 25px rgba(69,217,255,.12);
+    font-size: 24px;
+}
+
+.title {
+    font-size: 22px;
+    font-weight: 800;
+    letter-spacing: 3px;
+}
+
+.subtitle {
+    margin-top: 4px;
+    color: var(--muted);
+    font-size: 11px;
+    letter-spacing: 1.5px;
+}
+
+.system-state {
+    text-align: right;
+}
+
+.state-label {
+    color: var(--muted);
+    font-size: 9px;
+    letter-spacing: 2px;
+}
+
+.state {
+    margin-top: 5px;
+    color: var(--green);
+    font-size: 13px;
+    font-weight: 800;
+    letter-spacing: 1px;
+}
+
+.pulse {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--green);
+    margin-right: 7px;
+    box-shadow: 0 0 12px var(--green);
+    animation: pulse 1.8s infinite;
+}
+
+@keyframes pulse {
+    50% { opacity: .35; }
+}
+
+/* AI CORE */
+
+.ai-core {
+    margin-top: 22px;
+    padding: 24px;
+    border: 1px solid var(--border);
+    border-radius: 18px;
+    background:
+        radial-gradient(circle at 75% 50%, rgba(69,217,255,.09), transparent 30%),
+        var(--panel);
+    display: grid;
+    grid-template-columns: 180px 1fr 220px;
+    gap: 25px;
+    align-items: center;
+}
+
+.core-orb {
+    width: 125px;
+    height: 125px;
+    margin: auto;
+    border-radius: 50%;
+    border: 1px solid #2e687a;
+    display: grid;
+    place-items: center;
+    background:
+        radial-gradient(circle, rgba(69,217,255,.25), rgba(69,217,255,.03) 60%, transparent 70%);
+    box-shadow:
+        0 0 25px rgba(69,217,255,.15),
+        inset 0 0 30px rgba(69,217,255,.08);
+    position: relative;
+}
+
+.core-orb::before,
+.core-orb::after {
+    content: "";
+    position: absolute;
+    inset: -10px;
+    border: 1px solid #193746;
+    border-radius: 50%;
+    animation: rotate 8s linear infinite;
+}
+
+.core-orb::after {
+    inset: -20px;
+    border-style: dashed;
+    opacity: .5;
+    animation-direction: reverse;
+    animation-duration: 13s;
+}
+
+@keyframes rotate {
+    to { transform: rotate(360deg); }
+}
+
+.core-symbol {
+    font-size: 30px;
+    color: var(--cyan);
+    text-shadow: 0 0 18px rgba(69,217,255,.7);
+}
+
+.ai-label {
+    color: var(--cyan);
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 2px;
+}
+
+.ai-title {
+    margin-top: 8px;
+    font-size: 28px;
+    font-weight: 800;
+}
+
+.ai-description {
+    margin-top: 8px;
+    color: var(--muted);
+    font-size: 12px;
+    line-height: 1.6;
+}
+
+.ai-metrics {
+    display: grid;
+    gap: 10px;
+}
+
+.ai-metric {
+    padding: 11px;
+    border: 1px solid var(--border);
+    border-radius: 9px;
+    background: var(--panel2);
+}
+
+.ai-metric span {
+    display: block;
+    color: var(--muted);
+    font-size: 9px;
+    letter-spacing: 1px;
+}
+
+.ai-metric strong {
+    display: block;
+    margin-top: 4px;
+    font-size: 14px;
+}
+
+/* GRID */
+
+.dashboard-grid {
+    margin-top: 18px;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+}
+
+.card {
+    background: rgba(10,14,21,.94);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 17px;
+}
+
+.metric-card {
+    position: relative;
+    overflow: hidden;
+}
+
+.metric-card::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 2px;
+    width: 100%;
+    background: var(--cyan);
+    opacity: .35;
+}
+
+.label {
+    color: var(--muted);
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 1.7px;
+    text-transform: uppercase;
+}
+
+.value {
+    margin-top: 9px;
+    font-size: 28px;
+    font-weight: 800;
+}
+
+.detail {
+    margin-top: 5px;
+    color: var(--muted);
+    font-size: 10px;
+}
+
+/* MAIN PANELS */
+
+.main-grid {
+    margin-top: 12px;
+    display: grid;
+    grid-template-columns: 1.4fr 1fr 1fr;
+    gap: 12px;
+}
+
+.section-title {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 1.5px;
+}
+
+.section-status {
+    color: var(--green);
+    font-size: 9px;
+}
+
+.service {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 13px 0;
+    border-bottom: 1px solid #141d29;
+    font-size: 12px;
+}
+
+.service:last-child {
+    border-bottom: 0;
+}
+
+.service-name {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+}
+
+.service-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--green);
+    box-shadow: 0 0 8px rgba(85,230,154,.6);
+}
+
+.running {
+    color: var(--green);
+    font-size: 9px;
+    font-weight: 800;
+}
+
+/* THREAT */
+
+.threat-score {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.score-ring {
+    width: 105px;
+    height: 105px;
+    border-radius: 50%;
+    border: 7px solid #172331;
+    border-top-color: var(--green);
+    border-right-color: var(--green);
+    display: grid;
+    place-items: center;
+}
+
+.score-number {
+    font-size: 26px;
+    font-weight: 800;
+}
+
+.score-text {
+    color: var(--muted);
+    font-size: 9px;
+    letter-spacing: 1px;
+}
+
+.threat-status {
+    color: var(--green);
+    font-size: 14px;
+    font-weight: 800;
+}
+
+.threat-sub {
+    margin-top: 6px;
+    color: var(--muted);
+    font-size: 10px;
+    line-height: 1.5;
+}
+
+/* ACTIVITY */
+
+.activity {
+    display: grid;
+    gap: 8px;
+}
+
+.event {
+    display: grid;
+    grid-template-columns: 65px 10px 1fr;
+    gap: 8px;
+    align-items: center;
+    padding: 8px 0;
+    border-bottom: 1px solid #141d29;
+    font-size: 10px;
+}
+
+.event-time {
+    color: var(--muted);
+}
+
+.event-dot {
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: var(--cyan);
+}
+
+.event-message {
+    color: #aeb9c9;
+}
+
+/* SYSTEM */
+
+.system-grid {
+    margin-top: 12px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+}
+
+.system-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 0;
+    border-bottom: 1px solid #141d29;
+    font-size: 11px;
+}
+
+.system-row span:first-child {
+    color: var(--muted);
+}
+
+/* FOOTER */
+
+.footer {
+    margin-top: 18px;
+    text-align: center;
+    color: #3f4c5d;
+    font-size: 9px;
+    letter-spacing: 2px;
+}
+
+/* MOBILE */
+
+@media (max-width: 900px) {
+    .ai-core {
+        grid-template-columns: 1fr;
+        text-align: center;
+    }
+
+    .dashboard-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .main-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .system-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .system-state {
+        display: none;
+    }
+}
+
+@media (max-width: 520px) {
+    .app {
+        padding: 12px;
+    }
+
+    .dashboard-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .title {
+        font-size: 17px;
+    }
+
+    .ai-title {
+        font-size: 22px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="app">
+
+<header class="header">
+    <div class="brand">
+        <div class="logo">◈</div>
+        <div>
+            <div class="title">DAEMON OS</div>
+            <div class="subtitle">AI SECURITY & INTELLIGENCE COMMAND CENTER</div>
+        </div>
+    </div>
+
+    <div class="system-state">
+        <div class="state-label">SYSTEM STATE</div>
+        <div class="state">
+            <span class="pulse"></span>
+            OPERATIONAL
+        </div>
+    </div>
+</header>
+
+<section class="ai-core">
+
+    <div class="core-orb">
+        <div class="core-symbol">◉</div>
+    </div>
+
+    <div>
+        <div class="ai-label">DAEMON INTELLIGENCE ENGINE</div>
+        <div class="ai-title">AI CORE ONLINE</div>
+        <div class="ai-description">
+            Autonomous security intelligence layer monitoring system telemetry,
+            threat signals, infrastructure health and operational state.
+        </div>
+    </div>
+
+    <div class="ai-metrics">
+        <div class="ai-metric">
+            <span>INTELLIGENCE</span>
+            <strong id="intelligence">READY</strong>
+        </div>
+
+        <div class="ai-metric">
+            <span>THREAT SHIELD</span>
+            <strong id="shield">ACTIVE</strong>
+        </div>
+
+        <div class="ai-metric">
+            <span>API LINK</span>
+            <strong id="api-status">CONNECTED</strong>
+        </div>
+    </div>
+
+</section>
+
+<section class="dashboard-grid">
+
+    <div class="card metric-card">
+        <div class="label">CPU LOAD</div>
+        <div class="value" id="cpu">--</div>
+        <div class="detail">Live processor utilization</div>
+    </div>
+
+    <div class="card metric-card">
+        <div class="label">MEMORY</div>
+        <div class="value" id="memory">--</div>
+        <div class="detail" id="memory-detail">Awaiting telemetry</div>
+    </div>
+
+    <div class="card metric-card">
+        <div class="label">DISK</div>
+        <div class="value" id="disk">--</div>
+        <div class="detail" id="disk-detail">Awaiting telemetry</div>
+    </div>
+
+    <div class="card metric-card">
+        <div class="label">UPTIME</div>
+        <div class="value" id="uptime">--</div>
+        <div class="detail">Daemon host uptime</div>
+    </div>
+
+</section>
+
+<section class="main-grid">
+
+    <div class="card">
+        <div class="section-title">
+            <span>DAEMON SERVICES</span>
+            <span class="section-status">LIVE</span>
+        </div>
+
+        <div class="service">
+            <div class="service-name">
+                <span class="service-dot"></span>
+                Daemon Core
+            </div>
+            <span class="running">RUNNING</span>
+        </div>
+
+        <div class="service">
+            <div class="service-name">
+                <span class="service-dot"></span>
+                Telemetry Engine
+            </div>
+            <span class="running">RUNNING</span>
+        </div>
+
+        <div class="service">
+            <div class="service-name">
+                <span class="service-dot"></span>
+                Intelligence Engine
+            </div>
+            <span class="running">READY</span>
+        </div>
+
+        <div class="service">
+            <div class="service-name">
+                <span class="service-dot"></span>
+                Threat Shield
+            </div>
+            <span class="running">ACTIVE</span>
+        </div>
+
+        <div class="service">
+            <div class="service-name">
+                <span class="service-dot"></span>
+                Security Monitor
+            </div>
+            <span class="running">READY</span>
+        </div>
+    </div>
+
+    <div class="card">
+
+        <div class="section-title">
+            <span>THREAT POSTURE</span>
+            <span class="section-status">MONITORING</span>
+        </div>
+
+        <div class="threat-score">
+
+            <div class="score-ring">
+                <div>
+                    <div class="score-number">98</div>
+                    <div class="score-text">/100</div>
+                </div>
+            </div>
+
+            <div>
+                <div class="threat-status">SECURE</div>
+                <div class="threat-sub">
+                    No active threat signals detected.
+                    ThreatShield is operational.
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="card">
+
+        <div class="section-title">
+            <span>AI ACTIVITY</span>
+            <span class="section-status">STREAM</span>
+        </div>
+
+        <div class="activity">
+
+            <div class="event">
+                <span class="event-time">LIVE</span>
+                <span class="event-dot"></span>
+                <span class="event-message">Telemetry stream active</span>
+            </div>
+
+            <div class="event">
+                <span class="event-time">LIVE</span>
+                <span class="event-dot"></span>
+                <span class="event-message">ThreatShield standing by</span>
+            </div>
+
+            <div class="event">
+                <span class="event-time">LIVE</span>
+                <span class="event-dot"></span>
+                <span class="event-message">AI core operational</span>
+            </div>
+
+            <div class="event">
+                <span class="event-time">LIVE</span>
+                <span class="event-dot"></span>
+                <span class="event-message">API telemetry connected</span>
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+<section class="system-grid">
+
+    <div class="card">
+        <div class="section-title">
+            <span>SYSTEM TELEMETRY</span>
+            <span class="section-status">REAL TIME</span>
+        </div>
+
+        <div class="system-row">
+            <span>CPU</span>
+            <span id="cpu2">--</span>
+        </div>
+
+        <div class="system-row">
+            <span>Memory</span>
+            <span id="memory2">--</span>
+        </div>
+
+        <div class="system-row">
+            <span>Disk</span>
+            <span id="disk2">--</span>
+        </div>
+
+        <div class="system-row">
+            <span>Uptime</span>
+            <span id="uptime2">--</span>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="section-title">
+            <span>INTELLIGENCE STATUS</span>
+            <span class="section-status">ONLINE</span>
+        </div>
+
+        <div class="system-row">
+            <span>Threat Engine</span>
+            <span>ACTIVE</span>
+        </div>
+
+        <div class="system-row">
+            <span>Hash Intelligence</span>
+            <span>READY</span>
+        </div>
+
+        <div class="system-row">
+            <span>Security Monitor</span>
+            <span>READY</span>
+        </div>
+
+        <div class="system-row">
+            <span>API Endpoint</span>
+            <span>8787</span>
+        </div>
+    </div>
+
+</section>
+
+<div class="footer">
+    DAEMON OS • AI SECURITY INTELLIGENCE PLATFORM • LOCAL COMMAND CENTER
+</div>
+
+</div>
+
+<script>
+
+async function updateTelemetry() {
+
+    try {
+
+        const response =
+            await fetch("http://127.0.0.1:8787/telemetry");
+
+        const data = await response.json();
+
+        const memoryPercent =
+            data.memory_total === 0
+            ? 0
+            : (data.memory_used / data.memory_total) * 100;
+
+        const diskPercent =
+            data.disk_total === 0
+            ? 0
+            : (data.disk_used / data.disk_total) * 100;
+
+        const cpu =
+            data.cpu_usage.toFixed(1) + "%";
+
+        const memory =
+            memoryPercent.toFixed(1) + "%";
+
+        const disk =
+            diskPercent.toFixed(1) + "%";
+
+        const uptime =
+            formatUptime(data.uptime);
+
+        document.getElementById("cpu").textContent = cpu;
+        document.getElementById("cpu2").textContent = cpu;
+
+        document.getElementById("memory").textContent = memory;
+        document.getElementById("memory2").textContent = memory;
+
+        document.getElementById("disk").textContent = disk;
+        document.getElementById("disk2").textContent = disk;
+
+        document.getElementById("uptime").textContent = uptime;
+        document.getElementById("uptime2").textContent = uptime;
+
+        document.getElementById("memory-detail").textContent =
+            formatGB(data.memory_used) +
+            " GB / " +
+            formatGB(data.memory_total) +
+            " GB";
+
+        document.getElementById("disk-detail").textContent =
+            formatGB(data.disk_used) +
+            " GB / " +
+            formatGB(data.disk_total) +
+            " GB";
+
+    } catch (error) {
+
+        document.getElementById("api-status").textContent =
+            "OFFLINE";
+
+        console.error("Daemon API connection failed:", error);
+    }
+}
+
+function formatGB(bytes) {
+
+    return (
+        bytes /
+        1024 /
+        1024 /
+        1024
+    ).toFixed(1);
+
+}
+
+function formatUptime(seconds) {
+
+    const days =
+        Math.floor(seconds / 86400);
+
+    seconds %= 86400;
+
+    const hours =
+        Math.floor(seconds / 3600);
+
+    seconds %= 3600;
+
+    const minutes =
+        Math.floor(seconds / 60);
+
+    return `${days}d ${hours}h ${minutes}m`;
+
+}
+
+updateTelemetry();
+
+setInterval(updateTelemetry, 2000);
+
+</script>
+
+</body>
+</html>

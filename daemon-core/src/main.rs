@@ -1,12 +1,7 @@
-use std::thread;
-use std::time::Duration;
-
 fn main() {
-    println!("Daemon OS Core starting...");
-
-    loop {
-        println!("Daemon OS Core is running.");
-
-        thread::sleep(Duration::from_secs(10));
+    if std::env::args().any(|arg| arg == "--console") {
+        daemon_core::service::run_console();
+    } else {
+        daemon_core::service::run();
     }
 }

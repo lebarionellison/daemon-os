@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#080b10">
+    <title>Daemon OS</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            background: #080b10;
+            color: #e8edf5;
+            font-family: Arial, sans-serif;
+        }
+
+        .app {
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo {
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
+            background: #151c28;
+            border: 1px solid #2b3545;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+        }
+
+        .title {
+            font-size: 22px;
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+
+        .subtitle {
+            color: #7f8da3;
+            font-size: 12px;
+            margin-top: 3px;
+        }
+
+        .online {
+            color: #9fe0b0;
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .dot {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #57c982;
+            margin-right: 5px;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 12px;
+        }
+
+        .card {
+            background: #0e131b;
+            border: 1px solid #202938;
+            border-radius: 14px;
+            padding: 18px;
+        }
+
+        .label {
+            color: #7f8da3;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+        }
+
+        .value {
+            font-size: 28px;
+            font-weight: 700;
+        }
+
+        .secondary {
+            color: #7f8da3;
+            font-size: 11px;
+            margin-top: 5px;
+        }
+
+        .section-title {
+            font-size: 14px;
+            font-weight: 700;
+            margin-bottom: 12px;
+        }
+
+        .service {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px 0;
+            border-bottom: 1px solid #1b2330;
+            font-size: 13px;
+        }
+
+        .service:last-child {
+            border-bottom: 0;
+        }
+
+        .running {
+            color: #8fd5a3;
+            font-size: 11px;
+            font-weight: 700;
+        }
+
+        .footer {
+            margin-top: 20px;
+            color: #566276;
+            font-size: 10px;
+            text-align: center;
+        }
+
+        @media (min-width: 700px) {
+            .app {
+                max-width: 900px;
+                margin: auto;
+            }
+
+            .grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+    </style>
+</head>
+
+<body>
+<div class="app">
+
+    <div class="header">
+        <div class="brand">
+            <div class="logo">◈</div>
+            <div>
+                <div class="title">DAEMON OS</div>
+                <div class="subtitle">Security & Intelligence Platform</div>
+            </div>
+        </div>
+
+        <div class="online">
+            <span class="dot"></span>
+            ONLINE
+        </div>
+    </div>
+
+    <div class="grid">
+
+        <div class="card">
+            <div class="label">CPU</div>
+            <div class="value" id="cpu">--</div>
+            <div class="secondary">Live processor utilization</div>
+        </div>
+
+        <div class="card">
+            <div class="label">Memory</div>
+            <div class="value" id="memory">--</div>
+            <div class="secondary" id="memory-detail">Waiting for telemetry</div>
+        </div>
+
+        <div class="card">
+            <div class="label">Disk</div>
+            <div class="value" id="disk">--</div>
+            <div class="secondary" id="disk-detail">Waiting for telemetry</div>
+        </div>
+
+        <div class="card">
+            <div class="section-title">DAEMON SERVICES</div>
+
+            <div class="service">
+                <span>Daemon Core</span>
+                <span class="running">● RUNNING</span>
+            </div>
+
+            <div class="service">
+                <span>Telemetry Engine</span>
+                <span class="running">● RUNNING</span>
+            </div>
+
+            <div class="service">
+                <span>Intelligence Engine</span>
+                <span class="running">● READY</span>
+            </div>
+
+            <div class="service">
+                <span>Security Monitor</span>
+                <span class="running">● READY</span>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="section-title">SYSTEM</div>
+
+            <div class="service">
+                <span>Uptime</span>
+                <span id="uptime">--</span>
+            </div>
+
+            <div class="service">
+                <span>API</span>
+                <span class="running">● CONNECTED</span>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="footer">
+        DAEMON OS • LIVE TELEMETRY
+    </div>
+
+</div>
+
+<script>
+async function updateTelemetry() {
+    try {
+        const response = await fetch("http://127.0.0.1:8787/telemetry");
+        const data = await response.json();
+
+        const memoryPercent =
+            data.memory_total === 0
+                ? 0
+                : (data.memory_used / data.memory_total) * 100;
+
+        const diskPercent =
+            data.disk_total === 0
+                ? 0
+                : (data.disk_used / data.disk_total) * 100;
+
+        document.getElementById("cpu").textContent =
+            data.cpu_usage.toFixed(1) + "%";
+
+        document.getElementById("memory").textContent =
+            memoryPercent.toFixed(1) + "%";
+
+        document.getElementById("disk").textContent =
+            diskPercent.toFixed(1) + "%";
+
+        document.getElementById("memory-detail").textContent =
+            formatGB(data.memory_used) +
+            " GB / " +
+            formatGB(data.memory_total) +
+            " GB";
+
+        document.getElementById("disk-detail").textContent =
+            formatGB(data.disk_used) +
+            " GB / " +
+            formatGB(data.disk_total) +
+            " GB";
+
+        document.getElementById("uptime").textContent =
+            formatUptime(data.uptime);
+
+    } catch (error) {
+        console.error("Telemetry connection failed:", error);
+    }
+}
+
+function formatGB(bytes) {
+    return (bytes / 1024 / 1024 / 1024).toFixed(1);
+}
+
+function formatUptime(seconds) {
+    const days = Math.floor(seconds / 86400);
+    seconds %= 86400;
+
+    const hours = Math.floor(seconds / 3600);
+    seconds %= 3600;
+
+    const minutes = Math.floor(seconds / 60);
+
+    return `${days}d ${hours}h ${minutes}m`;
+}
+
+updateTelemetry();
+setInterval(updateTelemetry, 2000);
+</script>
+
+</body>
+</html>
