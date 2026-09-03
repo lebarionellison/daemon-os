@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -91,9 +91,9 @@ box-shadow:0 0 35px rgba(37,217,255,.35),inset 0 0 30px rgba(37,217,255,.12);z-i
 .cap-badge{font-size:8px;color:var(--cyan);border:1px solid #1a5266;border-radius:999px;padding:5px 8px}
 .cap p{color:#788d9f;font-size:12px;line-height:1.7}
 .signal{margin-top:15px;padding:12px;border-left:2px solid var(--cyan);background:#08151d;color:#a7bbc9;font-size:10px}
-.pricing{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.pricing{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
 .price-card{border:1px solid #172c38;background:#071018;border-radius:13px;padding:26px;position:relative}
-.price-card.pro{border-color:#2694b8;box-shadow:0 0 55px rgba(0,190,255,.09)}
+.price-card.personal{border-color:#3a6b7c;box-shadow:0 0 45px rgba(0,190,255,.06)} .price-card.pro{border-color:#2694b8;box-shadow:0 0 55px rgba(0,190,255,.09)}
 .price-card.business{border-color:#536bba;box-shadow:0 0 55px rgba(80,110,255,.08)}
 .popular{position:absolute;top:14px;right:14px;font-size:8px;color:#061018;background:var(--cyan);padding:5px 8px;border-radius:999px;font-weight:900}
 .price{font-size:39px;font-weight:900;margin:15px 0 4px}
@@ -117,7 +117,26 @@ h1{font-size:48px}
 .command-main{padding:10px}
 .core{min-height:240px}
 }
-</style>
+.demo-actions{display:flex;gap:10px;margin-top:13px;flex-wrap:wrap}
+.demo-btn{border:1px solid #29404e;border-radius:7px;padding:11px 15px;background:#071018;color:#dceaf3;font-size:10px;font-weight:900;letter-spacing:.08em;cursor:pointer}
+.demo-btn:hover{border-color:#25d9ff;box-shadow:0 0 20px rgba(37,217,255,.12)}
+.demo-btn.danger{border-color:#6e2637;color:#ff7187}
+.demo-btn.danger:hover{border-color:#ff5570}
+.demo-btn.restore{display:none;border-color:#27684d;color:#42f59b}
+.incident-panel{display:none;margin-top:13px;border:1px solid #64283a;border-radius:12px;background:linear-gradient(145deg,#170b11,#0a1017);padding:17px}
+.incident-panel.show{display:block}
+.incident-head{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:13px}
+.incident-title{font-size:9px;color:#ff7187;font-weight:900;letter-spacing:.1em}
+.risk{font-size:8px;color:#ff5570;border:1px solid #713044;border-radius:999px;padding:5px 8px;font-weight:900}
+.incident-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:9px}
+.impact{border:1px solid #33202a;border-radius:8px;padding:12px;background:#0c1118}
+.impact label{display:block;font-size:7px;color:#758797;letter-spacing:.12em}
+.impact strong{display:block;margin-top:6px;font-size:15px;color:#fff}
+.ai-explanation{margin-top:12px;border-left:2px solid #ff5570;padding:11px 12px;background:#120d13;color:#aebdca;font-size:10px;line-height:1.7}
+.status.incident{color:#ff5570}
+.core.incident{border-color:#64283a;background:radial-gradient(circle at 50% 45%,rgba(255,70,100,.14),transparent 35%),#120a10}
+.orb.incident{border-color:#ff5570;color:#ff5570;box-shadow:0 0 35px rgba(255,85,112,.35),inset 0 0 30px rgba(255,85,112,.12)}
+@media(max-width:560px){.incident-grid{grid-template-columns:1fr}.incident-head{align-items:flex-start;flex-direction:column}}</style>
 </head>
 <body>
 
@@ -139,14 +158,14 @@ Daemon OS unifies telemetry, security, infrastructure dependencies, AI operation
 GPU intelligence and predictive failure analysis into one living command center.
 </p>
 <div class="ctas">
-<a class="btn primary" href="#pricing">Start 14-Day Pro Trial</a>
+<a class="btn primary" href="https://buy.stripe.com/28E9AT1Qb8UTcIF2dH7g400">Start 14-Day Pro Trial</a>
 <a class="btn secondary" href="#intelligence">Enter Command Center</a>
 </div>
 
 <div class="command">
 <div class="cmdbar">
 <div class="cmdtitle">DAEMON OS / LIVE INFRASTRUCTURE GRAPH</div>
-<div class="status">â— ALL SYSTEMS NOMINAL</div>
+<div class="status">? ALL SYSTEMS NOMINAL</div>
 </div>
 <div class="command-main">
 <div class="command-grid">
@@ -154,13 +173,13 @@ GPU intelligence and predictive failure analysis into one living command center.
 <div class="core-label">INFRASTRUCTURE DNA</div>
 <div class="ai-status">AI CORE ONLINE</div>
 <div class="orb">D</div>
-<div class="core-bottom">14 NODES Â· 42 SERVICES Â· 3 CLUSTERS Â· 0 ACTIVE INCIDENTS</div>
+<div class="core-bottom">14 NODES � 42 SERVICES � 3 CLUSTERS � 0 ACTIVE INCIDENTS</div>
 </div>
 <div class="side-stack">
 <div class="mini">
 <div class="mini-title">FAILURE FORECAST <span class="live">PREDICTIVE</span></div>
 <div class="big">LOW</div>
-<div class="sub">NEXT 60 MINUTES Â· SYSTEM STABILITY 98.7%</div>
+<div class="sub">NEXT 60 MINUTES � SYSTEM STABILITY 98.7%</div>
 <div class="bars">
 <div class="bar" style="height:45%"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div>
 <div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div>
@@ -169,7 +188,7 @@ GPU intelligence and predictive failure analysis into one living command center.
 <div class="mini">
 <div class="mini-title">GPU INTELLIGENCE <span class="live">ONLINE</span></div>
 <div class="big">87%</div>
-<div class="sub">ACCELERATOR UTILIZATION Â· VRAM HEALTH NOMINAL</div>
+<div class="sub">ACCELERATOR UTILIZATION � VRAM HEALTH NOMINAL</div>
 </div>
 </div>
 </div>
@@ -179,6 +198,21 @@ GPU intelligence and predictive failure analysis into one living command center.
 <div class="metric"><label>MEMORY</label><strong id="mem">48.4%</strong><span>ACTIVE WORKLOAD</span></div>
 <div class="metric"><label>THREAT POSTURE</label><strong id="security">--</strong><span id="security-status">CONNECTING</span></div>
 <div class="metric"><label>AI CONFIDENCE</label><strong>98%</strong><span>OPERATIONAL MODEL</span></div>
+</div><div class="demo-actions">
+<button class="demo-btn danger" id="simulateBtn" type="button">SIMULATE INFRASTRUCTURE FAILURE</button>
+<button class="demo-btn restore" id="restoreBtn" type="button">RESTORE SYSTEM</button>
+</div>
+<div class="incident-panel" id="incidentPanel">
+<div class="incident-head">
+<div class="incident-title">AI INCIDENT ANALYSIS � PAYMENT-API-NODE-07</div>
+<div class="risk">HIGH IMPACT DETECTED</div>
+</div>
+<div class="incident-grid">
+<div class="impact"><label>AFFECTED SERVICES</label><strong>3 SERVICES</strong></div>
+<div class="impact"><label>DEPENDENT WORKLOADS</label><strong>2 WORKLOADS</strong></div>
+<div class="impact"><label>BLAST RADIUS</label><strong>1 CLUSTER</strong></div>
+</div>
+<div class="ai-explanation"><strong>Daemon analysis:</strong> Node pressure is propagating to the payment API and its dependent workloads. Recommended action: isolate the unhealthy node, rebalance workloads, then verify service recovery before returning it to production.</div>
 </div>
 </div>
 </div>
@@ -193,42 +227,42 @@ GPU intelligence and predictive failure analysis into one living command center.
 <div class="features">
 <div class="card">
 <div class="tag">01 / INFRASTRUCTURE DNA</div>
-<div class="icon">â—ˆ</div>
+<div class="icon">?</div>
 <h3>Living Infrastructure Graph</h3>
 <p>Map hosts, containers, clusters, GPUs, services and dependencies into one continuously evolving infrastructure model.</p>
 </div>
 
 <div class="card">
 <div class="tag">02 / FAILURE FORECAST</div>
-<div class="icon">â—‰</div>
+<div class="icon">?</div>
 <h3>Know What Breaks Next</h3>
 <p>Detect rising resource pressure and operational signals before they become incidents. See probability, timing and affected systems.</p>
 </div>
 
 <div class="card">
 <div class="tag">03 / BLAST RADIUS</div>
-<div class="icon">â—‡</div>
+<div class="icon">?</div>
 <h3>See the Impact Before You Act</h3>
 <p>Trace dependencies and visualize the potential blast radius of a node, service, workload or cluster failure.</p>
 </div>
 
 <div class="card">
 <div class="tag">04 / INCIDENT REPLAY</div>
-<div class="icon">â†»</div>
+<div class="icon">?</div>
 <h3>AI Incident Reconstruction</h3>
 <p>Replay telemetry and security signals across a timeline to understand exactly how an infrastructure event developed.</p>
 </div>
 
 <div class="card">
 <div class="tag">05 / DAEMON AUTOPILOT</div>
-<div class="icon">âš¡</div>
+<div class="icon">?</div>
 <h3>Simulate Before Remediation</h3>
 <p>Daemon proposes operational actions and lets engineers simulate the expected outcome before approving a change.</p>
 </div>
 
 <div class="card">
 <div class="tag">06 / GPU INTELLIGENCE</div>
-<div class="icon">â–£</div>
+<div class="icon">?</div>
 <h3>AI Infrastructure Visibility</h3>
 <p>Understand GPU utilization, memory pressure, workload placement and accelerator health across modern AI infrastructure.</p>
 </div>
@@ -245,36 +279,77 @@ GPU intelligence and predictive failure analysis into one living command center.
 <div class="cap">
 <div class="cap-head"><h3>Blast Radius Engine</h3><span class="cap-badge">BUSINESS</span></div>
 <p>Select a system and Daemon traces dependent workloads, services and infrastructure paths.</p>
-<div class="signal">IMPACT ANALYSIS â†’ 3 SERVICES Â· 2 WORKLOADS Â· 1 CLUSTER</div>
+<div class="signal">IMPACT ANALYSIS ? 3 SERVICES � 2 WORKLOADS � 1 CLUSTER</div>
 </div>
 
 <div class="cap">
 <div class="cap-head"><h3>AI Incident Replay</h3><span class="cap-badge">PRO</span></div>
 <p>Move through the infrastructure timeline and reconstruct the chain of events behind an operational anomaly.</p>
-<div class="signal">TIMELINE â†’ 10M Â· 1H Â· 6H Â· 24H Â· 7D</div>
+<div class="signal">TIMELINE ? 10M � 1H � 6H � 24H � 7D</div>
 </div>
 
 <div class="cap">
 <div class="cap-head"><h3>Daemon Autopilot</h3><span class="cap-badge">BUSINESS</span></div>
 <p>Generate a proposed remediation, inspect the reasoning and simulate its projected infrastructure impact.</p>
-<div class="signal">PROPOSAL â†’ SIMULATE â†’ REVIEW â†’ APPROVE</div>
+<div class="signal">PROPOSAL ? SIMULATE ? REVIEW ? APPROVE</div>
 </div>
 
 <div class="cap">
 <div class="cap-head"><h3>GPU Fabric Intelligence</h3><span class="cap-badge">BUSINESS</span></div>
 <p>Connect accelerator health with nodes, containers and workloads to expose AI infrastructure bottlenecks.</p>
-<div class="signal">GPU â†’ NODE â†’ CONTAINER â†’ WORKLOAD</div>
+<div class="signal">GPU ? NODE ? CONTAINER ? WORKLOAD</div>
 </div>
 </div>
 </section>
 
-<section class="section" id="pricing">
+<section class="section" id="personal">
 <div class="section-head">
-<h2>Serious infrastructure intelligence. $9.99 to start.</h2>
-<p>No artificial free tier. Start with the professional command center and scale when your infrastructure does.</p>
+<h2>Intelligence for Your Digital Life.</h2>
+<p>Daemon Personal quietly understands your devices, learns what normal looks like, and tells you what matters before small problems become big ones.</p><div class="signal"><strong>ONE DAEMON. EVERY DEVICE.</strong><br>Bring Daemon with you across Android, iPhone, computers and the devices that power your digital life.</div>
 </div>
 
-<div class="pricing">
+<div class="features">
+<div class="feature">
+<h3>Daemon Watch</h3>
+<p>Quietly watches performance, storage, memory, battery, applications, connectivity, and device health.</p>
+</div>
+
+<div class="feature">
+<h3>Ask Daemon</h3>
+<p>Ask simple questions like �Why is my phone slow?� or �What changed?� and get answers in plain English.</p>
+</div>
+
+<div class="feature">
+<h3>See Problems Early</h3>
+<p>Daemon learns what normal looks like for you and looks for meaningful changes before they become frustrating problems.</p>
+</div>
+
+<div class="feature">
+<h3>Safe by Design</h3>
+<p>Daemon explains what it recommends before anything changes. You stay in control, with history and reversibility built in.</p>
+</div>
+
+<div class="feature">
+<h3>Remember What Happened</h3>
+<p>Daemon builds a personal history of your devices so you can understand what changed, when it changed, and what happened afterward.</p>
+</div>
+
+<div class="feature">
+<h3>Grow With You</h3>
+<p>Start with your everyday devices. As you grow into development, engineering, and infrastructure, Daemon grows with you.</p>
+</div>
+</div>
+
+<div class="signal">
+<strong>THE DAEMON PROMISE:</strong> You live your life. Daemon watches the machine.
+</div>
+</section><section class="section" id="pricing">
+<div class="section-head">
+<h2>Your digital life, with intelligence built in.</h2>
+<p>Start with your everyday devices. Grow into professional infrastructure intelligence when you are ready.</p>
+</div>
+
+<div class="price-card personal"><h3>Personal</h3><div class="price">$4.99 <span>/ month</span></div><p>For everyday people, builders and developers who want their technology to explain itself.</p><ul><li>Personal system intelligence</li><li>Health & performance monitoring</li><li>Early problem detection</li><li>Plain-English explanations</li><li>Ask Daemon</li><li>Safe recommendations</li><li>Personal system history</li><li>Privacy-first design</li></ul><a class="buy" href="https://buy.stripe.com/dRm4gz9iDdb9eQN4lP7g402">START PERSONAL TRIAL</a><div class="trial">14 DAYS FREE � THEN $4.99/MONTH</div></div><div class="pricing">
 <div class="price-card pro">
 <h3>Pro</h3>
 <div class="price">$9.99 <span>/ month</span></div>
@@ -289,8 +364,8 @@ GPU intelligence and predictive failure analysis into one living command center.
 <li>AI-assisted insights</li>
 <li>Priority support</li>
 </ul>
-<a class="buy" href="#">START PRO TRIAL</a>
-<div class="trial">14 DAYS FREE Â· THEN $9.99/MONTH</div>
+<a class="buy" href="https://buy.stripe.com/28E9AT1Qb8UTcIF2dH7g400">START PRO TRIAL</a>
+<div class="trial">14 DAYS FREE � THEN $9.99/MONTH</div>
 </div>
 
 <div class="price-card business">
@@ -308,7 +383,7 @@ GPU intelligence and predictive failure analysis into one living command center.
 <li>Platform integrations</li>
 <li>Priority support</li>
 </ul>
-<a class="buy" href="#">START BUSINESS</a>
+<a class="buy" href="https://buy.stripe.com/8x214ndyT5IHcIF5pT7g401">START BUSINESS</a>
 </div>
 
 <div class="price-card">
@@ -323,16 +398,53 @@ GPU intelligence and predictive failure analysis into one living command center.
 <li>Dedicated support</li>
 <li>Custom requirements</li>
 </ul>
-<a class="buy" href="#">TALK TO DAEMON OS</a>
+<a class="buy" href="mailto:barry.ellison@comcast.net?subject=Daemon%20OS%20Enterprise%20Inquiry">TALK TO DAEMON OS</a>
 </div>
 </div>
 </section>
 
-<footer class="footer">
-DAEMON OS Â· AI-NATIVE INFRASTRUCTURE OPERATING SYSTEM Â· SECURITY Â· INTELLIGENCE Â· OPERATIONS
+<section class="business-info"><h2>Built for Modern Infrastructure</h2><p>Daemon OS is a software platform for infrastructure intelligence, operational visibility, security monitoring, AI-assisted operations, and predictive failure analysis.</p><p>For questions about Daemon OS, subscriptions, or business inquiries, please contact our support team.</p></section><footer class="footer">
+DAEMON OS � AI-NATIVE INFRASTRUCTURE OPERATING SYSTEM � SECURITY � INTELLIGENCE � OPERATIONS
 </footer>
 
 <script>
+const simulateBtn = document.getElementById("simulateBtn");
+const restoreBtn = document.getElementById("restoreBtn");
+const incidentPanel = document.getElementById("incidentPanel");
+const statusEl = document.querySelector(".status");
+const forecastEl = document.querySelector(".mini .big");
+const stabilityEl = document.querySelector(".mini .sub");
+const coreEl = document.querySelector(".core");
+const orbEl = document.querySelector(".orb");
+const coreBottomEl = document.querySelector(".core-bottom");
+const securityStatusEl = document.getElementById("security-status");
+
+simulateBtn.addEventListener("click", () => {
+  statusEl.textContent = "? INCIDENT DETECTED";
+  statusEl.classList.add("incident");
+  forecastEl.textContent = "HIGH";
+  stabilityEl.textContent = "NEXT 60 MINUTES � SYSTEM STABILITY 61.2%";
+  coreBottomEl.textContent = "14 NODES � 42 SERVICES � 3 CLUSTERS � 1 ACTIVE INCIDENT";
+  coreEl.classList.add("incident");
+  orbEl.classList.add("incident");
+  incidentPanel.classList.add("show");
+  simulateBtn.style.display = "none";
+  restoreBtn.style.display = "block";
+});
+
+restoreBtn.addEventListener("click", () => {
+  statusEl.textContent = "? ALL SYSTEMS NOMINAL";
+  statusEl.classList.remove("incident");
+  forecastEl.textContent = "LOW";
+  stabilityEl.textContent = "NEXT 60 MINUTES � SYSTEM STABILITY 98.7%";
+  coreBottomEl.textContent = "14 NODES � 42 SERVICES � 3 CLUSTERS � 0 ACTIVE INCIDENTS";
+  coreEl.classList.remove("incident");
+  orbEl.classList.remove("incident");
+  incidentPanel.classList.remove("show");
+  restoreBtn.style.display = "none";
+  simulateBtn.style.display = "block";
+});
+
 async function updateTelemetry() {
   try {
     const [telemetryResponse, securityResponse] = await Promise.all([
@@ -351,10 +463,10 @@ async function updateTelemetry() {
     document.getElementById("cpu").textContent = cpu + "%";
     document.getElementById("mem").textContent = memory + "%";
     document.getElementById("security").textContent = security.security_score;
-    document.getElementById("security-status").textContent =
-      security.status + " / 100";
+    securityStatusEl.textContent = security.status + " / 100";
   } catch (error) {
-    console.error("Daemon OS API unavailable:", error);
+    console.log("Public demo mode: local Daemon OS API unavailable.");
+    securityStatusEl.textContent = "DEMO MODE";
   }
 }
 
@@ -364,5 +476,21 @@ setInterval(updateTelemetry, 1800);
 
 </body>
 </html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
