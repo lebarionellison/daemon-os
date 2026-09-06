@@ -6,3 +6,6 @@
 *.db
 *.sqlite
 /crates/daemon-core/secrets/
+
+.env.local
+/data/

@@ -1,6 +1,5 @@
 use daemon_core::telemetry::Telemetry;
 use dioxus::prelude::*;
-use std::thread;
 use std::time::Duration;
 
 #[derive(Clone, Debug)]
@@ -41,27 +40,27 @@ pub fn App() -> Element {
         disk_total: 0,
         uptime: 0,
     });
-use_effect(move || {
-    let mut telemetry = Telemetry::new();
+    use_effect(move || {
+        let mut telemetry = Telemetry::new();
 
-    spawn(async move {
-        loop {
-            let snapshot = telemetry.snapshot();
+        spawn(async move {
+            loop {
+                let snapshot = telemetry.snapshot();
 
-            data.set(DashboardData {
-                cpu: snapshot.cpu_usage,
-                memory_used: snapshot.memory_used,
-                memory_total: snapshot.memory_total,
-                disk_used: snapshot.disk_used,
-                disk_total: snapshot.disk_total,
-                uptime: snapshot.uptime,
-            });
+                data.set(DashboardData {
+                    cpu: snapshot.cpu_usage,
+                    memory_used: snapshot.memory_used,
+                    memory_total: snapshot.memory_total,
+                    disk_used: snapshot.disk_used,
+                    disk_total: snapshot.disk_total,
+                    uptime: snapshot.uptime,
+                });
 
-            tokio::time::sleep(Duration::from_secs(1)).await;
-        }
+                tokio::time::sleep(Duration::from_secs(1)).await;
+            }
+        });
     });
-});
-     
+
     let current = data();
 
     rsx! {

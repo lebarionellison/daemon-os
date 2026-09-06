@@ -1,7 +1,7 @@
-use serde::Serialize;
+use serde::{Deserialize, Serialize};
 use sysinfo::{Disks, System};
 
-#[derive(Clone, Debug, Serialize)]
+#[derive(Clone, Debug, Serialize, Deserialize)]
 pub struct SystemSnapshot {
     pub cpu_usage: f32,
     pub memory_used: u64,
@@ -38,17 +38,17 @@ impl Telemetry {
         let memory_used = self.system.used_memory();
         let memory_total = self.system.total_memory();
 
-        let (disk_used, disk_total) = self
-            .disks
-            .list()
-            .iter()
-            .fold((0u64, 0u64), |(used, total), disk| {
-                let total_space = disk.total_space();
-                let available_space = disk.available_space();
-                let used_space = total_space.saturating_sub(available_space);
+        let (disk_used, disk_total) =
+            self.disks
+                .list()
+                .iter()
+                .fold((0u64, 0u64), |(used, total), disk| {
+                    let total_space = disk.total_space();
+                    let available_space = disk.available_space();
+                    let used_space = total_space.saturating_sub(available_space);
 
-                (used + used_space, total + total_space)
-            });
+                    (used + used_space, total + total_space)
+                });
 
         SystemSnapshot {
             cpu_usage,

@@ -1,1 +1,3 @@
-fn main() { dioxus::launch(daemon_ui::App); }
+fn main() {
+    dioxus::launch(daemon_ui::App);
+}
