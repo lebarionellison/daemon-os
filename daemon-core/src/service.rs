@@ -1,6 +1,6 @@
-use crate::{
-    config::ConfigStore, history::HistoryStore, intelligence::IntelligenceEngine,
-    telemetry::Telemetry,
+﻿use crate::{
+    config::ConfigStore, event_engine::EventEngine, event_store::EventStore, history::HistoryStore, intelligence::IntelligenceEngine,
+
 };
 use std::ffi::OsString;
 use std::sync::mpsc;
@@ -74,7 +74,9 @@ fn run_service() -> Result<(), windows_service::Error> {
 }
 
 fn run_agent_loop(shutdown_rx: &mpsc::Receiver<()>) {
-    let mut telemetry = Telemetry::new();
+    let mut agent = crate::agent::DaemonAgent::new();
+    let event_engine = EventEngine::new();
+    let event_store = EventStore::new("data/events.jsonl");
     let history = HistoryStore::new("data/history.jsonl");
     let config_store = ConfigStore::new("data/config.json");
     let engine = IntelligenceEngine::new();
@@ -100,8 +102,19 @@ fn run_agent_loop(shutdown_rx: &mpsc::Receiver<()>) {
             continue;
         }
 
-        let snapshot = telemetry.snapshot();
+        let (snapshot, agent_events) = agent.observe();
 
+        for mut event in agent_events {
+            let event_updated_at = event.updated_at;
+            let _changed = event_engine.evaluate(&mut event, event_updated_at);
+
+            if let Err(error) = event_store.upsert(&event) {
+                eprintln!("[DAEMON AGENT] Event persistence error: {error}");
+            } else {
+                println!("[DAEMON AGENT] EVENT STORED | {} | {} | confidence {:.0}%", event.name, event.description, event.confidence * 100.0);
+            }
+
+    }
         let intelligence = if config.intelligence_enabled {
             Some(engine.analyze(&snapshot, None, &config))
         } else {
@@ -175,3 +188,7 @@ fn disk_percent(used: u64, total: u64) -> f64 {
         (used as f64 / total as f64) * 100.0
     }
 }
+
+
+
+

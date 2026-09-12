@@ -8,3 +8,5 @@ pub mod memory;
 pub mod security;
 pub mod service;
 pub mod telemetry;
+
+pub mod agent;
