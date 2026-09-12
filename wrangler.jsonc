@@ -1,0 +1,8 @@
+﻿{
+  "$schema": "https://json.schemastore.org/wrangler.json",
+  "name": "daemon-os",
+  "compatibility_date": "2026-09-12",
+  "assets": {
+    "directory": "./daemon-mobile/src/app"
+  }
+}
