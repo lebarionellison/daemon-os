@@ -21,7 +21,7 @@ export default {
 
       const token = auth.slice(7);
 
-      if (token !== env.DAEMON_INGEST_TOKEN) {
+      if (token.trim() !== env.DAEMON_INGEST_TOKEN.trim()) {
         return new Response("Unauthorized", { status: 401 });
       }
 
@@ -46,3 +46,4 @@ export default {
     return env.ASSETS.fetch(request);
   }
 };
+
