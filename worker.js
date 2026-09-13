@@ -2,6 +2,12 @@ export default {
   async fetch(request, env) {
     const url = new URL(request.url);
 
+    if (url.pathname === "/api/debug-auth") {
+      return Response.json({
+        secret_configured: !!env.DAEMON_INGEST_TOKEN
+      });
+    }
+
     if (url.pathname === "/api/heartbeat" && request.method === "POST") {
       const auth = request.headers.get("Authorization");
 
