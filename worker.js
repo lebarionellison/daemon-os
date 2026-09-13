@@ -3,8 +3,12 @@ export default {
     const url = new URL(request.url);
 
     if (url.pathname === "/api/debug-auth") {
+      const auth = request.headers.get("Authorization");
+      const incoming = auth && auth.startsWith("Bearer ") ? auth.slice(7) : "";
       return Response.json({
-        secret_configured: !!env.DAEMON_INGEST_TOKEN
+        secret_configured: !!env.DAEMON_INGEST_TOKEN,
+        incoming_length: incoming.length,
+        configured_length: env.DAEMON_INGEST_TOKEN ? env.DAEMON_INGEST_TOKEN.length : 0
       });
     }
 
