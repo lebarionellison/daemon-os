@@ -1,4 +1,4 @@
-﻿export default {
+export default {
   async fetch(request, env) {
     const url = new URL(request.url);
 
@@ -16,6 +16,14 @@
       }
 
       const body = await request.json();
+
+      await env.TELEMETRY.put(
+        `device:${body.device_id ?? "unknown"}`,
+        JSON.stringify({
+          ...body,
+          received_at: new Date().toISOString()
+        })
+      );
 
       return Response.json({
         ok: true,
