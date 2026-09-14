@@ -1,4 +1,4 @@
-ï»¿export default {
+export default {
   async fetch(request, env) {
     const url = new URL(request.url);
 
@@ -291,7 +291,7 @@
 
     /*
      * ------------------------------------------------------------
-     * AUTH â€” REGISTER
+     * AUTH — REGISTER
      * ------------------------------------------------------------
      */
 
@@ -355,7 +355,12 @@
         now.getTime() + 30 * 24 * 60 * 60 * 1000
       );
 
-      const passwordHash = await createPasswordHash(password);
+      let passwordHash;
+      try {
+        passwordHash = await createPasswordHash(password);
+      } catch (error) {
+        return json({ error: "Password hashing failed", detail: String(error?.message || error) }, 500);
+      }
 
       await env.DB.prepare(
         `INSERT INTO users
@@ -405,7 +410,7 @@
 
     /*
      * ------------------------------------------------------------
-     * AUTH â€” LOGIN
+     * AUTH — LOGIN
      * ------------------------------------------------------------
      */
 
@@ -507,7 +512,7 @@
 
     /*
      * ------------------------------------------------------------
-     * AUTH â€” LOGOUT
+     * AUTH — LOGOUT
      * ------------------------------------------------------------
      */
 
@@ -539,7 +544,7 @@
 
     /*
      * ------------------------------------------------------------
-     * AUTH â€” CURRENT USER
+     * AUTH — CURRENT USER
      * ------------------------------------------------------------
      */
 
@@ -569,7 +574,7 @@
 
     /*
      * ------------------------------------------------------------
-     * DEVICES â€” LIST
+     * DEVICES — LIST
      * ------------------------------------------------------------
      */
 
@@ -606,7 +611,7 @@
 
     /*
      * ------------------------------------------------------------
-     * DEVICES â€” REGISTER
+     * DEVICES — REGISTER
      * ------------------------------------------------------------
      */
 
