@@ -1477,9 +1477,19 @@ body::after {
           DAEMON COMMAND CENTER
         </div>
 
-        <div class="live">
-          <span class="dot"></span>
-          LIVE
+        <div style="display:flex;align-items:center;gap:14px;">
+          <button
+            id="daemon-manage-billing"
+            type="button"
+            style="border:1px solid rgba(0,220,255,.35);background:rgba(0,220,255,.08);color:#8feeff;border-radius:999px;padding:8px 14px;font:inherit;font-size:12px;font-weight:700;letter-spacing:.08em;cursor:pointer;"
+          >
+            MANAGE BILLING
+          </button>
+
+          <div class="live">
+            <span class="dot"></span>
+            LIVE
+          </div>
         </div>
 
       </div>
@@ -4310,6 +4320,50 @@ setInterval(refreshMatrix,5000);
 </script>
 
 
+<script id="daemon-manage-billing">
+(function () {
+  const button = document.getElementById("daemon-manage-billing");
+  if (!button) return;
+
+  button.addEventListener("click", async function () {
+    const original = button.textContent;
+
+    button.disabled = true;
+    button.textContent = "OPENING...";
+
+    try {
+      const response = await fetch(
+        "https://daemon-os.lebarionellison.workers.dev/api/billing/portal",
+        {
+          method: "POST",
+          credentials: "include"
+        }
+      );
+
+      const data = await response.json().catch(() => ({}));
+
+      if (!response.ok || !data.portal_url) {
+        if (response.status === 401) {
+          throw new Error("Please sign in to manage your billing.");
+        }
+
+        throw new Error(
+          data.message ||
+          data.error ||
+          "Unable to open billing portal."
+        );
+      }
+
+      window.location.href = data.portal_url;
+    } catch (error) {
+      console.error("Daemon billing portal error:", error);
+      alert(error.message || "Unable to open billing portal.");
+      button.disabled = false;
+      button.textContent = original;
+    }
+  });
+})();
+</script>
 <script id="daemon-billing-buttons">
 (function () {
   function startBilling(plan) {
@@ -4352,5 +4406,6 @@ setInterval(refreshMatrix,5000);
   });
 })();
 </script>
+
 
 

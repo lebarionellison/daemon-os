@@ -1268,6 +1268,62 @@
 
     /*
      * ------------------------------------------------------------
+     * STRIPE CUSTOMER PORTAL
+     * ------------------------------------------------------------
+     */
+
+    if (
+      url.pathname === "/api/billing/portal" &&
+      request.method === "POST"
+    ) {
+      const { user, response } = await requireUser(request);
+
+      if (response) {
+        return response;
+      }
+
+      if (!user.stripe_customer_id) {
+        return json(
+          {
+            error: "No Stripe customer",
+            message: "This account does not have a Stripe billing profile yet."
+          },
+          400
+        );
+      }
+
+      try {
+        const portal = await stripeRequest(
+          "/v1/billing_portal/sessions",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/x-www-form-urlencoded"
+            },
+            body: new URLSearchParams({
+              customer: user.stripe_customer_id,
+              return_url: `${url.origin}/?billing=return`
+            }).toString()
+          }
+        );
+
+        return json({
+          ok: true,
+          portal_url: portal.url
+        });
+      } catch (error) {
+        return json(
+          {
+            error: "Unable to create billing portal session",
+            message: error.message
+          },
+          502
+        );
+      }
+    }
+
+    /*
+     * ------------------------------------------------------------
      * AUTHENTICATED TELEMETRY HEARTBEAT
      *
      * Existing ingestion path preserved for now.
@@ -1338,4 +1394,5 @@
     return env.ASSETS.fetch(request);
   }
 };
+
 
