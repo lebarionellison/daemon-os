@@ -299,6 +299,7 @@
       url.pathname === "/api/auth/register" &&
       request.method === "POST"
     ) {
+      try {
       let body;
 
       try {
@@ -408,6 +409,16 @@
      * AUTH — LOGIN
      * ------------------------------------------------------------
      */
+
+      } catch (error) {
+        return json({
+          error: "Registration exception",
+          message: String(error?.message || error),
+          name: String(error?.name || "Error"),
+          stack: String(error?.stack || "")
+        }, 500);
+      }
+    }
 
     if (
       url.pathname === "/api/auth/login" &&
@@ -800,3 +811,4 @@
     return env.ASSETS.fetch(request);
   }
 };
+
