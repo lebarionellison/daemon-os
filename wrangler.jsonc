@@ -1,17 +1,26 @@
 {
-  "$schema": "https://json.schemastore.org/wrangler.json",
-  "name": "daemon-os",
-  "main": "./worker.js",
-  "compatibility_date": "2026-09-12",
-  "kv_namespaces": [
-    {
-      "binding": "TELEMETRY",
-      "id": "e905a6efaae44a919570613831269196"
-    }
-  ],
-  "assets": {
-    "binding": "ASSETS",
-    "directory": "./daemon-mobile/src/app",
-    "run_worker_first": ["/api/*"]
-  }
+    "$schema":  "https://json.schemastore.org/wrangler.json",
+    "name":  "daemon-os",
+    "main":  "./worker.js",
+    "compatibility_date":  "2026-09-12",
+    "kv_namespaces":  [
+                          {
+                              "binding":  "TELEMETRY",
+                              "id":  "e905a6efaae44a919570613831269196"
+                          }
+                      ],
+    "assets":  {
+                   "binding":  "ASSETS",
+                   "directory":  "./daemon-mobile/src/app",
+                   "run_worker_first":  [
+                                            "/api/*"
+                                        ]
+               },
+    "d1_databases":  [
+                         {
+                             "binding":  "DB",
+                             "database_name":  "daemon-os",
+                             "database_id":  "59273fb4-849b-4645-84a4-84cd991a3a23"
+                         }
+                     ]
 }
