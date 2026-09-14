@@ -101,7 +101,7 @@ export default {
         {
           name: "PBKDF2",
           salt: saltBytes,
-          iterations: 210000,
+          iterations: 100000,
           hash: "SHA-256"
         },
         key,
@@ -117,7 +117,7 @@ export default {
 
       return [
         "pbkdf2",
-        "210000",
+        "100000",
         bytesToBase64Url(salt),
         bytesToBase64Url(hash)
       ].join("$");
@@ -355,12 +355,7 @@ export default {
         now.getTime() + 30 * 24 * 60 * 60 * 1000
       );
 
-      let passwordHash;
-      try {
-        passwordHash = await createPasswordHash(password);
-      } catch (error) {
-        return json({ error: "Password hashing failed", detail: String(error?.message || error) }, 500);
-      }
+      const passwordHash = await createPasswordHash(password);
 
       await env.DB.prepare(
         `INSERT INTO users
