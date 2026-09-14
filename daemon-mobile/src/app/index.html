@@ -4137,3 +4137,220 @@ setInterval(refreshMatrix,5000);
 
 
 
+<style id="daemon-saas-auth">
+#daemon-auth-modal{position:fixed;inset:0;z-index:99999;display:none;align-items:center;justify-content:center;background:rgba(2,4,10,.82);backdrop-filter:blur(18px)}
+#daemon-auth-modal.active{display:flex}
+.daemon-auth-card{width:min(430px,calc(100% - 32px));padding:32px;border:1px solid rgba(0,220,255,.28);border-radius:20px;background:linear-gradient(145deg,rgba(10,15,28,.98),rgba(5,8,16,.98));box-shadow:0 30px 100px rgba(0,0,0,.55)}
+.daemon-auth-card h2{margin:0 0 8px;font-size:28px;color:#fff}
+.daemon-auth-card p{margin:0 0 24px;color:#8b9bb4}
+.daemon-auth-card label{display:block;margin:14px 0 7px;color:#b9c7dc;font-size:13px}
+.daemon-auth-card input{width:100%;box-sizing:border-box;padding:13px 14px;border-radius:10px;border:1px solid rgba(130,160,200,.25);background:#080d17;color:#fff;outline:none}
+.daemon-auth-card input:focus{border-color:#00d9ff}
+.daemon-auth-submit{width:100%;margin-top:20px;padding:14px;border:0;border-radius:10px;background:linear-gradient(90deg,#00d9ff,#5d6cff);color:#041019;font-weight:800;cursor:pointer}
+.daemon-auth-switch{margin-top:18px;text-align:center;color:#8b9bb4;font-size:13px}
+.daemon-auth-switch button,.daemon-auth-close{background:none;border:0;color:#00d9ff;cursor:pointer}
+.daemon-auth-close{float:right;font-size:22px}
+#daemon-auth-status{margin-top:14px;font-size:13px;color:#ff8295;min-height:18px}
+</style>
+<div id="daemon-auth-modal">
+  <div class="daemon-auth-card">
+    <button class="daemon-auth-close" type="button" onclick="DaemonAuth.close()">×</button>
+    <h2 id="daemon-auth-title">Start Daemon</h2>
+    <p id="daemon-auth-subtitle">Create your Daemon OS account.</p>
+
+    <form id="daemon-auth-form">
+      <label for="daemon-auth-name">Name</label>
+      <input id="daemon-auth-name" autocomplete="name" placeholder="Your name">
+
+      <label for="daemon-auth-email">Email</label>
+      <input id="daemon-auth-email" type="email" autocomplete="email" required placeholder="you@example.com">
+
+      <label for="daemon-auth-password">Password</label>
+      <input id="daemon-auth-password" type="password" autocomplete="new-password" required minlength="8" placeholder="At least 8 characters">
+
+      <button class="daemon-auth-submit" type="submit" id="daemon-auth-submit">Create Account</button>
+      <div id="daemon-auth-status"></div>
+    </form>
+
+    <div class="daemon-auth-switch">
+      <span id="daemon-auth-switch-text">Already have an account?</span>
+      <button type="button" id="daemon-auth-switch" onclick="DaemonAuth.toggle()">Sign in</button>
+    </div>
+  </div>
+</div>
+
+<script>window.DAEMON_API_URL = "https://daemon-os.lebarionellison.workers.dev";</script>
+<script>window.DaemonAuth = (() => {
+  const API = window.DAEMON_API_URL || "";
+  let mode = "register";
+
+  const modal = () => document.getElementById("daemon-auth-modal");
+  const status = () => document.getElementById("daemon-auth-status");
+
+  function open(nextMode = "register") {
+    mode = nextMode;
+    document.getElementById("daemon-auth-title").textContent =
+      mode === "login" ? "Welcome back" : "Start Daemon";
+    document.getElementById("daemon-auth-subtitle").textContent =
+      mode === "login" ? "Sign in to your Daemon OS account." : "Create your Daemon OS account.";
+    document.getElementById("daemon-auth-submit").textContent =
+      mode === "login" ? "Sign In" : "Create Account";
+    document.getElementById("daemon-auth-name").style.display =
+      mode === "login" ? "none" : "block";
+    document.querySelector('label[for="daemon-auth-name"]').style.display =
+      mode === "login" ? "none" : "block";
+    document.getElementById("daemon-auth-switch-text").textContent =
+      mode === "login" ? "Need an account?" : "Already have an account?";
+    document.getElementById("daemon-auth-switch").textContent =
+      mode === "login" ? "Create one" : "Sign in";
+    status().textContent = "";
+    modal().classList.add("active");
+  }
+
+  function close() {
+    modal().classList.remove("active");
+  }
+
+  function toggle() {
+    open(mode === "login" ? "register" : "login");
+  }
+
+  async function submit(event) {
+    event.preventDefault();
+    status().textContent = "Connecting to Daemon OS…";
+
+    const body = {
+      email: document.getElementById("daemon-auth-email").value.trim(),
+      password: document.getElementById("daemon-auth-password").value
+    };
+
+    if (mode === "register") {
+      body.name = document.getElementById("daemon-auth-name").value.trim();
+    }
+
+    try {
+      const response = await fetch(
+        API + (mode === "login" ? "/api/auth/login" : "/api/auth/register"),
+        {
+          method: "POST",
+          credentials: "include",
+          headers: {"Content-Type":"application/json"},
+          body: JSON.stringify(body)
+        }
+      );
+
+      const data = await response.json().catch(() => ({}));
+
+      if (!response.ok) {
+        throw new Error(data.error || "Authentication failed");
+      }
+
+      status().style.color = "#6dffb0";
+      status().textContent = "Connected. Opening Daemon OS…";
+
+      setTimeout(async () => {
+        close();
+
+        const pendingPlan = sessionStorage.getItem("daemon_pending_plan");
+
+        if (pendingPlan) {
+          sessionStorage.removeItem("daemon_pending_plan");
+
+          try {
+            const checkoutResponse = await fetch(
+              "https://daemon-os.lebarionellison.workers.dev/api/billing/checkout",
+              {
+                method: "POST",
+                credentials: "include",
+                headers: {"Content-Type":"application/json"},
+                body: JSON.stringify({plan: pendingPlan})
+              }
+            );
+
+            const checkoutData = await checkoutResponse.json().catch(() => ({}));
+
+            if (!checkoutResponse.ok || !checkoutData.checkout_url) {
+              throw new Error(
+                checkoutData.message ||
+                checkoutData.error ||
+                "Unable to start checkout"
+              );
+            }
+
+            window.location.href = checkoutData.checkout_url;
+            return;
+          } catch (error) {
+            console.error("Daemon billing error:", error);
+            alert("Your account was created, but checkout could not be opened. Please try again.");
+            return;
+          }
+        }
+
+        window.location.hash = "dashboard";
+        window.location.reload();
+      }, 500);
+    } catch (error) {
+      status().style.color = "#ff8295";
+      status().textContent = error.message;
+    }
+  }
+
+  document.addEventListener("DOMContentLoaded", () => {
+    document.getElementById("daemon-auth-form").addEventListener("submit", submit);
+
+    document.querySelectorAll('a[href="#pricing"]').forEach(link => {
+      link.addEventListener("click", () => {
+        setTimeout(() => open("register"), 150);
+      });
+    });
+  });
+
+  return {open, close, toggle};
+})();
+</script>
+
+
+<script id="daemon-billing-buttons">
+(function () {
+  function startBilling(plan) {
+    sessionStorage.setItem("daemon_pending_plan", plan);
+    if (window.DaemonAuth && typeof window.DaemonAuth.open === "function") {
+      window.DaemonAuth.open("register");
+      return;
+    }
+    alert("Please create or sign in to your Daemon OS account first.");
+  }
+
+  document.addEventListener("click", function (event) {
+    const button = event.target.closest("[data-daemon-plan]");
+    if (!button) return;
+    event.preventDefault();
+    startBilling(button.dataset.daemonPlan);
+  });
+
+  document.querySelectorAll("a").forEach(function (link) {
+    const text = link.textContent.trim().toLowerCase();
+
+    if (text.includes("start personal")) {
+      link.dataset.daemonPlan = "personal";
+      link.removeAttribute("target");
+      link.removeAttribute("rel");
+      link.href = "#pricing";
+    }
+
+    if (text.includes("start pro")) {
+      link.dataset.daemonPlan = "pro";
+      link.removeAttribute("target");
+      link.removeAttribute("rel");
+    }
+
+    if (text.includes("start business")) {
+      link.dataset.daemonPlan = "business";
+      link.removeAttribute("target");
+      link.removeAttribute("rel");
+    }
+  });
+})();
+</script>
+
+
