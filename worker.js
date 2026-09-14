@@ -1,4 +1,4 @@
-export default {
+ï»¿export default {
   async fetch(request, env) {
     const url = new URL(request.url);
 
@@ -86,6 +86,248 @@ export default {
       }
 
       return result === 0;
+    }
+
+    /*
+     * ------------------------------------------------------------
+     * STRIPE BILLING HELPERS
+     * ------------------------------------------------------------
+     */
+
+    const STRIPE_PRICES = {
+      personal: "price_1UBX32H0QiF8TJHDbUmGzREo",
+      pro: "price_1UBBV0H0QiF8TJHDO2UL3JQN",
+      business: "price_1UBUAbH0QiF8TJHDXVQk54XF"
+    };
+
+    const STRIPE_PLANS_BY_PRICE = {
+      "price_1UBX32H0QiF8TJHDbUmGzREo": "personal",
+      "price_1UBBV0H0QiF8TJHDO2UL3JQN": "pro",
+      "price_1UBUAbH0QiF8TJHDXVQk54XF": "business"
+    };
+
+    function stripeAuthHeader(secret) {
+      return "Basic " + btoa(`${secret}:`);
+    }
+
+    async function stripeRequest(path, options = {}) {
+      const secret = (env.STRIPE_SECRET_KEY || "").trim();
+
+      if (!secret) {
+        throw new Error("STRIPE_SECRET_KEY is not configured");
+      }
+
+      const response = await fetch(`https://api.stripe.com${path}`, {
+        ...options,
+        headers: {
+          Authorization: stripeAuthHeader(secret),
+          ...(options.headers || {})
+        }
+      });
+
+      const text = await response.text();
+
+      let data;
+
+      try {
+        data = JSON.parse(text);
+      } catch {
+        data = { raw: text };
+      }
+
+      if (!response.ok) {
+        throw new Error(
+          data?.error?.message ||
+          `Stripe API request failed with HTTP ${response.status}`
+        );
+      }
+
+      return data;
+    }
+
+    function toIsoFromUnixSeconds(value) {
+      if (!value) {
+        return null;
+      }
+
+      return new Date(Number(value) * 1000).toISOString();
+    }
+
+    function getPlanFromSubscription(subscription) {
+      const priceId =
+        subscription?.items?.data?.[0]?.price?.id ||
+        subscription?.plan?.id ||
+        null;
+
+      return STRIPE_PLANS_BY_PRICE[priceId] || null;
+    }
+
+    async function verifyStripeSignature(payload, signatureHeader) {
+      const secret = (env.STRIPE_WEBHOOK_SECRET || "").trim();
+
+      if (!secret || !signatureHeader) {
+        return false;
+      }
+
+      const parts = signatureHeader.split(",");
+      const timestampPart = parts.find((part) =>
+        part.startsWith("t=")
+      );
+
+      if (!timestampPart) {
+        return false;
+      }
+
+      const timestamp = Number(timestampPart.slice(2));
+
+      if (!Number.isFinite(timestamp)) {
+        return false;
+      }
+
+      const age = Math.abs(
+        Math.floor(Date.now() / 1000) - timestamp
+      );
+
+      if (age > 300) {
+        return false;
+      }
+
+      const signedPayload = `${timestamp}.${payload}`;
+
+      const key = await crypto.subtle.importKey(
+        "raw",
+        encoder.encode(secret),
+        {
+          name: "HMAC",
+          hash: "SHA-256"
+        },
+        false,
+        ["sign"]
+      );
+
+      const signature = new Uint8Array(
+        await crypto.subtle.sign(
+          "HMAC",
+          key,
+          encoder.encode(signedPayload)
+        )
+      );
+
+      let expected = "";
+
+      for (const byte of signature) {
+        expected += byte.toString(16).padStart(2, "0");
+      }
+
+      const suppliedSignatures = parts
+        .filter((part) => part.startsWith("v1="))
+        .map((part) => part.slice(3));
+
+      return suppliedSignatures.some((supplied) =>
+        constantTimeEqual(
+          encoder.encode(expected),
+          encoder.encode(supplied)
+        )
+      );
+    }
+
+    async function syncStripeSubscription(subscription) {
+      const customerId = subscription?.customer;
+      const subscriptionId = subscription?.id;
+
+      if (!customerId || !subscriptionId) {
+        return;
+      }
+
+      const priceId =
+        subscription?.items?.data?.[0]?.price?.id || null;
+
+      const plan =
+        STRIPE_PLANS_BY_PRICE[priceId] ||
+        subscription?.metadata?.plan ||
+        "personal";
+
+      let userId =
+        subscription?.metadata?.user_id ||
+        null;
+
+      if (!userId) {
+        const user = await env.DB.prepare(
+          `SELECT id
+           FROM users
+           WHERE stripe_customer_id = ?
+           LIMIT 1`
+        )
+          .bind(customerId)
+          .first();
+
+        userId = user?.id || null;
+      }
+
+      if (!userId) {
+        return;
+      }
+
+      const now = new Date().toISOString();
+      const currentPeriodEnd =
+        toIsoFromUnixSeconds(subscription.current_period_end);
+
+      await env.DB.prepare(
+        `INSERT INTO subscriptions (
+          id,
+          user_id,
+          stripe_customer_id,
+          stripe_subscription_id,
+          plan,
+          status,
+          current_period_end,
+          created_at,
+          updated_at
+        )
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+        ON CONFLICT(stripe_subscription_id)
+        DO UPDATE SET
+          stripe_customer_id = excluded.stripe_customer_id,
+          plan = excluded.plan,
+          status = excluded.status,
+          current_period_end = excluded.current_period_end,
+          updated_at = excluded.updated_at`
+      )
+        .bind(
+          crypto.randomUUID(),
+          userId,
+          customerId,
+          subscriptionId,
+          plan,
+          subscription.status || "unknown",
+          currentPeriodEnd,
+          now,
+          now
+        )
+        .run();
+
+      const accessActive = [
+        "trialing",
+        "active"
+      ].includes(subscription.status);
+
+      await env.DB.prepare(
+        `UPDATE users
+         SET
+           plan = ?,
+           status = ?,
+           stripe_customer_id = ?,
+           updated_at = ?
+         WHERE id = ?`
+      )
+        .bind(
+          plan,
+          accessActive ? "active" : subscription.status || "inactive",
+          customerId,
+          now,
+          userId
+        )
+        .run();
     }
 
     async function hashPassword(password, saltBytes) {
@@ -291,7 +533,7 @@ export default {
 
     /*
      * ------------------------------------------------------------
-     * AUTH — REGISTER
+     * AUTH â€” REGISTER
      * ------------------------------------------------------------
      */
 
@@ -405,7 +647,7 @@ export default {
 
     /*
      * ------------------------------------------------------------
-     * AUTH — LOGIN
+     * AUTH â€” LOGIN
      * ------------------------------------------------------------
      */
 
@@ -507,7 +749,7 @@ export default {
 
     /*
      * ------------------------------------------------------------
-     * AUTH — LOGOUT
+     * AUTH â€” LOGOUT
      * ------------------------------------------------------------
      */
 
@@ -539,7 +781,7 @@ export default {
 
     /*
      * ------------------------------------------------------------
-     * AUTH — CURRENT USER
+     * AUTH â€” CURRENT USER
      * ------------------------------------------------------------
      */
 
@@ -569,7 +811,7 @@ export default {
 
     /*
      * ------------------------------------------------------------
-     * DEVICES — LIST
+     * DEVICES â€” LIST
      * ------------------------------------------------------------
      */
 
@@ -606,7 +848,7 @@ export default {
 
     /*
      * ------------------------------------------------------------
-     * DEVICES — REGISTER
+     * DEVICES â€” REGISTER
      * ------------------------------------------------------------
      */
 
@@ -687,6 +929,302 @@ export default {
       );
     }
 
+    /*
+     * ------------------------------------------------------------
+     * STRIPE CHECKOUT
+     * ------------------------------------------------------------
+     */
+
+    if (
+      url.pathname === "/api/billing/checkout" &&
+      request.method === "POST"
+    ) {
+      const { user, response } = await requireUser(request);
+
+      if (response) {
+        return response;
+      }
+
+      let body;
+
+      try {
+        body = await request.json();
+      } catch {
+        return json({ error: "Invalid JSON" }, 400);
+      }
+
+      const requestedPlan =
+        String(body?.plan || "personal").toLowerCase();
+
+      const priceId = STRIPE_PRICES[requestedPlan];
+
+      if (!priceId) {
+        return json(
+          {
+            error: "Invalid plan",
+            allowed_plans: ["personal", "pro", "business"]
+          },
+          400
+        );
+      }
+
+      try {
+        let customerId = user.stripe_customer_id || null;
+
+        if (!customerId) {
+          const customerParams = new URLSearchParams();
+
+          customerParams.set("email", user.email);
+          customerParams.set(
+            "name",
+            user.name || user.email
+          );
+          customerParams.set(
+            "metadata[user_id]",
+            user.id
+          );
+
+          const customer = await stripeRequest(
+            "/v1/customers",
+            {
+              method: "POST",
+              headers: {
+                "Content-Type":
+                  "application/x-www-form-urlencoded"
+              },
+              body: customerParams.toString()
+            }
+          );
+
+          customerId = customer.id;
+
+          await env.DB.prepare(
+            `UPDATE users
+             SET stripe_customer_id = ?, updated_at = ?
+             WHERE id = ?`
+          )
+            .bind(
+              customerId,
+              new Date().toISOString(),
+              user.id
+            )
+            .run();
+        }
+
+        const checkoutParams = new URLSearchParams();
+
+        checkoutParams.set(
+          "mode",
+          "subscription"
+        );
+
+        checkoutParams.set(
+          "customer",
+          customerId
+        );
+
+        checkoutParams.set(
+          "line_items[0][price]",
+          priceId
+        );
+
+        checkoutParams.set(
+          "line_items[0][quantity]",
+          "1"
+        );
+
+        checkoutParams.set(
+          "subscription_data[trial_period_days]",
+          "14"
+        );
+
+        checkoutParams.set(
+          "subscription_data[metadata][user_id]",
+          user.id
+        );
+
+        checkoutParams.set(
+          "subscription_data[metadata][plan]",
+          requestedPlan
+        );
+
+        checkoutParams.set(
+          "metadata[user_id]",
+          user.id
+        );
+
+        checkoutParams.set(
+          "metadata[plan]",
+          requestedPlan
+        );
+
+        checkoutParams.set(
+          "success_url",
+          `${url.origin}/?billing=success&session_id={CHECKOUT_SESSION_ID}`
+        );
+
+        checkoutParams.set(
+          "cancel_url",
+          `${url.origin}/?billing=cancelled`
+        );
+
+        const session = await stripeRequest(
+          "/v1/checkout/sessions",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type":
+                "application/x-www-form-urlencoded"
+            },
+            body: checkoutParams.toString()
+          }
+        );
+
+        return json({
+          ok: true,
+          plan: requestedPlan,
+          checkout_url: session.url,
+          session_id: session.id
+        });
+      } catch (error) {
+        return json(
+          {
+            error: "Unable to create checkout session",
+            message: error.message
+          },
+          502
+        );
+      }
+    }
+
+    /*
+     * ------------------------------------------------------------
+     * STRIPE WEBHOOK
+     * ------------------------------------------------------------
+     */
+
+    if (
+      url.pathname === "/api/stripe/webhook" &&
+      request.method === "POST"
+    ) {
+      const payload = await request.text();
+
+      const signature =
+        request.headers.get("Stripe-Signature");
+
+      const valid =
+        await verifyStripeSignature(
+          payload,
+          signature
+        );
+
+      if (!valid) {
+        return json(
+          { error: "Invalid Stripe signature" },
+          400
+        );
+      }
+
+      let event;
+
+      try {
+        event = JSON.parse(payload);
+      } catch {
+        return json(
+          { error: "Invalid webhook JSON" },
+          400
+        );
+      }
+
+      try {
+        switch (event.type) {
+          case "checkout.session.completed": {
+            const session = event.data.object;
+
+            const userId =
+              session.metadata?.user_id || null;
+
+            const customerId =
+              session.customer || null;
+
+            if (userId && customerId) {
+              await env.DB.prepare(
+                `UPDATE users
+                 SET stripe_customer_id = ?, updated_at = ?
+                 WHERE id = ?`
+              )
+                .bind(
+                  customerId,
+                  new Date().toISOString(),
+                  userId
+                )
+                .run();
+            }
+
+            break;
+          }
+
+          case "customer.subscription.created":
+          case "customer.subscription.updated":
+          case "customer.subscription.deleted": {
+            await syncStripeSubscription(
+              event.data.object
+            );
+
+            break;
+          }
+
+          case "invoice.paid": {
+            const invoice = event.data.object;
+
+            if (invoice.subscription) {
+              const subscription =
+                await stripeRequest(
+                  `/v1/subscriptions/${invoice.subscription}`
+                );
+
+              await syncStripeSubscription(
+                subscription
+              );
+            }
+
+            break;
+          }
+
+          case "invoice.payment_failed": {
+            const invoice = event.data.object;
+
+            if (invoice.subscription) {
+              const subscription =
+                await stripeRequest(
+                  `/v1/subscriptions/${invoice.subscription}`
+                );
+
+              await syncStripeSubscription(
+                subscription
+              );
+            }
+
+            break;
+          }
+
+          default:
+            break;
+        }
+
+        return json({
+          received: true
+        });
+      } catch (error) {
+        return json(
+          {
+            error: "Webhook processing failed",
+            message: error.message
+          },
+          500
+        );
+      }
+    }
     /*
      * ------------------------------------------------------------
      * SUBSCRIPTION
@@ -800,3 +1338,4 @@ export default {
     return env.ASSETS.fetch(request);
   }
 };
+
