@@ -1395,7 +1395,7 @@ export default {
       url.pathname === "/telemetry" &&
       request.method === "GET"
     ) {
-      const list = await env.TELEMETRY.list({ prefix: "device:" });
+      const list = await env.TELEMETRY.list({ prefix: "public:" });
 
       if (!list.keys.length) {
         return json({
@@ -1468,7 +1468,7 @@ export default {
       url.pathname === "/history" &&
       request.method === "GET"
     ) {
-      const list = await env.TELEMETRY.list({ prefix: "device:" });
+      const list = await env.TELEMETRY.list({ prefix: "public:" });
       const history = [];
 
       for (const key of list.keys) {
@@ -1508,7 +1508,7 @@ export default {
      */
 
     if (url.pathname === "/events" && request.method === "GET") {
-      const list = await env.TELEMETRY.list({ prefix: "device:" });
+      const list = await env.TELEMETRY.list({ prefix: "public:" });
       const events = [];
 
       for (const key of list.keys) {
@@ -1583,7 +1583,7 @@ export default {
      */
 
     if (url.pathname === "/intelligence" && request.method === "GET") {
-      const list = await env.TELEMETRY.list({ prefix: "device:" });
+      const list = await env.TELEMETRY.list({ prefix: "public:" });
 
       if (!list.keys.length) {
         return json({
