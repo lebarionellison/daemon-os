@@ -1648,12 +1648,11 @@ export default {
 
       const memoryPercent = memoryTotal
         ? (memoryUsed / memoryTotal) * 100
-        : 0;
+        : memoryUsed;
 
       const diskPercent = diskTotal
         ? (diskUsed / diskTotal) * 100
-        : 0;
-
+        : diskUsed;
       const cpuStatus =
         cpu >= 90 ? "CRITICAL" :
         cpu >= 75 ? "WARNING" :
