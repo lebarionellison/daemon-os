@@ -1439,18 +1439,18 @@ export default {
 
       const memoryTotal = Number(telemetry.memory_total || 0);
       const diskTotal = Number(telemetry.disk_total || 0);
+      const memoryUsed = Number(telemetry.memory_used || 0);
+      const diskUsed = Number(telemetry.disk_used || 0);
+      const memoryPercent = memoryTotal ? (memoryUsed / memoryTotal) * 100 : memoryUsed;
+      const diskPercent = diskTotal ? (diskUsed / diskTotal) * 100 : diskUsed;
 
       return json({
         cpu_usage: Number(telemetry.cpu_usage || 0),
-        memory_used_percent: memoryTotal
-          ? (Number(telemetry.memory_used || 0) / memoryTotal) * 100
-          : 0,
-        disk_used_percent: diskTotal
-          ? (Number(telemetry.disk_used || 0) / diskTotal) * 100
-          : 0,
-        memory_used: Number(telemetry.memory_used || 0),
+        memory_used_percent: memoryPercent,
+        disk_used_percent: diskPercent,
+        memory_used: memoryUsed,
         memory_total: memoryTotal,
-        disk_used: Number(telemetry.disk_used || 0),
+        disk_used: diskUsed,
         disk_total: diskTotal,
         uptime: Number(telemetry.uptime || 0),
         received_at: record.received_at || null,
@@ -1730,6 +1730,8 @@ export default {
     return env.ASSETS.fetch(request);
   }
 };
+
+
 
 
 
