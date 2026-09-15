@@ -1387,6 +1387,342 @@
 
     /*
      * ------------------------------------------------------------
+     * PUBLIC TELEMETRY
+     * ------------------------------------------------------------
+     */
+
+    if (
+      url.pathname === "/telemetry" &&
+      request.method === "GET"
+    ) {
+      const list = await env.TELEMETRY.list({ prefix: "device:" });
+
+      if (!list.keys.length) {
+        return json({
+          cpu_usage: 0,
+          memory_used_percent: 0,
+          disk_used_percent: 0,
+          status: "offline"
+        });
+      }
+
+      const records = [];
+
+      for (const key of list.keys) {
+        const value = await env.TELEMETRY.get(key.name);
+        if (!value) continue;
+
+        try {
+          records.push(JSON.parse(value));
+        } catch {
+          // Ignore malformed telemetry records.
+        }
+      }
+
+      if (!records.length) {
+        return json({
+          cpu_usage: 0,
+          memory_used_percent: 0,
+          disk_used_percent: 0,
+          status: "offline"
+        });
+      }
+
+      records.sort((a, b) =>
+        String(b.received_at || "").localeCompare(
+          String(a.received_at || "")
+        )
+      );
+
+      const record = records[0];
+      const telemetry = record.telemetry || record;
+
+      const memoryTotal = Number(telemetry.memory_total || 0);
+      const diskTotal = Number(telemetry.disk_total || 0);
+
+      return json({
+        cpu_usage: Number(telemetry.cpu_usage || 0),
+        memory_used_percent: memoryTotal
+          ? (Number(telemetry.memory_used || 0) / memoryTotal) * 100
+          : 0,
+        disk_used_percent: diskTotal
+          ? (Number(telemetry.disk_used || 0) / diskTotal) * 100
+          : 0,
+        memory_used: Number(telemetry.memory_used || 0),
+        memory_total: memoryTotal,
+        disk_used: Number(telemetry.disk_used || 0),
+        disk_total: diskTotal,
+        uptime: Number(telemetry.uptime || 0),
+        received_at: record.received_at || null,
+        device_id: record.device_id || null,
+        status: "online"
+      });
+    }
+    /*
+     * ------------------------------------------------------------
+     * PUBLIC HISTORY
+     * ------------------------------------------------------------
+     */
+
+    if (
+      url.pathname === "/history" &&
+      request.method === "GET"
+    ) {
+      const list = await env.TELEMETRY.list({ prefix: "device:" });
+      const history = [];
+
+      for (const key of list.keys) {
+        const value = await env.TELEMETRY.get(key.name);
+        if (!value) continue;
+
+        try {
+          const record = JSON.parse(value);
+          const telemetry = record.telemetry || record;
+
+          history.push({
+            timestamp: Math.floor(
+              new Date(record.received_at || 0).getTime() / 1000
+            ),
+            telemetry: {
+              cpu_usage: Number(telemetry.cpu_usage || 0),
+              memory_used: Number(telemetry.memory_used || 0),
+              memory_total: Number(telemetry.memory_total || 0),
+              disk_used: Number(telemetry.disk_used || 0),
+              disk_total: Number(telemetry.disk_total || 0),
+              uptime: Number(telemetry.uptime || 0)
+            }
+          });
+        } catch {
+          // Ignore malformed telemetry records.
+        }
+      }
+
+      history.sort((a, b) => b.timestamp - a.timestamp);
+
+      return json(history.slice(0, 50));
+    }
+        /*
+     * ------------------------------------------------------------
+     * PUBLIC EVENTS
+     * ------------------------------------------------------------
+     */
+
+    if (url.pathname === "/events" && request.method === "GET") {
+      const list = await env.TELEMETRY.list({ prefix: "device:" });
+      const events = [];
+
+      for (const key of list.keys) {
+        const value = await env.TELEMETRY.get(key.name);
+        if (!value) continue;
+
+        try {
+          const record = JSON.parse(value);
+          const telemetry = record.telemetry || record;
+
+          const cpu = Number(telemetry.cpu_usage || 0);
+          const memoryTotal = Number(telemetry.memory_total || 0);
+          const memoryUsed = Number(telemetry.memory_used || 0);
+          const diskTotal = Number(telemetry.disk_total || 0);
+          const diskUsed = Number(telemetry.disk_used || 0);
+
+          const memoryPercent = memoryTotal
+            ? (memoryUsed / memoryTotal) * 100
+            : 0;
+
+          const diskPercent = diskTotal
+            ? (diskUsed / diskTotal) * 100
+            : 0;
+
+          if (cpu >= 75 || memoryPercent >= 80 || diskPercent >= 85) {
+            const signals = [];
+
+            if (cpu >= 75) signals.push("CPU utilization elevated.");
+            if (memoryPercent >= 80) signals.push("Memory utilization elevated.");
+            if (diskPercent >= 85) signals.push("Disk utilization elevated.");
+
+            events.push({
+              id: 	elemetry-,
+              name: "Resource Threshold",
+              description: signals.join(" "),
+              status:
+                cpu >= 90 || memoryPercent >= 90 || diskPercent >= 95
+                  ? "CRITICAL"
+                  : "WARNING",
+              updated_at: Math.floor(
+                new Date(record.received_at || 0).getTime() / 1000
+              ),
+              evidence: signals,
+              confidence: 0.95
+            });
+          }
+        } catch {}
+      }
+
+      return json(events.slice(0, 50));
+    }
+    /*
+     * ------------------------------------------------------------
+     * PUBLIC SECURITY
+     * ------------------------------------------------------------
+     */
+
+    if (url.pathname === "/security" && request.method === "GET") {
+      return json({
+        security_score: null,
+        processes: null,
+        high_cpu_processes: null,
+        high_memory_processes: null,
+        status: "MONITORING",
+        message: "Security monitoring is available when a Daemon device is connected."
+      });
+    }
+    /*
+     * ------------------------------------------------------------
+     * PUBLIC INTELLIGENCE
+     * ------------------------------------------------------------
+     */
+
+    if (url.pathname === "/intelligence" && request.method === "GET") {
+      const list = await env.TELEMETRY.list({ prefix: "device:" });
+
+      if (!list.keys.length) {
+        return json({
+          health_score: 0,
+          status: "OFFLINE",
+          cpu_status: "OFFLINE",
+          memory_status: "OFFLINE",
+          disk_status: "OFFLINE",
+          recommendations: ["Connect a Daemon device to begin monitoring."],
+          trend: "STABLE",
+          anomaly_detected: false,
+          anomaly_signals: [],
+          cpu_change_percent: 0,
+          memory_change_percent: 0,
+          disk_change_percent: 0
+        });
+      }
+
+      const records = [];
+
+      for (const key of list.keys) {
+        const value = await env.TELEMETRY.get(key.name);
+        if (!value) continue;
+
+        try {
+          records.push(JSON.parse(value));
+        } catch {}
+      }
+
+      records.sort((a, b) =>
+        String(b.received_at || "").localeCompare(
+          String(a.received_at || "")
+        )
+      );
+
+      const record = records[0];
+
+      if (!record) {
+        return json({
+          health_score: 0,
+          status: "OFFLINE",
+          cpu_status: "OFFLINE",
+          memory_status: "OFFLINE",
+          disk_status: "OFFLINE",
+          recommendations: ["Connect a Daemon device to begin monitoring."],
+          trend: "STABLE",
+          anomaly_detected: false,
+          anomaly_signals: [],
+          cpu_change_percent: 0,
+          memory_change_percent: 0,
+          disk_change_percent: 0
+        });
+      }
+
+      const telemetry = record.telemetry || record;
+
+      const cpu = Number(telemetry.cpu_usage || 0);
+      const memoryUsed = Number(telemetry.memory_used || 0);
+      const memoryTotal = Number(telemetry.memory_total || 0);
+      const diskUsed = Number(telemetry.disk_used || 0);
+      const diskTotal = Number(telemetry.disk_total || 0);
+
+      const memoryPercent = memoryTotal
+        ? (memoryUsed / memoryTotal) * 100
+        : 0;
+
+      const diskPercent = diskTotal
+        ? (diskUsed / diskTotal) * 100
+        : 0;
+
+      const cpuStatus =
+        cpu >= 90 ? "CRITICAL" :
+        cpu >= 75 ? "WARNING" :
+        "HEALTHY";
+
+      const memoryStatus =
+        memoryPercent >= 90 ? "CRITICAL" :
+        memoryPercent >= 80 ? "WARNING" :
+        "HEALTHY";
+
+      const diskStatus =
+        diskPercent >= 95 ? "CRITICAL" :
+        diskPercent >= 85 ? "WARNING" :
+        "HEALTHY";
+
+      let healthScore = 100;
+
+      for (const resourceStatus of [cpuStatus, memoryStatus, diskStatus]) {
+        if (resourceStatus === "CRITICAL") healthScore -= 30;
+        else if (resourceStatus === "WARNING") healthScore -= 15;
+      }
+
+      healthScore = Math.max(0, Math.min(100, healthScore));
+
+      const status =
+        healthScore >= 90 ? "HEALTHY" :
+        healthScore >= 70 ? "DEGRADED" :
+        healthScore >= 40 ? "AT_RISK" :
+        "CRITICAL";
+
+      const recommendations = [];
+
+      if (cpuStatus === "CRITICAL") {
+        recommendations.push("CPU utilization is critically high. Investigate the processes consuming the most CPU.");
+      } else if (cpuStatus === "WARNING") {
+        recommendations.push("CPU utilization is elevated. Monitor active workloads for sustained CPU pressure.");
+      }
+
+      if (memoryStatus === "CRITICAL") {
+        recommendations.push("Memory utilization is critically high. Investigate memory-heavy processes and reclaim available memory.");
+      } else if (memoryStatus === "WARNING") {
+        recommendations.push("Memory utilization is elevated. Monitor workloads for increasing memory pressure.");
+      }
+
+      if (diskStatus === "CRITICAL") {
+        recommendations.push("Disk utilization is critically high. Free space or expand storage immediately.");
+      } else if (diskStatus === "WARNING") {
+        recommendations.push("Disk utilization is elevated. Plan cleanup or additional storage.");
+      }
+
+      return json({
+        health_score: healthScore,
+        status,
+        cpu_status: cpuStatus,
+        memory_status: memoryStatus,
+        disk_status: diskStatus,
+        recommendations,
+        trend: "STABLE",
+        anomaly_detected: false,
+        anomaly_signals: [],
+        cpu_change_percent: 0,
+        memory_change_percent: 0,
+        disk_change_percent: 0,
+        received_at: record.received_at || null,
+        device_id: record.device_id || null
+      });
+    }
+/*
+     * ------------------------------------------------------------
      * FRONTEND
      * ------------------------------------------------------------
      */
@@ -1394,5 +1730,11 @@
     return env.ASSETS.fetch(request);
   }
 };
+
+
+
+
+
+
 
 
