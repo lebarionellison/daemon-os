@@ -1377,6 +1377,16 @@ export default {
         })
       );
 
+      if (deviceId === "daemon-live-test") {
+        await env.TELEMETRY.put(
+          "public:demo",
+          JSON.stringify({
+            ...body,
+            received_at: receivedAt
+          })
+        );
+      }
+
       return json({
         ok: true,
         received: true,
