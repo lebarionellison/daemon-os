@@ -38,7 +38,7 @@
 };
 
 async function runMonitor(env) {
-  const base = null;
+  const base = "https://daemon-os.lebarionellison.workers.dev";
   const startedAt = Date.now();
 
   const targets = [
@@ -144,5 +144,6 @@ async function runMonitor(env) {
     }
   );
 }
+
 
 
