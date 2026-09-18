@@ -58,13 +58,7 @@ async function runMonitor(env) {
     const checkStarted = Date.now();
 
     try {
-      const response = await fetch(target.url, {
-        method: "GET",
-        headers: {
-          "User-Agent": "DaemonOS-External-Monitor/1.0",
-          "Cache-Control": "no-cache"
-        }
-      });
+      const response = await fetch(target.url);
 
       const responseTimeMs = Date.now() - checkStarted;
 
@@ -150,3 +144,4 @@ async function runMonitor(env) {
     }
   );
 }
+
