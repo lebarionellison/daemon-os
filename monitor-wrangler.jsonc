@@ -1,0 +1,17 @@
+﻿{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "daemon-os-monitor",
+  "main": "./monitor-worker.js",
+  "compatibility_date": "2026-09-12",
+  "kv_namespaces": [
+    {
+      "binding": "TELEMETRY",
+      "id": "e905a6efaae44a919570613831269196"
+    }
+  ],
+  "triggers": {
+    "crons": [
+      "*/3 * * * *"
+    ]
+  }
+}
