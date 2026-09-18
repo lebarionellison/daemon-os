@@ -9,6 +9,12 @@
       "id": "e905a6efaae44a919570613831269196"
     }
   ],
+  "services": [
+    {
+      "binding": "DAEMON_OS",
+      "service": "daemon-os"
+    }
+  ],
   "triggers": {
     "crons": [
       "*/3 * * * *"

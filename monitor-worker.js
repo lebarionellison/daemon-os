@@ -38,7 +38,7 @@
 };
 
 async function runMonitor(env) {
-  const base = "https://daemon-os.lebarionellison.workers.dev";
+  const base = null;
   const startedAt = Date.now();
 
   const targets = [
@@ -58,7 +58,7 @@ async function runMonitor(env) {
     const checkStarted = Date.now();
 
     try {
-      const response = await fetch(target.url);
+      const response = await env.DAEMON_OS.fetch(new Request(target.url));
 
       const responseTimeMs = Date.now() - checkStarted;
 
@@ -144,4 +144,5 @@ async function runMonitor(env) {
     }
   );
 }
+
 
