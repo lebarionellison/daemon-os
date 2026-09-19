@@ -1,4 +1,5 @@
-﻿use crate::{
+﻿use crate::heartbeat;
+use crate::{
     config::ConfigStore, event_engine::EventEngine, event_store::EventStore, history::HistoryStore, intelligence::IntelligenceEngine,
 
 };
@@ -82,7 +83,7 @@ fn run_agent_loop(shutdown_rx: &mpsc::Receiver<()>) {
     let engine = IntelligenceEngine::new();
 
     let mut last_history_write = 0_u64;
-
+    let mut last_heartbeat = 0_u64;
     loop {
         if shutdown_rx.try_recv().is_ok() {
             break;
@@ -126,6 +127,10 @@ fn run_agent_loop(shutdown_rx: &mpsc::Receiver<()>) {
             .unwrap_or_default()
             .as_secs();
 
+        if now.saturating_sub(last_heartbeat) >= 60 {
+            heartbeat::send(&snapshot);
+            last_heartbeat = now;
+        }
         if config.history_enabled
             && intelligence.is_some()
             && now.saturating_sub(last_history_write) >= config.history_interval_seconds
@@ -188,6 +193,8 @@ fn disk_percent(used: u64, total: u64) -> f64 {
         (used as f64 / total as f64) * 100.0
     }
 }
+
+
 
 
 
