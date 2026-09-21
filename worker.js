@@ -1593,10 +1593,18 @@ export default {
      */
 
     if (url.pathname === "/intelligence" && request.method === "GET") {
+      const cacheKey = "cache:intelligence";
+      const cached = await env.TELEMETRY.get(cacheKey);
+
+      if (cached) {
+        try {
+          return json(JSON.parse(cached));
+        } catch {}
+      }
       const list = await env.TELEMETRY.list({ prefix: "public:" });
 
       if (!list.keys.length) {
-        return json({
+        const offline = {
           health_score: 0,
           status: "OFFLINE",
           cpu_status: "OFFLINE",
@@ -1609,7 +1617,15 @@ export default {
           cpu_change_percent: 0,
           memory_change_percent: 0,
           disk_change_percent: 0
-        });
+        };
+
+        await env.TELEMETRY.put(
+          cacheKey,
+          JSON.stringify(offline),
+          { expirationTtl: 30 }
+        );
+
+        return json(offline);
       }
 
       const records = [];
@@ -1632,7 +1648,7 @@ export default {
       const record = records[0];
 
       if (!record) {
-        return json({
+        const offline = {
           health_score: 0,
           status: "OFFLINE",
           cpu_status: "OFFLINE",
@@ -1645,7 +1661,15 @@ export default {
           cpu_change_percent: 0,
           memory_change_percent: 0,
           disk_change_percent: 0
-        });
+        };
+
+        await env.TELEMETRY.put(
+          cacheKey,
+          JSON.stringify(offline),
+          { expirationTtl: 30 }
+        );
+
+        return json(offline);
       }
 
       const telemetry = record.telemetry || record;
@@ -1713,7 +1737,7 @@ export default {
         recommendations.push("Disk utilization is elevated. Plan cleanup or additional storage.");
       }
 
-      return json({
+      const intelligence = {
         health_score: healthScore,
         status,
         cpu_status: cpuStatus,
@@ -1728,7 +1752,15 @@ export default {
         disk_change_percent: 0,
         received_at: record.received_at || null,
         device_id: record.device_id || null
-      });
+      };
+
+      await env.TELEMETRY.put(
+        cacheKey,
+        JSON.stringify(intelligence),
+        { expirationTtl: 30 }
+      );
+
+      return json(intelligence);
     }
 /*
      * ------------------------------------------------------------
