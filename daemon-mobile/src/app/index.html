@@ -130,6 +130,26 @@ input{
   background:linear-gradient(135deg,var(--blue),var(--purple));
 }
 
+.product-hunt-badge{
+  flex-basis:100%;
+  display:flex;
+  align-items:center;
+  justify-content:flex-start;
+  margin-top:8px;
+}
+
+.product-hunt-badge img{
+  display:block;
+  width:250px;
+  height:54px;
+  max-width:100%;
+}
+
+@media(max-width:700px){
+  .product-hunt-badge{
+    justify-content:flex-start;
+  }
+}
 /* HERO */
 
 .hero{
@@ -3162,6 +3182,22 @@ body::after {
         <a class="btn btn-primary" href="#pricing">
           Start Daemon — 14 Days Free
         </a>
+
+<div class="product-hunt-badge" id="product-hunt-badge">
+  <a
+    href="https://www.producthunt.com/products/daemon-os-2?embed=true&amp;utm_source=badge-featured&amp;utm_medium=badge&amp;utm_campaign=badge-daemon-os-2"
+    target="_blank"
+    rel="noopener noreferrer"
+    aria-label="Daemon OS on Product Hunt"
+  >
+    <img
+      alt="Daemon OS - Infrastructure intelligence for every system | Product Hunt"
+      width="250"
+      height="54"
+      src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=1252217&amp;theme=light&amp;t=1789976622296"
+    >
+  </a>
+</div>
 <section class="daemon-architecture-rail" aria-label="Daemon OS architecture">
     <div class="daemon-architecture-label">Engineered for modern infrastructure</div>
     <div class="daemon-architecture-grid">
