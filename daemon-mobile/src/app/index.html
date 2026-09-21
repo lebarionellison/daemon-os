@@ -609,6 +609,59 @@ section{
 }
 
 /* INTELLIGENCE */
+.performance-report-controls{
+  display:flex;
+  justify-content:flex-end;
+  margin:0 0 24px;
+}
+
+.performance-report-button{
+  appearance:none;
+  border:1px solid rgba(88,199,255,.35);
+  background:linear-gradient(
+    135deg,
+    rgba(40,110,180,.18),
+    rgba(120,80,220,.16)
+  );
+  color:#dff6ff;
+  padding:12px 18px;
+  border-radius:10px;
+  font-size:11px;
+  font-weight:700;
+  letter-spacing:.14em;
+  cursor:pointer;
+  transition:
+    border-color .2s ease,
+    background .2s ease,
+    transform .2s ease,
+    box-shadow .2s ease;
+}
+
+.performance-report-button:hover{
+  border-color:rgba(88,199,255,.7);
+  background:linear-gradient(
+    135deg,
+    rgba(40,110,180,.28),
+    rgba(120,80,220,.24)
+  );
+  box-shadow:0 8px 28px rgba(40,110,180,.14);
+  transform:translateY(-1px);
+}
+
+.performance-report-button:focus-visible{
+  outline:2px solid rgba(88,199,255,.8);
+  outline-offset:3px;
+}
+
+@media(max-width:700px){
+  .performance-report-controls{
+    justify-content:stretch;
+  }
+
+  .performance-report-button{
+    width:100%;
+  }
+}
 
 .intelligence{
   border-top:1px solid var(--line);
@@ -1078,6 +1131,307 @@ footer{
     flex-direction:column;
   }
 }
+
+.daemon-print-report{
+  display:none;
+}
+
+.performance-report-page{
+  max-width:1100px;
+  margin:0 auto;
+  padding:48px;
+  background:#ffffff;
+  color:#111827;
+  font-family:Arial,Helvetica,sans-serif;
+}
+
+.performance-report-header{
+  border-bottom:2px solid #dbe4ec;
+  padding-bottom:28px;
+  margin-bottom:34px;
+}
+
+.performance-report-kicker{
+  font-size:11px;
+  font-weight:700;
+  letter-spacing:.18em;
+  color:#2563eb;
+  margin-bottom:12px;
+}
+
+.performance-report-header h1{
+  margin:0 0 12px;
+  font-size:34px;
+  line-height:1.15;
+  color:#0f172a;
+}
+
+.performance-report-header p{
+  margin:0;
+  max-width:780px;
+  color:#475569;
+  font-size:14px;
+  line-height:1.7;
+}
+
+.performance-report-meta{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:16px;
+  margin-top:28px;
+}
+
+.performance-report-meta div{
+  padding:14px;
+  border:1px solid #dbe4ec;
+  border-radius:10px;
+  background:#f8fafc;
+}
+
+.performance-report-meta span{
+  display:block;
+  font-size:9px;
+  font-weight:700;
+  letter-spacing:.14em;
+  color:#64748b;
+  margin-bottom:7px;
+}
+
+.performance-report-meta strong{
+  display:block;
+  font-size:12px;
+  color:#0f172a;
+  word-break:break-word;
+}
+
+.performance-report-section{
+  margin:0 0 34px;
+  break-inside:auto;
+}
+
+.performance-report-section-label{
+  margin-bottom:16px;
+  font-size:10px;
+  font-weight:700;
+  letter-spacing:.16em;
+  color:#2563eb;
+}
+
+.performance-report-summary{
+  display:grid;
+  grid-template-columns:190px 1fr;
+  gap:28px;
+  align-items:center;
+  margin-bottom:20px;
+}
+
+.performance-report-score{
+  padding:24px;
+  border:1px solid #dbe4ec;
+  border-radius:12px;
+  background:#f8fafc;
+  text-align:center;
+}
+
+.performance-report-score span{
+  display:block;
+  font-size:9px;
+  font-weight:700;
+  letter-spacing:.15em;
+  color:#64748b;
+  margin-bottom:10px;
+}
+
+.performance-report-score strong{
+  display:block;
+  font-size:44px;
+  line-height:1;
+  color:#0f172a;
+}
+
+.performance-report-status-label{
+  display:block;
+  font-size:9px;
+  font-weight:700;
+  letter-spacing:.15em;
+  color:#64748b;
+  margin-bottom:6px;
+}
+
+.performance-report-summary h2{
+  margin:0 0 8px;
+  font-size:25px;
+  color:#0f172a;
+}
+
+.performance-report-summary p,
+.performance-report-section p{
+  color:#475569;
+  font-size:13px;
+  line-height:1.7;
+}
+
+.performance-report-finding{
+  margin:0 0 18px;
+  padding:18px 20px;
+  border:1px solid #dbe4ec;
+  border-radius:10px;
+  background:#f8fafc;
+  break-inside:avoid;
+}
+
+.performance-report-finding h3,
+.performance-report-action-group h3{
+  margin:0 0 8px;
+  font-size:14px;
+  color:#0f172a;
+}
+
+.performance-report-table{
+  width:100%;
+  border-collapse:collapse;
+  margin-top:8px;
+  font-size:11px;
+}
+
+.performance-report-table th{
+  padding:11px 10px;
+  border-bottom:2px solid #cbd5e1;
+  text-align:left;
+  font-size:9px;
+  letter-spacing:.1em;
+  color:#475569;
+  background:#f8fafc;
+}
+
+.performance-report-table td{
+  padding:12px 10px;
+  border-bottom:1px solid #e2e8f0;
+  vertical-align:top;
+  color:#334155;
+  line-height:1.5;
+}
+
+.performance-report-table td:first-child{
+  font-weight:700;
+  color:#0f172a;
+}
+
+.performance-report-list{
+  margin:0;
+  padding-left:22px;
+}
+
+.performance-report-list li,
+.performance-report-finding li,
+.performance-report-action-group li{
+  margin:0 0 9px;
+  color:#334155;
+  font-size:12px;
+  line-height:1.6;
+}
+
+.performance-report-action-group{
+  margin:0 0 18px;
+  padding:18px 20px;
+  border-left:3px solid #2563eb;
+  background:#f8fafc;
+  break-inside:avoid;
+}
+
+.performance-report-footer{
+  margin-top:44px;
+  padding-top:20px;
+  border-top:1px solid #dbe4ec;
+  display:flex;
+  justify-content:space-between;
+  gap:20px;
+  font-size:9px;
+  color:#64748b;
+}
+
+.performance-report-footer strong{
+  color:#334155;
+  letter-spacing:.08em;
+}
+
+@media(max-width:700px){
+
+  .performance-report-page{
+    padding:28px 20px;
+  }
+
+  .performance-report-meta{
+    grid-template-columns:1fr;
+  }
+
+  .performance-report-summary{
+    grid-template-columns:1fr;
+  }
+
+  .performance-report-footer{
+    flex-direction:column;
+  }
+}
+
+@media print{
+
+  @page{
+    size:Letter;
+    margin:0.55in;
+  }
+
+  html,
+  body{
+    background:#ffffff !important;
+  }
+
+  body > *{
+    display:none !important;
+  }
+
+  #daemon-print-report{
+    display:block !important;
+    visibility:visible !important;
+  }
+
+  .daemon-print-report{
+    display:block !important;
+    visibility:visible !important;
+  }
+
+  .performance-report-page{
+    display:block !important;
+    max-width:none;
+    margin:0;
+    padding:0;
+    background:#ffffff;
+    color:#111827;
+  }
+
+  .performance-report-section{
+    break-inside:auto;
+  }
+
+  .performance-report-table,
+  .performance-report-finding,
+  .performance-report-action-group{
+    break-inside:avoid;
+  }
+
+  .performance-report-header{
+    break-after:avoid;
+  }
+
+  .performance-report-footer{
+    break-inside:avoid;
+  }
+
+  a{
+    color:inherit !important;
+    text-decoration:none !important;
+  }
+}
 </style>
 <style id="daemon-futuristic-bg">
 body {
@@ -1120,6 +1474,307 @@ body::after {
     to {
         background-position: 0 0, 0 0, 50px 50px, 50px 50px;
     }
+}
+
+.daemon-print-report{
+  display:none;
+}
+
+.performance-report-page{
+  max-width:1100px;
+  margin:0 auto;
+  padding:48px;
+  background:#ffffff;
+  color:#111827;
+  font-family:Arial,Helvetica,sans-serif;
+}
+
+.performance-report-header{
+  border-bottom:2px solid #dbe4ec;
+  padding-bottom:28px;
+  margin-bottom:34px;
+}
+
+.performance-report-kicker{
+  font-size:11px;
+  font-weight:700;
+  letter-spacing:.18em;
+  color:#2563eb;
+  margin-bottom:12px;
+}
+
+.performance-report-header h1{
+  margin:0 0 12px;
+  font-size:34px;
+  line-height:1.15;
+  color:#0f172a;
+}
+
+.performance-report-header p{
+  margin:0;
+  max-width:780px;
+  color:#475569;
+  font-size:14px;
+  line-height:1.7;
+}
+
+.performance-report-meta{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:16px;
+  margin-top:28px;
+}
+
+.performance-report-meta div{
+  padding:14px;
+  border:1px solid #dbe4ec;
+  border-radius:10px;
+  background:#f8fafc;
+}
+
+.performance-report-meta span{
+  display:block;
+  font-size:9px;
+  font-weight:700;
+  letter-spacing:.14em;
+  color:#64748b;
+  margin-bottom:7px;
+}
+
+.performance-report-meta strong{
+  display:block;
+  font-size:12px;
+  color:#0f172a;
+  word-break:break-word;
+}
+
+.performance-report-section{
+  margin:0 0 34px;
+  break-inside:auto;
+}
+
+.performance-report-section-label{
+  margin-bottom:16px;
+  font-size:10px;
+  font-weight:700;
+  letter-spacing:.16em;
+  color:#2563eb;
+}
+
+.performance-report-summary{
+  display:grid;
+  grid-template-columns:190px 1fr;
+  gap:28px;
+  align-items:center;
+  margin-bottom:20px;
+}
+
+.performance-report-score{
+  padding:24px;
+  border:1px solid #dbe4ec;
+  border-radius:12px;
+  background:#f8fafc;
+  text-align:center;
+}
+
+.performance-report-score span{
+  display:block;
+  font-size:9px;
+  font-weight:700;
+  letter-spacing:.15em;
+  color:#64748b;
+  margin-bottom:10px;
+}
+
+.performance-report-score strong{
+  display:block;
+  font-size:44px;
+  line-height:1;
+  color:#0f172a;
+}
+
+.performance-report-status-label{
+  display:block;
+  font-size:9px;
+  font-weight:700;
+  letter-spacing:.15em;
+  color:#64748b;
+  margin-bottom:6px;
+}
+
+.performance-report-summary h2{
+  margin:0 0 8px;
+  font-size:25px;
+  color:#0f172a;
+}
+
+.performance-report-summary p,
+.performance-report-section p{
+  color:#475569;
+  font-size:13px;
+  line-height:1.7;
+}
+
+.performance-report-finding{
+  margin:0 0 18px;
+  padding:18px 20px;
+  border:1px solid #dbe4ec;
+  border-radius:10px;
+  background:#f8fafc;
+  break-inside:avoid;
+}
+
+.performance-report-finding h3,
+.performance-report-action-group h3{
+  margin:0 0 8px;
+  font-size:14px;
+  color:#0f172a;
+}
+
+.performance-report-table{
+  width:100%;
+  border-collapse:collapse;
+  margin-top:8px;
+  font-size:11px;
+}
+
+.performance-report-table th{
+  padding:11px 10px;
+  border-bottom:2px solid #cbd5e1;
+  text-align:left;
+  font-size:9px;
+  letter-spacing:.1em;
+  color:#475569;
+  background:#f8fafc;
+}
+
+.performance-report-table td{
+  padding:12px 10px;
+  border-bottom:1px solid #e2e8f0;
+  vertical-align:top;
+  color:#334155;
+  line-height:1.5;
+}
+
+.performance-report-table td:first-child{
+  font-weight:700;
+  color:#0f172a;
+}
+
+.performance-report-list{
+  margin:0;
+  padding-left:22px;
+}
+
+.performance-report-list li,
+.performance-report-finding li,
+.performance-report-action-group li{
+  margin:0 0 9px;
+  color:#334155;
+  font-size:12px;
+  line-height:1.6;
+}
+
+.performance-report-action-group{
+  margin:0 0 18px;
+  padding:18px 20px;
+  border-left:3px solid #2563eb;
+  background:#f8fafc;
+  break-inside:avoid;
+}
+
+.performance-report-footer{
+  margin-top:44px;
+  padding-top:20px;
+  border-top:1px solid #dbe4ec;
+  display:flex;
+  justify-content:space-between;
+  gap:20px;
+  font-size:9px;
+  color:#64748b;
+}
+
+.performance-report-footer strong{
+  color:#334155;
+  letter-spacing:.08em;
+}
+
+@media(max-width:700px){
+
+  .performance-report-page{
+    padding:28px 20px;
+  }
+
+  .performance-report-meta{
+    grid-template-columns:1fr;
+  }
+
+  .performance-report-summary{
+    grid-template-columns:1fr;
+  }
+
+  .performance-report-footer{
+    flex-direction:column;
+  }
+}
+
+@media print{
+
+  @page{
+    size:Letter;
+    margin:0.55in;
+  }
+
+  html,
+  body{
+    background:#ffffff !important;
+  }
+
+  body > *{
+    display:none !important;
+  }
+
+  #daemon-print-report{
+    display:block !important;
+    visibility:visible !important;
+  }
+
+  .daemon-print-report{
+    display:block !important;
+    visibility:visible !important;
+  }
+
+  .performance-report-page{
+    display:block !important;
+    max-width:none;
+    margin:0;
+    padding:0;
+    background:#ffffff;
+    color:#111827;
+  }
+
+  .performance-report-section{
+    break-inside:auto;
+  }
+
+  .performance-report-table,
+  .performance-report-finding,
+  .performance-report-action-group{
+    break-inside:avoid;
+  }
+
+  .performance-report-header{
+    break-after:avoid;
+  }
+
+  .performance-report-footer{
+    break-inside:avoid;
+  }
+
+  a{
+    color:inherit !important;
+    text-decoration:none !important;
+  }
 }
 </style>
 <style id="daemon-ambient-ai">
@@ -1242,6 +1897,307 @@ body::after {
     .daemon-data-stream {
         animation: none;
     }
+}
+
+.daemon-print-report{
+  display:none;
+}
+
+.performance-report-page{
+  max-width:1100px;
+  margin:0 auto;
+  padding:48px;
+  background:#ffffff;
+  color:#111827;
+  font-family:Arial,Helvetica,sans-serif;
+}
+
+.performance-report-header{
+  border-bottom:2px solid #dbe4ec;
+  padding-bottom:28px;
+  margin-bottom:34px;
+}
+
+.performance-report-kicker{
+  font-size:11px;
+  font-weight:700;
+  letter-spacing:.18em;
+  color:#2563eb;
+  margin-bottom:12px;
+}
+
+.performance-report-header h1{
+  margin:0 0 12px;
+  font-size:34px;
+  line-height:1.15;
+  color:#0f172a;
+}
+
+.performance-report-header p{
+  margin:0;
+  max-width:780px;
+  color:#475569;
+  font-size:14px;
+  line-height:1.7;
+}
+
+.performance-report-meta{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:16px;
+  margin-top:28px;
+}
+
+.performance-report-meta div{
+  padding:14px;
+  border:1px solid #dbe4ec;
+  border-radius:10px;
+  background:#f8fafc;
+}
+
+.performance-report-meta span{
+  display:block;
+  font-size:9px;
+  font-weight:700;
+  letter-spacing:.14em;
+  color:#64748b;
+  margin-bottom:7px;
+}
+
+.performance-report-meta strong{
+  display:block;
+  font-size:12px;
+  color:#0f172a;
+  word-break:break-word;
+}
+
+.performance-report-section{
+  margin:0 0 34px;
+  break-inside:auto;
+}
+
+.performance-report-section-label{
+  margin-bottom:16px;
+  font-size:10px;
+  font-weight:700;
+  letter-spacing:.16em;
+  color:#2563eb;
+}
+
+.performance-report-summary{
+  display:grid;
+  grid-template-columns:190px 1fr;
+  gap:28px;
+  align-items:center;
+  margin-bottom:20px;
+}
+
+.performance-report-score{
+  padding:24px;
+  border:1px solid #dbe4ec;
+  border-radius:12px;
+  background:#f8fafc;
+  text-align:center;
+}
+
+.performance-report-score span{
+  display:block;
+  font-size:9px;
+  font-weight:700;
+  letter-spacing:.15em;
+  color:#64748b;
+  margin-bottom:10px;
+}
+
+.performance-report-score strong{
+  display:block;
+  font-size:44px;
+  line-height:1;
+  color:#0f172a;
+}
+
+.performance-report-status-label{
+  display:block;
+  font-size:9px;
+  font-weight:700;
+  letter-spacing:.15em;
+  color:#64748b;
+  margin-bottom:6px;
+}
+
+.performance-report-summary h2{
+  margin:0 0 8px;
+  font-size:25px;
+  color:#0f172a;
+}
+
+.performance-report-summary p,
+.performance-report-section p{
+  color:#475569;
+  font-size:13px;
+  line-height:1.7;
+}
+
+.performance-report-finding{
+  margin:0 0 18px;
+  padding:18px 20px;
+  border:1px solid #dbe4ec;
+  border-radius:10px;
+  background:#f8fafc;
+  break-inside:avoid;
+}
+
+.performance-report-finding h3,
+.performance-report-action-group h3{
+  margin:0 0 8px;
+  font-size:14px;
+  color:#0f172a;
+}
+
+.performance-report-table{
+  width:100%;
+  border-collapse:collapse;
+  margin-top:8px;
+  font-size:11px;
+}
+
+.performance-report-table th{
+  padding:11px 10px;
+  border-bottom:2px solid #cbd5e1;
+  text-align:left;
+  font-size:9px;
+  letter-spacing:.1em;
+  color:#475569;
+  background:#f8fafc;
+}
+
+.performance-report-table td{
+  padding:12px 10px;
+  border-bottom:1px solid #e2e8f0;
+  vertical-align:top;
+  color:#334155;
+  line-height:1.5;
+}
+
+.performance-report-table td:first-child{
+  font-weight:700;
+  color:#0f172a;
+}
+
+.performance-report-list{
+  margin:0;
+  padding-left:22px;
+}
+
+.performance-report-list li,
+.performance-report-finding li,
+.performance-report-action-group li{
+  margin:0 0 9px;
+  color:#334155;
+  font-size:12px;
+  line-height:1.6;
+}
+
+.performance-report-action-group{
+  margin:0 0 18px;
+  padding:18px 20px;
+  border-left:3px solid #2563eb;
+  background:#f8fafc;
+  break-inside:avoid;
+}
+
+.performance-report-footer{
+  margin-top:44px;
+  padding-top:20px;
+  border-top:1px solid #dbe4ec;
+  display:flex;
+  justify-content:space-between;
+  gap:20px;
+  font-size:9px;
+  color:#64748b;
+}
+
+.performance-report-footer strong{
+  color:#334155;
+  letter-spacing:.08em;
+}
+
+@media(max-width:700px){
+
+  .performance-report-page{
+    padding:28px 20px;
+  }
+
+  .performance-report-meta{
+    grid-template-columns:1fr;
+  }
+
+  .performance-report-summary{
+    grid-template-columns:1fr;
+  }
+
+  .performance-report-footer{
+    flex-direction:column;
+  }
+}
+
+@media print{
+
+  @page{
+    size:Letter;
+    margin:0.55in;
+  }
+
+  html,
+  body{
+    background:#ffffff !important;
+  }
+
+  body > *{
+    display:none !important;
+  }
+
+  #daemon-print-report{
+    display:block !important;
+    visibility:visible !important;
+  }
+
+  .daemon-print-report{
+    display:block !important;
+    visibility:visible !important;
+  }
+
+  .performance-report-page{
+    display:block !important;
+    max-width:none;
+    margin:0;
+    padding:0;
+    background:#ffffff;
+    color:#111827;
+  }
+
+  .performance-report-section{
+    break-inside:auto;
+  }
+
+  .performance-report-table,
+  .performance-report-finding,
+  .performance-report-action-group{
+    break-inside:avoid;
+  }
+
+  .performance-report-header{
+    break-after:avoid;
+  }
+
+  .performance-report-footer{
+    break-inside:avoid;
+  }
+
+  a{
+    color:inherit !important;
+    text-decoration:none !important;
+  }
 }
 </style>
 <style id="daemon-architecture-badges">
@@ -1388,6 +2344,307 @@ body::after {
         grid-column: auto;
     }
 }
+
+.daemon-print-report{
+  display:none;
+}
+
+.performance-report-page{
+  max-width:1100px;
+  margin:0 auto;
+  padding:48px;
+  background:#ffffff;
+  color:#111827;
+  font-family:Arial,Helvetica,sans-serif;
+}
+
+.performance-report-header{
+  border-bottom:2px solid #dbe4ec;
+  padding-bottom:28px;
+  margin-bottom:34px;
+}
+
+.performance-report-kicker{
+  font-size:11px;
+  font-weight:700;
+  letter-spacing:.18em;
+  color:#2563eb;
+  margin-bottom:12px;
+}
+
+.performance-report-header h1{
+  margin:0 0 12px;
+  font-size:34px;
+  line-height:1.15;
+  color:#0f172a;
+}
+
+.performance-report-header p{
+  margin:0;
+  max-width:780px;
+  color:#475569;
+  font-size:14px;
+  line-height:1.7;
+}
+
+.performance-report-meta{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:16px;
+  margin-top:28px;
+}
+
+.performance-report-meta div{
+  padding:14px;
+  border:1px solid #dbe4ec;
+  border-radius:10px;
+  background:#f8fafc;
+}
+
+.performance-report-meta span{
+  display:block;
+  font-size:9px;
+  font-weight:700;
+  letter-spacing:.14em;
+  color:#64748b;
+  margin-bottom:7px;
+}
+
+.performance-report-meta strong{
+  display:block;
+  font-size:12px;
+  color:#0f172a;
+  word-break:break-word;
+}
+
+.performance-report-section{
+  margin:0 0 34px;
+  break-inside:auto;
+}
+
+.performance-report-section-label{
+  margin-bottom:16px;
+  font-size:10px;
+  font-weight:700;
+  letter-spacing:.16em;
+  color:#2563eb;
+}
+
+.performance-report-summary{
+  display:grid;
+  grid-template-columns:190px 1fr;
+  gap:28px;
+  align-items:center;
+  margin-bottom:20px;
+}
+
+.performance-report-score{
+  padding:24px;
+  border:1px solid #dbe4ec;
+  border-radius:12px;
+  background:#f8fafc;
+  text-align:center;
+}
+
+.performance-report-score span{
+  display:block;
+  font-size:9px;
+  font-weight:700;
+  letter-spacing:.15em;
+  color:#64748b;
+  margin-bottom:10px;
+}
+
+.performance-report-score strong{
+  display:block;
+  font-size:44px;
+  line-height:1;
+  color:#0f172a;
+}
+
+.performance-report-status-label{
+  display:block;
+  font-size:9px;
+  font-weight:700;
+  letter-spacing:.15em;
+  color:#64748b;
+  margin-bottom:6px;
+}
+
+.performance-report-summary h2{
+  margin:0 0 8px;
+  font-size:25px;
+  color:#0f172a;
+}
+
+.performance-report-summary p,
+.performance-report-section p{
+  color:#475569;
+  font-size:13px;
+  line-height:1.7;
+}
+
+.performance-report-finding{
+  margin:0 0 18px;
+  padding:18px 20px;
+  border:1px solid #dbe4ec;
+  border-radius:10px;
+  background:#f8fafc;
+  break-inside:avoid;
+}
+
+.performance-report-finding h3,
+.performance-report-action-group h3{
+  margin:0 0 8px;
+  font-size:14px;
+  color:#0f172a;
+}
+
+.performance-report-table{
+  width:100%;
+  border-collapse:collapse;
+  margin-top:8px;
+  font-size:11px;
+}
+
+.performance-report-table th{
+  padding:11px 10px;
+  border-bottom:2px solid #cbd5e1;
+  text-align:left;
+  font-size:9px;
+  letter-spacing:.1em;
+  color:#475569;
+  background:#f8fafc;
+}
+
+.performance-report-table td{
+  padding:12px 10px;
+  border-bottom:1px solid #e2e8f0;
+  vertical-align:top;
+  color:#334155;
+  line-height:1.5;
+}
+
+.performance-report-table td:first-child{
+  font-weight:700;
+  color:#0f172a;
+}
+
+.performance-report-list{
+  margin:0;
+  padding-left:22px;
+}
+
+.performance-report-list li,
+.performance-report-finding li,
+.performance-report-action-group li{
+  margin:0 0 9px;
+  color:#334155;
+  font-size:12px;
+  line-height:1.6;
+}
+
+.performance-report-action-group{
+  margin:0 0 18px;
+  padding:18px 20px;
+  border-left:3px solid #2563eb;
+  background:#f8fafc;
+  break-inside:avoid;
+}
+
+.performance-report-footer{
+  margin-top:44px;
+  padding-top:20px;
+  border-top:1px solid #dbe4ec;
+  display:flex;
+  justify-content:space-between;
+  gap:20px;
+  font-size:9px;
+  color:#64748b;
+}
+
+.performance-report-footer strong{
+  color:#334155;
+  letter-spacing:.08em;
+}
+
+@media(max-width:700px){
+
+  .performance-report-page{
+    padding:28px 20px;
+  }
+
+  .performance-report-meta{
+    grid-template-columns:1fr;
+  }
+
+  .performance-report-summary{
+    grid-template-columns:1fr;
+  }
+
+  .performance-report-footer{
+    flex-direction:column;
+  }
+}
+
+@media print{
+
+  @page{
+    size:Letter;
+    margin:0.55in;
+  }
+
+  html,
+  body{
+    background:#ffffff !important;
+  }
+
+  body > *{
+    display:none !important;
+  }
+
+  #daemon-print-report{
+    display:block !important;
+    visibility:visible !important;
+  }
+
+  .daemon-print-report{
+    display:block !important;
+    visibility:visible !important;
+  }
+
+  .performance-report-page{
+    display:block !important;
+    max-width:none;
+    margin:0;
+    padding:0;
+    background:#ffffff;
+    color:#111827;
+  }
+
+  .performance-report-section{
+    break-inside:auto;
+  }
+
+  .performance-report-table,
+  .performance-report-finding,
+  .performance-report-action-group{
+    break-inside:avoid;
+  }
+
+  .performance-report-header{
+    break-after:avoid;
+  }
+
+  .performance-report-footer{
+    break-inside:avoid;
+  }
+
+  a{
+    color:inherit !important;
+    text-decoration:none !important;
+  }
+}
 </style>
 </head>
 
@@ -1497,6 +2754,307 @@ body::after {
 @keyframes daemonFutureGrid{
   from{background-position:0 0,0 0,0 0}
   to{background-position:0 0,0 70px,70px 0}
+}
+
+.daemon-print-report{
+  display:none;
+}
+
+.performance-report-page{
+  max-width:1100px;
+  margin:0 auto;
+  padding:48px;
+  background:#ffffff;
+  color:#111827;
+  font-family:Arial,Helvetica,sans-serif;
+}
+
+.performance-report-header{
+  border-bottom:2px solid #dbe4ec;
+  padding-bottom:28px;
+  margin-bottom:34px;
+}
+
+.performance-report-kicker{
+  font-size:11px;
+  font-weight:700;
+  letter-spacing:.18em;
+  color:#2563eb;
+  margin-bottom:12px;
+}
+
+.performance-report-header h1{
+  margin:0 0 12px;
+  font-size:34px;
+  line-height:1.15;
+  color:#0f172a;
+}
+
+.performance-report-header p{
+  margin:0;
+  max-width:780px;
+  color:#475569;
+  font-size:14px;
+  line-height:1.7;
+}
+
+.performance-report-meta{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:16px;
+  margin-top:28px;
+}
+
+.performance-report-meta div{
+  padding:14px;
+  border:1px solid #dbe4ec;
+  border-radius:10px;
+  background:#f8fafc;
+}
+
+.performance-report-meta span{
+  display:block;
+  font-size:9px;
+  font-weight:700;
+  letter-spacing:.14em;
+  color:#64748b;
+  margin-bottom:7px;
+}
+
+.performance-report-meta strong{
+  display:block;
+  font-size:12px;
+  color:#0f172a;
+  word-break:break-word;
+}
+
+.performance-report-section{
+  margin:0 0 34px;
+  break-inside:auto;
+}
+
+.performance-report-section-label{
+  margin-bottom:16px;
+  font-size:10px;
+  font-weight:700;
+  letter-spacing:.16em;
+  color:#2563eb;
+}
+
+.performance-report-summary{
+  display:grid;
+  grid-template-columns:190px 1fr;
+  gap:28px;
+  align-items:center;
+  margin-bottom:20px;
+}
+
+.performance-report-score{
+  padding:24px;
+  border:1px solid #dbe4ec;
+  border-radius:12px;
+  background:#f8fafc;
+  text-align:center;
+}
+
+.performance-report-score span{
+  display:block;
+  font-size:9px;
+  font-weight:700;
+  letter-spacing:.15em;
+  color:#64748b;
+  margin-bottom:10px;
+}
+
+.performance-report-score strong{
+  display:block;
+  font-size:44px;
+  line-height:1;
+  color:#0f172a;
+}
+
+.performance-report-status-label{
+  display:block;
+  font-size:9px;
+  font-weight:700;
+  letter-spacing:.15em;
+  color:#64748b;
+  margin-bottom:6px;
+}
+
+.performance-report-summary h2{
+  margin:0 0 8px;
+  font-size:25px;
+  color:#0f172a;
+}
+
+.performance-report-summary p,
+.performance-report-section p{
+  color:#475569;
+  font-size:13px;
+  line-height:1.7;
+}
+
+.performance-report-finding{
+  margin:0 0 18px;
+  padding:18px 20px;
+  border:1px solid #dbe4ec;
+  border-radius:10px;
+  background:#f8fafc;
+  break-inside:avoid;
+}
+
+.performance-report-finding h3,
+.performance-report-action-group h3{
+  margin:0 0 8px;
+  font-size:14px;
+  color:#0f172a;
+}
+
+.performance-report-table{
+  width:100%;
+  border-collapse:collapse;
+  margin-top:8px;
+  font-size:11px;
+}
+
+.performance-report-table th{
+  padding:11px 10px;
+  border-bottom:2px solid #cbd5e1;
+  text-align:left;
+  font-size:9px;
+  letter-spacing:.1em;
+  color:#475569;
+  background:#f8fafc;
+}
+
+.performance-report-table td{
+  padding:12px 10px;
+  border-bottom:1px solid #e2e8f0;
+  vertical-align:top;
+  color:#334155;
+  line-height:1.5;
+}
+
+.performance-report-table td:first-child{
+  font-weight:700;
+  color:#0f172a;
+}
+
+.performance-report-list{
+  margin:0;
+  padding-left:22px;
+}
+
+.performance-report-list li,
+.performance-report-finding li,
+.performance-report-action-group li{
+  margin:0 0 9px;
+  color:#334155;
+  font-size:12px;
+  line-height:1.6;
+}
+
+.performance-report-action-group{
+  margin:0 0 18px;
+  padding:18px 20px;
+  border-left:3px solid #2563eb;
+  background:#f8fafc;
+  break-inside:avoid;
+}
+
+.performance-report-footer{
+  margin-top:44px;
+  padding-top:20px;
+  border-top:1px solid #dbe4ec;
+  display:flex;
+  justify-content:space-between;
+  gap:20px;
+  font-size:9px;
+  color:#64748b;
+}
+
+.performance-report-footer strong{
+  color:#334155;
+  letter-spacing:.08em;
+}
+
+@media(max-width:700px){
+
+  .performance-report-page{
+    padding:28px 20px;
+  }
+
+  .performance-report-meta{
+    grid-template-columns:1fr;
+  }
+
+  .performance-report-summary{
+    grid-template-columns:1fr;
+  }
+
+  .performance-report-footer{
+    flex-direction:column;
+  }
+}
+
+@media print{
+
+  @page{
+    size:Letter;
+    margin:0.55in;
+  }
+
+  html,
+  body{
+    background:#ffffff !important;
+  }
+
+  body > *{
+    display:none !important;
+  }
+
+  #daemon-print-report{
+    display:block !important;
+    visibility:visible !important;
+  }
+
+  .daemon-print-report{
+    display:block !important;
+    visibility:visible !important;
+  }
+
+  .performance-report-page{
+    display:block !important;
+    max-width:none;
+    margin:0;
+    padding:0;
+    background:#ffffff;
+    color:#111827;
+  }
+
+  .performance-report-section{
+    break-inside:auto;
+  }
+
+  .performance-report-table,
+  .performance-report-finding,
+  .performance-report-action-group{
+    break-inside:avoid;
+  }
+
+  .performance-report-header{
+    break-after:avoid;
+  }
+
+  .performance-report-footer{
+    break-inside:avoid;
+  }
+
+  a{
+    color:inherit !important;
+    text-decoration:none !important;
+  }
 }
 </style>
 
@@ -2018,6 +3576,16 @@ body::after {
       machine-readable operational assessment.
     </p>
 
+    <div class="performance-report-controls">
+      <button
+        type="button"
+        class="performance-report-button"
+        id="print-intelligence-report"
+        aria-label="Print detailed Daemon OS performance and intelligence report"
+      >
+        PRINT PERFORMANCE REPORT
+      </button>
+    </div>
     <div class="intel-grid">
 
       <div class="intel-card">
@@ -2140,6 +3708,12 @@ body::after {
 
 </section>
 
+<!-- DAEMON PERFORMANCE REPORT -->
+<div
+  id="daemon-print-report"
+  class="daemon-print-report"
+  aria-hidden="true"
+></div>
 <!-- CREATORSVERSE -->
 
 <section class="creators" id="creatorsverse">
@@ -2788,6 +4362,656 @@ async function loadTelemetry(){
   }
 }
 
+function escapeReportHtml(value){
+
+  return String(value ?? "")
+    .replace(/&/g,"&amp;")
+    .replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;")
+    .replace(/"/g,"&quot;")
+    .replace(/'/g,"&#39;");
+}
+
+function intelligenceStatusText(status){
+
+  const value =
+    String(status ?? "UNKNOWN").toUpperCase();
+
+  if(value === "HEALTHY"){
+    return "Operating within the reported healthy range.";
+  }
+
+  if(value === "WARNING"){
+    return "Elevated condition reported. Continued monitoring and corrective planning are recommended.";
+  }
+
+  if(value === "CRITICAL"){
+    return "Critical condition reported. Immediate investigation and remediation should be prioritized.";
+  }
+
+  return "Daemon did not provide a recognized status interpretation.";
+}
+
+function intelligenceChangeText(value){
+
+  if(value === null || value === undefined || value === ""){
+    return "Not reported";
+  }
+
+  const number = Number(value);
+
+  if(Number.isNaN(number)){
+    return String(value);
+  }
+
+  return `${number > 0 ? "+" : ""}${number}%`;
+}
+
+function buildIntelligenceReport(){
+
+  const data =
+    window.daemonIntelligence || {};
+
+  const health =
+    data.health_score ?? "--";
+
+  const status =
+    data.status ?? "UNKNOWN";
+
+  const cpuStatus =
+    data.cpu_status ?? "UNKNOWN";
+
+  const memoryStatus =
+    data.memory_status ?? "UNKNOWN";
+
+  const diskStatus =
+    data.disk_status ?? "UNKNOWN";
+
+  const trend =
+    data.trend ?? "UNKNOWN";
+
+  const anomalyDetected =
+    data.anomaly_detected === true;
+
+  const anomalySignals =
+    Array.isArray(data.anomaly_signals)
+      ? data.anomaly_signals
+      : [];
+
+  const recommendations =
+    Array.isArray(data.recommendations)
+      ? data.recommendations
+      : [];
+
+  const receivedAt =
+    data.received_at || "Not reported";
+
+  const deviceId =
+    data.device_id || "Not reported";
+
+  const generatedAt =
+    new Date().toLocaleString();
+
+  const cpuChange =
+    intelligenceChangeText(
+      data.cpu_change_percent
+    );
+
+  const memoryChange =
+    intelligenceChangeText(
+      data.memory_change_percent
+    );
+
+  const diskChange =
+    intelligenceChangeText(
+      data.disk_change_percent
+    );
+
+  const statusSummary =
+    intelligenceStatusText(status);
+
+  const cpuInterpretation =
+    intelligenceStatusText(cpuStatus);
+
+  const memoryInterpretation =
+    intelligenceStatusText(memoryStatus);
+
+  const diskInterpretation =
+    intelligenceStatusText(diskStatus);
+
+  const additionalSuggestions = [];
+
+  if(
+    String(cpuStatus).toUpperCase() === "CRITICAL"
+  ){
+
+    additionalSuggestions.push(
+      "Immediately investigate CPU-intensive processes, workloads, saturation, and recent workload changes."
+    );
+
+  }else if(
+    String(cpuStatus).toUpperCase() === "WARNING"
+  ){
+
+    additionalSuggestions.push(
+      "Review CPU utilization trends and identify workloads that may be contributing to sustained elevation."
+    );
+
+  }else{
+
+    additionalSuggestions.push(
+      "Maintain the current CPU baseline and continue monitoring for sustained changes."
+    );
+  }
+
+  if(
+    String(memoryStatus).toUpperCase() === "CRITICAL"
+  ){
+
+    additionalSuggestions.push(
+      "Immediately investigate memory pressure, abnormal process growth, swapping, and potential memory leaks."
+    );
+
+  }else if(
+    String(memoryStatus).toUpperCase() === "WARNING"
+  ){
+
+    additionalSuggestions.push(
+      "Review memory consumers and monitor for continued growth before capacity becomes constrained."
+    );
+
+  }else{
+
+    additionalSuggestions.push(
+      "Maintain the current memory baseline and continue monitoring workload growth."
+    );
+  }
+
+  if(
+    String(diskStatus).toUpperCase() === "CRITICAL"
+  ){
+
+    additionalSuggestions.push(
+      "Immediately investigate storage consumption, large files, retention policies, and available capacity."
+    );
+
+  }else if(
+    String(diskStatus).toUpperCase() === "WARNING"
+  ){
+
+    additionalSuggestions.push(
+      "Review storage growth and plan cleanup, retention changes, or additional capacity before exhaustion."
+    );
+
+  }else{
+
+    additionalSuggestions.push(
+      "Maintain storage monitoring and review capacity trends periodically."
+    );
+  }
+
+  if(anomalyDetected){
+
+    additionalSuggestions.push(
+      "Investigate the detected anomaly signals and correlate them with recent infrastructure changes or workload activity."
+    );
+
+  }else{
+
+    additionalSuggestions.push(
+      "No active anomaly was reported. Continue monitoring so deviations from the established baseline can be identified early."
+    );
+  }
+
+  if(
+    String(trend).toUpperCase() !== "STABLE"
+  ){
+
+    additionalSuggestions.push(
+      `The reported system trend is ${String(trend)}. Review recent telemetry history to determine whether the direction is temporary or sustained.`
+    );
+
+  }else{
+
+    additionalSuggestions.push(
+      "The reported system trend is stable. Continue collecting historical snapshots to preserve the operational baseline."
+    );
+  }
+
+  const recommendationHtml =
+    recommendations.length
+      ? recommendations.map(
+          item =>
+            `<li>${escapeReportHtml(item)}</li>`
+        ).join("")
+      : "<li>No active recommendations were reported by Daemon.</li>";
+
+  const anomalyHtml =
+    anomalySignals.length
+      ? anomalySignals.map(
+          item =>
+            `<li>${escapeReportHtml(item)}</li>`
+        ).join("")
+      : "<li>No anomaly signals were reported.</li>";
+
+  const suggestionHtml =
+    additionalSuggestions.map(
+      item =>
+        `<li>${escapeReportHtml(item)}</li>`
+    ).join("");
+
+  const immediateActions = [];
+
+  if(
+    String(status).toUpperCase() === "CRITICAL" ||
+    String(cpuStatus).toUpperCase() === "CRITICAL" ||
+    String(memoryStatus).toUpperCase() === "CRITICAL" ||
+    String(diskStatus).toUpperCase() === "CRITICAL" ||
+    anomalyDetected
+  ){
+
+    immediateActions.push(
+      "Investigate the reported critical conditions and/or anomaly signals."
+    );
+
+  }else{
+
+    immediateActions.push(
+      "Review the current intelligence findings and confirm that no operational issue requires immediate attention."
+    );
+  }
+
+  const recommendedActions = [];
+
+  if(recommendations.length){
+
+    recommendations.forEach(
+      item => recommendedActions.push(item)
+    );
+
+  }else{
+
+    recommendedActions.push(
+      "Continue routine infrastructure monitoring."
+    );
+  }
+
+  const preventiveActions = [
+    "Maintain historical telemetry snapshots for trend comparison.",
+    "Review resource growth periodically before thresholds become operational constraints.",
+    "Continue monitoring CPU, memory, storage, and anomaly signals as part of normal infrastructure operations."
+  ];
+
+  const immediateHtml =
+    immediateActions.map(
+      item =>
+        `<li>${escapeReportHtml(item)}</li>`
+    ).join("");
+
+  const recommendedHtml =
+    recommendedActions.map(
+      item =>
+        `<li>${escapeReportHtml(item)}</li>`
+    ).join("");
+
+  const preventiveHtml =
+    preventiveActions.map(
+      item =>
+        `<li>${escapeReportHtml(item)}</li>`
+    ).join("");
+
+  const report = document.getElementById(
+    "daemon-print-report"
+  );
+
+  if(!report){
+    throw new Error(
+      "Daemon performance report container not found."
+    );
+  }
+
+  report.innerHTML = `
+    <div class="performance-report-page">
+
+      <header class="performance-report-header">
+
+        <div class="performance-report-kicker">
+          DAEMON OS · PERFORMANCE & INTELLIGENCE REPORT
+        </div>
+
+        <h1>
+          Infrastructure Performance Report
+        </h1>
+
+        <p>
+          Detailed operational assessment generated from
+          Daemon's current infrastructure intelligence state.
+        </p>
+
+        <div class="performance-report-meta">
+
+          <div>
+            <span>REPORT GENERATED</span>
+            <strong>${escapeReportHtml(generatedAt)}</strong>
+          </div>
+
+          <div>
+            <span>DEVICE</span>
+            <strong>${escapeReportHtml(deviceId)}</strong>
+          </div>
+
+          <div>
+            <span>TELEMETRY RECEIVED</span>
+            <strong>${escapeReportHtml(receivedAt)}</strong>
+          </div>
+
+        </div>
+
+      </header>
+
+      <section class="performance-report-section">
+
+        <div class="performance-report-section-label">
+          01 · EXECUTIVE SUMMARY
+        </div>
+
+        <div class="performance-report-summary">
+
+          <div class="performance-report-score">
+            <span>HEALTH SCORE</span>
+            <strong>${escapeReportHtml(health)}</strong>
+          </div>
+
+          <div>
+            <span class="performance-report-status-label">
+              OVERALL STATUS
+            </span>
+
+            <h2>
+              ${escapeReportHtml(status)}
+            </h2>
+
+            <p>
+              ${escapeReportHtml(statusSummary)}
+            </p>
+          </div>
+
+        </div>
+
+        <p>
+          Daemon's current intelligence assessment reports an
+          overall status of
+          <strong>${escapeReportHtml(status)}</strong>,
+          with a health score of
+          <strong>${escapeReportHtml(health)}</strong>.
+          The reported system trend is
+          <strong>${escapeReportHtml(trend)}</strong>,
+          and anomaly detection is
+          <strong>${anomalyDetected ? "active with detected signals" : "clear"}
+          </strong>.
+        </p>
+
+      </section>
+
+      <section class="performance-report-section">
+
+        <div class="performance-report-section-label">
+          02 · RESOURCE ANALYSIS
+        </div>
+
+        <table class="performance-report-table">
+
+          <thead>
+            <tr>
+              <th>RESOURCE</th>
+              <th>STATUS</th>
+              <th>CHANGE</th>
+              <th>INTERPRETATION</th>
+            </tr>
+          </thead>
+
+          <tbody>
+
+            <tr>
+              <td>CPU</td>
+              <td>${escapeReportHtml(cpuStatus)}</td>
+              <td>${escapeReportHtml(cpuChange)}</td>
+              <td>${escapeReportHtml(cpuInterpretation)}</td>
+            </tr>
+
+            <tr>
+              <td>MEMORY</td>
+              <td>${escapeReportHtml(memoryStatus)}</td>
+              <td>${escapeReportHtml(memoryChange)}</td>
+              <td>${escapeReportHtml(memoryInterpretation)}</td>
+            </tr>
+
+            <tr>
+              <td>DISK</td>
+              <td>${escapeReportHtml(diskStatus)}</td>
+              <td>${escapeReportHtml(diskChange)}</td>
+              <td>${escapeReportHtml(diskInterpretation)}</td>
+            </tr>
+
+          </tbody>
+
+        </table>
+
+      </section>
+
+      <section class="performance-report-section">
+
+        <div class="performance-report-section-label">
+          03 · INTELLIGENCE FINDINGS
+        </div>
+
+        <div class="performance-report-finding">
+
+          <h3>System Trend</h3>
+
+          <p>
+            ${escapeReportHtml(trend)}
+          </p>
+
+        </div>
+
+        <div class="performance-report-finding">
+
+          <h3>Anomaly Detection</h3>
+
+          <p>
+            ${anomalyDetected
+              ? "Daemon has reported an active anomaly condition."
+              : "Daemon has not reported an active anomaly condition."
+            }
+          </p>
+
+          <ul>
+            ${anomalyHtml}
+          </ul>
+
+        </div>
+
+      </section>
+
+      <section class="performance-report-section">
+
+        <div class="performance-report-section-label">
+          04 · CURRENT RECOMMENDATIONS
+        </div>
+
+        <ul class="performance-report-list">
+          ${recommendationHtml}
+        </ul>
+
+      </section>
+
+      <section class="performance-report-section">
+
+        <div class="performance-report-section-label">
+          05 · ADDITIONAL OPERATIONAL SUGGESTIONS
+        </div>
+
+        <ul class="performance-report-list">
+          ${suggestionHtml}
+        </ul>
+
+      </section>
+
+      <section class="performance-report-section">
+
+        <div class="performance-report-section-label">
+          06 · RECOMMENDED ACTION PLAN
+        </div>
+
+        <div class="performance-report-action-group">
+
+          <h3>Immediate Actions</h3>
+
+          <ul>
+            ${immediateHtml}
+          </ul>
+
+        </div>
+
+        <div class="performance-report-action-group">
+
+          <h3>Recommended Actions</h3>
+
+          <ul>
+            ${recommendedHtml}
+          </ul>
+
+        </div>
+
+        <div class="performance-report-action-group">
+
+          <h3>Preventive Actions</h3>
+
+          <ul>
+            ${preventiveHtml}
+          </ul>
+
+        </div>
+
+      </section>
+
+      <section class="performance-report-section">
+
+        <div class="performance-report-section-label">
+          07 · TECHNICAL INTELLIGENCE DETAILS
+        </div>
+
+        <table class="performance-report-table">
+
+          <tbody>
+
+            <tr>
+              <td>Health Score</td>
+              <td>${escapeReportHtml(health)}</td>
+            </tr>
+
+            <tr>
+              <td>Overall Status</td>
+              <td>${escapeReportHtml(status)}</td>
+            </tr>
+
+            <tr>
+              <td>CPU Status</td>
+              <td>${escapeReportHtml(cpuStatus)}</td>
+            </tr>
+
+            <tr>
+              <td>Memory Status</td>
+              <td>${escapeReportHtml(memoryStatus)}</td>
+            </tr>
+
+            <tr>
+              <td>Disk Status</td>
+              <td>${escapeReportHtml(diskStatus)}</td>
+            </tr>
+
+            <tr>
+              <td>Trend</td>
+              <td>${escapeReportHtml(trend)}</td>
+            </tr>
+
+            <tr>
+              <td>Anomaly Detected</td>
+              <td>${anomalyDetected ? "true" : "false"}</td>
+            </tr>
+
+            <tr>
+              <td>CPU Change</td>
+              <td>${escapeReportHtml(cpuChange)}</td>
+            </tr>
+
+            <tr>
+              <td>Memory Change</td>
+              <td>${escapeReportHtml(memoryChange)}</td>
+            </tr>
+
+            <tr>
+              <td>Disk Change</td>
+              <td>${escapeReportHtml(diskChange)}</td>
+            </tr>
+
+            <tr>
+              <td>Device ID</td>
+              <td>${escapeReportHtml(deviceId)}</td>
+            </tr>
+
+            <tr>
+              <td>Telemetry Received</td>
+              <td>${escapeReportHtml(receivedAt)}</td>
+            </tr>
+
+          </tbody>
+
+        </table>
+
+      </section>
+
+      <footer class="performance-report-footer">
+
+        <strong>
+          DAEMON OS · INFRASTRUCTURE INTELLIGENCE
+        </strong>
+
+        <span>
+          This report reflects the intelligence data available
+          to Daemon at the time of generation.
+        </span>
+
+      </footer>
+
+    </div>
+  `;
+
+  return report;
+}
+
+function printIntelligenceReport(){
+
+  try{
+
+    buildIntelligenceReport();
+
+    window.print();
+
+  }catch(error){
+
+    console.error(
+      "Daemon performance report:",
+      error
+    );
+
+    alert(
+      "Daemon could not generate the performance report. Check the browser console for details."
+    );
+  }
+}
+
 async function loadIntelligence(){
 
   try{
@@ -2962,6 +5186,27 @@ async function loadIntelligence(){
     );
   }
 }
+
+document.addEventListener(
+  "DOMContentLoaded",
+  function(){
+
+    const reportButton =
+      document.getElementById(
+        "print-intelligence-report"
+      );
+
+    if(!reportButton){
+      return;
+    }
+
+    reportButton.addEventListener(
+      "click",
+      printIntelligenceReport
+    );
+
+  }
+);
 
 async function loadHistory(){
 
@@ -3389,6 +5634,307 @@ setInterval(loadDaemonMemory, 10000);
 <style>
 #daemon-field{position:fixed;inset:0;z-index:-1;pointer-events:none;opacity:.72}
 body{background:#05070a}
+
+.daemon-print-report{
+  display:none;
+}
+
+.performance-report-page{
+  max-width:1100px;
+  margin:0 auto;
+  padding:48px;
+  background:#ffffff;
+  color:#111827;
+  font-family:Arial,Helvetica,sans-serif;
+}
+
+.performance-report-header{
+  border-bottom:2px solid #dbe4ec;
+  padding-bottom:28px;
+  margin-bottom:34px;
+}
+
+.performance-report-kicker{
+  font-size:11px;
+  font-weight:700;
+  letter-spacing:.18em;
+  color:#2563eb;
+  margin-bottom:12px;
+}
+
+.performance-report-header h1{
+  margin:0 0 12px;
+  font-size:34px;
+  line-height:1.15;
+  color:#0f172a;
+}
+
+.performance-report-header p{
+  margin:0;
+  max-width:780px;
+  color:#475569;
+  font-size:14px;
+  line-height:1.7;
+}
+
+.performance-report-meta{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:16px;
+  margin-top:28px;
+}
+
+.performance-report-meta div{
+  padding:14px;
+  border:1px solid #dbe4ec;
+  border-radius:10px;
+  background:#f8fafc;
+}
+
+.performance-report-meta span{
+  display:block;
+  font-size:9px;
+  font-weight:700;
+  letter-spacing:.14em;
+  color:#64748b;
+  margin-bottom:7px;
+}
+
+.performance-report-meta strong{
+  display:block;
+  font-size:12px;
+  color:#0f172a;
+  word-break:break-word;
+}
+
+.performance-report-section{
+  margin:0 0 34px;
+  break-inside:auto;
+}
+
+.performance-report-section-label{
+  margin-bottom:16px;
+  font-size:10px;
+  font-weight:700;
+  letter-spacing:.16em;
+  color:#2563eb;
+}
+
+.performance-report-summary{
+  display:grid;
+  grid-template-columns:190px 1fr;
+  gap:28px;
+  align-items:center;
+  margin-bottom:20px;
+}
+
+.performance-report-score{
+  padding:24px;
+  border:1px solid #dbe4ec;
+  border-radius:12px;
+  background:#f8fafc;
+  text-align:center;
+}
+
+.performance-report-score span{
+  display:block;
+  font-size:9px;
+  font-weight:700;
+  letter-spacing:.15em;
+  color:#64748b;
+  margin-bottom:10px;
+}
+
+.performance-report-score strong{
+  display:block;
+  font-size:44px;
+  line-height:1;
+  color:#0f172a;
+}
+
+.performance-report-status-label{
+  display:block;
+  font-size:9px;
+  font-weight:700;
+  letter-spacing:.15em;
+  color:#64748b;
+  margin-bottom:6px;
+}
+
+.performance-report-summary h2{
+  margin:0 0 8px;
+  font-size:25px;
+  color:#0f172a;
+}
+
+.performance-report-summary p,
+.performance-report-section p{
+  color:#475569;
+  font-size:13px;
+  line-height:1.7;
+}
+
+.performance-report-finding{
+  margin:0 0 18px;
+  padding:18px 20px;
+  border:1px solid #dbe4ec;
+  border-radius:10px;
+  background:#f8fafc;
+  break-inside:avoid;
+}
+
+.performance-report-finding h3,
+.performance-report-action-group h3{
+  margin:0 0 8px;
+  font-size:14px;
+  color:#0f172a;
+}
+
+.performance-report-table{
+  width:100%;
+  border-collapse:collapse;
+  margin-top:8px;
+  font-size:11px;
+}
+
+.performance-report-table th{
+  padding:11px 10px;
+  border-bottom:2px solid #cbd5e1;
+  text-align:left;
+  font-size:9px;
+  letter-spacing:.1em;
+  color:#475569;
+  background:#f8fafc;
+}
+
+.performance-report-table td{
+  padding:12px 10px;
+  border-bottom:1px solid #e2e8f0;
+  vertical-align:top;
+  color:#334155;
+  line-height:1.5;
+}
+
+.performance-report-table td:first-child{
+  font-weight:700;
+  color:#0f172a;
+}
+
+.performance-report-list{
+  margin:0;
+  padding-left:22px;
+}
+
+.performance-report-list li,
+.performance-report-finding li,
+.performance-report-action-group li{
+  margin:0 0 9px;
+  color:#334155;
+  font-size:12px;
+  line-height:1.6;
+}
+
+.performance-report-action-group{
+  margin:0 0 18px;
+  padding:18px 20px;
+  border-left:3px solid #2563eb;
+  background:#f8fafc;
+  break-inside:avoid;
+}
+
+.performance-report-footer{
+  margin-top:44px;
+  padding-top:20px;
+  border-top:1px solid #dbe4ec;
+  display:flex;
+  justify-content:space-between;
+  gap:20px;
+  font-size:9px;
+  color:#64748b;
+}
+
+.performance-report-footer strong{
+  color:#334155;
+  letter-spacing:.08em;
+}
+
+@media(max-width:700px){
+
+  .performance-report-page{
+    padding:28px 20px;
+  }
+
+  .performance-report-meta{
+    grid-template-columns:1fr;
+  }
+
+  .performance-report-summary{
+    grid-template-columns:1fr;
+  }
+
+  .performance-report-footer{
+    flex-direction:column;
+  }
+}
+
+@media print{
+
+  @page{
+    size:Letter;
+    margin:0.55in;
+  }
+
+  html,
+  body{
+    background:#ffffff !important;
+  }
+
+  body > *{
+    display:none !important;
+  }
+
+  #daemon-print-report{
+    display:block !important;
+    visibility:visible !important;
+  }
+
+  .daemon-print-report{
+    display:block !important;
+    visibility:visible !important;
+  }
+
+  .performance-report-page{
+    display:block !important;
+    max-width:none;
+    margin:0;
+    padding:0;
+    background:#ffffff;
+    color:#111827;
+  }
+
+  .performance-report-section{
+    break-inside:auto;
+  }
+
+  .performance-report-table,
+  .performance-report-finding,
+  .performance-report-action-group{
+    break-inside:avoid;
+  }
+
+  .performance-report-header{
+    break-after:avoid;
+  }
+
+  .performance-report-footer{
+    break-inside:avoid;
+  }
+
+  a{
+    color:inherit !important;
+    text-decoration:none !important;
+  }
+}
 </style>
 <canvas id="daemon-field"></canvas>
 <script>
@@ -3518,6 +6064,307 @@ body{background:#05070a}
 .daemon-stream:nth-child(7){left:82%;animation-delay:-8s}
 @keyframes daemonFloat{0%,100%{transform:translate3d(0,0,0) scale(1)}50%{transform:translate3d(28px,-22px,0) scale(1.08)}}
 @keyframes daemonStream{0%{transform:translateY(-15%);opacity:0}20%{opacity:.18}80%{opacity:.18}100%{transform:translateY(15%);opacity:0}}
+
+.daemon-print-report{
+  display:none;
+}
+
+.performance-report-page{
+  max-width:1100px;
+  margin:0 auto;
+  padding:48px;
+  background:#ffffff;
+  color:#111827;
+  font-family:Arial,Helvetica,sans-serif;
+}
+
+.performance-report-header{
+  border-bottom:2px solid #dbe4ec;
+  padding-bottom:28px;
+  margin-bottom:34px;
+}
+
+.performance-report-kicker{
+  font-size:11px;
+  font-weight:700;
+  letter-spacing:.18em;
+  color:#2563eb;
+  margin-bottom:12px;
+}
+
+.performance-report-header h1{
+  margin:0 0 12px;
+  font-size:34px;
+  line-height:1.15;
+  color:#0f172a;
+}
+
+.performance-report-header p{
+  margin:0;
+  max-width:780px;
+  color:#475569;
+  font-size:14px;
+  line-height:1.7;
+}
+
+.performance-report-meta{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:16px;
+  margin-top:28px;
+}
+
+.performance-report-meta div{
+  padding:14px;
+  border:1px solid #dbe4ec;
+  border-radius:10px;
+  background:#f8fafc;
+}
+
+.performance-report-meta span{
+  display:block;
+  font-size:9px;
+  font-weight:700;
+  letter-spacing:.14em;
+  color:#64748b;
+  margin-bottom:7px;
+}
+
+.performance-report-meta strong{
+  display:block;
+  font-size:12px;
+  color:#0f172a;
+  word-break:break-word;
+}
+
+.performance-report-section{
+  margin:0 0 34px;
+  break-inside:auto;
+}
+
+.performance-report-section-label{
+  margin-bottom:16px;
+  font-size:10px;
+  font-weight:700;
+  letter-spacing:.16em;
+  color:#2563eb;
+}
+
+.performance-report-summary{
+  display:grid;
+  grid-template-columns:190px 1fr;
+  gap:28px;
+  align-items:center;
+  margin-bottom:20px;
+}
+
+.performance-report-score{
+  padding:24px;
+  border:1px solid #dbe4ec;
+  border-radius:12px;
+  background:#f8fafc;
+  text-align:center;
+}
+
+.performance-report-score span{
+  display:block;
+  font-size:9px;
+  font-weight:700;
+  letter-spacing:.15em;
+  color:#64748b;
+  margin-bottom:10px;
+}
+
+.performance-report-score strong{
+  display:block;
+  font-size:44px;
+  line-height:1;
+  color:#0f172a;
+}
+
+.performance-report-status-label{
+  display:block;
+  font-size:9px;
+  font-weight:700;
+  letter-spacing:.15em;
+  color:#64748b;
+  margin-bottom:6px;
+}
+
+.performance-report-summary h2{
+  margin:0 0 8px;
+  font-size:25px;
+  color:#0f172a;
+}
+
+.performance-report-summary p,
+.performance-report-section p{
+  color:#475569;
+  font-size:13px;
+  line-height:1.7;
+}
+
+.performance-report-finding{
+  margin:0 0 18px;
+  padding:18px 20px;
+  border:1px solid #dbe4ec;
+  border-radius:10px;
+  background:#f8fafc;
+  break-inside:avoid;
+}
+
+.performance-report-finding h3,
+.performance-report-action-group h3{
+  margin:0 0 8px;
+  font-size:14px;
+  color:#0f172a;
+}
+
+.performance-report-table{
+  width:100%;
+  border-collapse:collapse;
+  margin-top:8px;
+  font-size:11px;
+}
+
+.performance-report-table th{
+  padding:11px 10px;
+  border-bottom:2px solid #cbd5e1;
+  text-align:left;
+  font-size:9px;
+  letter-spacing:.1em;
+  color:#475569;
+  background:#f8fafc;
+}
+
+.performance-report-table td{
+  padding:12px 10px;
+  border-bottom:1px solid #e2e8f0;
+  vertical-align:top;
+  color:#334155;
+  line-height:1.5;
+}
+
+.performance-report-table td:first-child{
+  font-weight:700;
+  color:#0f172a;
+}
+
+.performance-report-list{
+  margin:0;
+  padding-left:22px;
+}
+
+.performance-report-list li,
+.performance-report-finding li,
+.performance-report-action-group li{
+  margin:0 0 9px;
+  color:#334155;
+  font-size:12px;
+  line-height:1.6;
+}
+
+.performance-report-action-group{
+  margin:0 0 18px;
+  padding:18px 20px;
+  border-left:3px solid #2563eb;
+  background:#f8fafc;
+  break-inside:avoid;
+}
+
+.performance-report-footer{
+  margin-top:44px;
+  padding-top:20px;
+  border-top:1px solid #dbe4ec;
+  display:flex;
+  justify-content:space-between;
+  gap:20px;
+  font-size:9px;
+  color:#64748b;
+}
+
+.performance-report-footer strong{
+  color:#334155;
+  letter-spacing:.08em;
+}
+
+@media(max-width:700px){
+
+  .performance-report-page{
+    padding:28px 20px;
+  }
+
+  .performance-report-meta{
+    grid-template-columns:1fr;
+  }
+
+  .performance-report-summary{
+    grid-template-columns:1fr;
+  }
+
+  .performance-report-footer{
+    flex-direction:column;
+  }
+}
+
+@media print{
+
+  @page{
+    size:Letter;
+    margin:0.55in;
+  }
+
+  html,
+  body{
+    background:#ffffff !important;
+  }
+
+  body > *{
+    display:none !important;
+  }
+
+  #daemon-print-report{
+    display:block !important;
+    visibility:visible !important;
+  }
+
+  .daemon-print-report{
+    display:block !important;
+    visibility:visible !important;
+  }
+
+  .performance-report-page{
+    display:block !important;
+    max-width:none;
+    margin:0;
+    padding:0;
+    background:#ffffff;
+    color:#111827;
+  }
+
+  .performance-report-section{
+    break-inside:auto;
+  }
+
+  .performance-report-table,
+  .performance-report-finding,
+  .performance-report-action-group{
+    break-inside:avoid;
+  }
+
+  .performance-report-header{
+    break-after:avoid;
+  }
+
+  .performance-report-footer{
+    break-inside:avoid;
+  }
+
+  a{
+    color:inherit !important;
+    text-decoration:none !important;
+  }
+}
 </style>
 <div id="daemon-live-motion" aria-hidden="true">
   <div class="daemon-orb a"></div>
@@ -3555,6 +6402,307 @@ body{background:#05070a}
 #daemon-personal-console .dpc-command{font-size:10px;color:#8fa1bc;margin-top:8px;min-height:14px}
 @media(max-width:900px){#daemon-personal-console{width:calc(100vw - 28px);right:14px;top:14px;max-height:82vh}body{padding-right:0!important}}
 @media(min-width:901px){body{padding-right:365px}}
+
+.daemon-print-report{
+  display:none;
+}
+
+.performance-report-page{
+  max-width:1100px;
+  margin:0 auto;
+  padding:48px;
+  background:#ffffff;
+  color:#111827;
+  font-family:Arial,Helvetica,sans-serif;
+}
+
+.performance-report-header{
+  border-bottom:2px solid #dbe4ec;
+  padding-bottom:28px;
+  margin-bottom:34px;
+}
+
+.performance-report-kicker{
+  font-size:11px;
+  font-weight:700;
+  letter-spacing:.18em;
+  color:#2563eb;
+  margin-bottom:12px;
+}
+
+.performance-report-header h1{
+  margin:0 0 12px;
+  font-size:34px;
+  line-height:1.15;
+  color:#0f172a;
+}
+
+.performance-report-header p{
+  margin:0;
+  max-width:780px;
+  color:#475569;
+  font-size:14px;
+  line-height:1.7;
+}
+
+.performance-report-meta{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:16px;
+  margin-top:28px;
+}
+
+.performance-report-meta div{
+  padding:14px;
+  border:1px solid #dbe4ec;
+  border-radius:10px;
+  background:#f8fafc;
+}
+
+.performance-report-meta span{
+  display:block;
+  font-size:9px;
+  font-weight:700;
+  letter-spacing:.14em;
+  color:#64748b;
+  margin-bottom:7px;
+}
+
+.performance-report-meta strong{
+  display:block;
+  font-size:12px;
+  color:#0f172a;
+  word-break:break-word;
+}
+
+.performance-report-section{
+  margin:0 0 34px;
+  break-inside:auto;
+}
+
+.performance-report-section-label{
+  margin-bottom:16px;
+  font-size:10px;
+  font-weight:700;
+  letter-spacing:.16em;
+  color:#2563eb;
+}
+
+.performance-report-summary{
+  display:grid;
+  grid-template-columns:190px 1fr;
+  gap:28px;
+  align-items:center;
+  margin-bottom:20px;
+}
+
+.performance-report-score{
+  padding:24px;
+  border:1px solid #dbe4ec;
+  border-radius:12px;
+  background:#f8fafc;
+  text-align:center;
+}
+
+.performance-report-score span{
+  display:block;
+  font-size:9px;
+  font-weight:700;
+  letter-spacing:.15em;
+  color:#64748b;
+  margin-bottom:10px;
+}
+
+.performance-report-score strong{
+  display:block;
+  font-size:44px;
+  line-height:1;
+  color:#0f172a;
+}
+
+.performance-report-status-label{
+  display:block;
+  font-size:9px;
+  font-weight:700;
+  letter-spacing:.15em;
+  color:#64748b;
+  margin-bottom:6px;
+}
+
+.performance-report-summary h2{
+  margin:0 0 8px;
+  font-size:25px;
+  color:#0f172a;
+}
+
+.performance-report-summary p,
+.performance-report-section p{
+  color:#475569;
+  font-size:13px;
+  line-height:1.7;
+}
+
+.performance-report-finding{
+  margin:0 0 18px;
+  padding:18px 20px;
+  border:1px solid #dbe4ec;
+  border-radius:10px;
+  background:#f8fafc;
+  break-inside:avoid;
+}
+
+.performance-report-finding h3,
+.performance-report-action-group h3{
+  margin:0 0 8px;
+  font-size:14px;
+  color:#0f172a;
+}
+
+.performance-report-table{
+  width:100%;
+  border-collapse:collapse;
+  margin-top:8px;
+  font-size:11px;
+}
+
+.performance-report-table th{
+  padding:11px 10px;
+  border-bottom:2px solid #cbd5e1;
+  text-align:left;
+  font-size:9px;
+  letter-spacing:.1em;
+  color:#475569;
+  background:#f8fafc;
+}
+
+.performance-report-table td{
+  padding:12px 10px;
+  border-bottom:1px solid #e2e8f0;
+  vertical-align:top;
+  color:#334155;
+  line-height:1.5;
+}
+
+.performance-report-table td:first-child{
+  font-weight:700;
+  color:#0f172a;
+}
+
+.performance-report-list{
+  margin:0;
+  padding-left:22px;
+}
+
+.performance-report-list li,
+.performance-report-finding li,
+.performance-report-action-group li{
+  margin:0 0 9px;
+  color:#334155;
+  font-size:12px;
+  line-height:1.6;
+}
+
+.performance-report-action-group{
+  margin:0 0 18px;
+  padding:18px 20px;
+  border-left:3px solid #2563eb;
+  background:#f8fafc;
+  break-inside:avoid;
+}
+
+.performance-report-footer{
+  margin-top:44px;
+  padding-top:20px;
+  border-top:1px solid #dbe4ec;
+  display:flex;
+  justify-content:space-between;
+  gap:20px;
+  font-size:9px;
+  color:#64748b;
+}
+
+.performance-report-footer strong{
+  color:#334155;
+  letter-spacing:.08em;
+}
+
+@media(max-width:700px){
+
+  .performance-report-page{
+    padding:28px 20px;
+  }
+
+  .performance-report-meta{
+    grid-template-columns:1fr;
+  }
+
+  .performance-report-summary{
+    grid-template-columns:1fr;
+  }
+
+  .performance-report-footer{
+    flex-direction:column;
+  }
+}
+
+@media print{
+
+  @page{
+    size:Letter;
+    margin:0.55in;
+  }
+
+  html,
+  body{
+    background:#ffffff !important;
+  }
+
+  body > *{
+    display:none !important;
+  }
+
+  #daemon-print-report{
+    display:block !important;
+    visibility:visible !important;
+  }
+
+  .daemon-print-report{
+    display:block !important;
+    visibility:visible !important;
+  }
+
+  .performance-report-page{
+    display:block !important;
+    max-width:none;
+    margin:0;
+    padding:0;
+    background:#ffffff;
+    color:#111827;
+  }
+
+  .performance-report-section{
+    break-inside:auto;
+  }
+
+  .performance-report-table,
+  .performance-report-finding,
+  .performance-report-action-group{
+    break-inside:avoid;
+  }
+
+  .performance-report-header{
+    break-after:avoid;
+  }
+
+  .performance-report-footer{
+    break-inside:avoid;
+  }
+
+  a{
+    color:inherit !important;
+    text-decoration:none !important;
+  }
+}
 </style>
 
 <aside id="daemon-personal-console" aria-label="Daemon Personal Console">
@@ -3748,6 +6896,307 @@ body{background:#05070a}
 #dpc-activity-title{margin-top:12px}
 .dpc-activity{padding:7px 0;border-bottom:1px solid rgba(255,255,255,.06);font-size:10px;line-height:1.35}
 .dpc-activity time{display:block;font-size:8px;opacity:.4;margin-top:2px}
+
+.daemon-print-report{
+  display:none;
+}
+
+.performance-report-page{
+  max-width:1100px;
+  margin:0 auto;
+  padding:48px;
+  background:#ffffff;
+  color:#111827;
+  font-family:Arial,Helvetica,sans-serif;
+}
+
+.performance-report-header{
+  border-bottom:2px solid #dbe4ec;
+  padding-bottom:28px;
+  margin-bottom:34px;
+}
+
+.performance-report-kicker{
+  font-size:11px;
+  font-weight:700;
+  letter-spacing:.18em;
+  color:#2563eb;
+  margin-bottom:12px;
+}
+
+.performance-report-header h1{
+  margin:0 0 12px;
+  font-size:34px;
+  line-height:1.15;
+  color:#0f172a;
+}
+
+.performance-report-header p{
+  margin:0;
+  max-width:780px;
+  color:#475569;
+  font-size:14px;
+  line-height:1.7;
+}
+
+.performance-report-meta{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:16px;
+  margin-top:28px;
+}
+
+.performance-report-meta div{
+  padding:14px;
+  border:1px solid #dbe4ec;
+  border-radius:10px;
+  background:#f8fafc;
+}
+
+.performance-report-meta span{
+  display:block;
+  font-size:9px;
+  font-weight:700;
+  letter-spacing:.14em;
+  color:#64748b;
+  margin-bottom:7px;
+}
+
+.performance-report-meta strong{
+  display:block;
+  font-size:12px;
+  color:#0f172a;
+  word-break:break-word;
+}
+
+.performance-report-section{
+  margin:0 0 34px;
+  break-inside:auto;
+}
+
+.performance-report-section-label{
+  margin-bottom:16px;
+  font-size:10px;
+  font-weight:700;
+  letter-spacing:.16em;
+  color:#2563eb;
+}
+
+.performance-report-summary{
+  display:grid;
+  grid-template-columns:190px 1fr;
+  gap:28px;
+  align-items:center;
+  margin-bottom:20px;
+}
+
+.performance-report-score{
+  padding:24px;
+  border:1px solid #dbe4ec;
+  border-radius:12px;
+  background:#f8fafc;
+  text-align:center;
+}
+
+.performance-report-score span{
+  display:block;
+  font-size:9px;
+  font-weight:700;
+  letter-spacing:.15em;
+  color:#64748b;
+  margin-bottom:10px;
+}
+
+.performance-report-score strong{
+  display:block;
+  font-size:44px;
+  line-height:1;
+  color:#0f172a;
+}
+
+.performance-report-status-label{
+  display:block;
+  font-size:9px;
+  font-weight:700;
+  letter-spacing:.15em;
+  color:#64748b;
+  margin-bottom:6px;
+}
+
+.performance-report-summary h2{
+  margin:0 0 8px;
+  font-size:25px;
+  color:#0f172a;
+}
+
+.performance-report-summary p,
+.performance-report-section p{
+  color:#475569;
+  font-size:13px;
+  line-height:1.7;
+}
+
+.performance-report-finding{
+  margin:0 0 18px;
+  padding:18px 20px;
+  border:1px solid #dbe4ec;
+  border-radius:10px;
+  background:#f8fafc;
+  break-inside:avoid;
+}
+
+.performance-report-finding h3,
+.performance-report-action-group h3{
+  margin:0 0 8px;
+  font-size:14px;
+  color:#0f172a;
+}
+
+.performance-report-table{
+  width:100%;
+  border-collapse:collapse;
+  margin-top:8px;
+  font-size:11px;
+}
+
+.performance-report-table th{
+  padding:11px 10px;
+  border-bottom:2px solid #cbd5e1;
+  text-align:left;
+  font-size:9px;
+  letter-spacing:.1em;
+  color:#475569;
+  background:#f8fafc;
+}
+
+.performance-report-table td{
+  padding:12px 10px;
+  border-bottom:1px solid #e2e8f0;
+  vertical-align:top;
+  color:#334155;
+  line-height:1.5;
+}
+
+.performance-report-table td:first-child{
+  font-weight:700;
+  color:#0f172a;
+}
+
+.performance-report-list{
+  margin:0;
+  padding-left:22px;
+}
+
+.performance-report-list li,
+.performance-report-finding li,
+.performance-report-action-group li{
+  margin:0 0 9px;
+  color:#334155;
+  font-size:12px;
+  line-height:1.6;
+}
+
+.performance-report-action-group{
+  margin:0 0 18px;
+  padding:18px 20px;
+  border-left:3px solid #2563eb;
+  background:#f8fafc;
+  break-inside:avoid;
+}
+
+.performance-report-footer{
+  margin-top:44px;
+  padding-top:20px;
+  border-top:1px solid #dbe4ec;
+  display:flex;
+  justify-content:space-between;
+  gap:20px;
+  font-size:9px;
+  color:#64748b;
+}
+
+.performance-report-footer strong{
+  color:#334155;
+  letter-spacing:.08em;
+}
+
+@media(max-width:700px){
+
+  .performance-report-page{
+    padding:28px 20px;
+  }
+
+  .performance-report-meta{
+    grid-template-columns:1fr;
+  }
+
+  .performance-report-summary{
+    grid-template-columns:1fr;
+  }
+
+  .performance-report-footer{
+    flex-direction:column;
+  }
+}
+
+@media print{
+
+  @page{
+    size:Letter;
+    margin:0.55in;
+  }
+
+  html,
+  body{
+    background:#ffffff !important;
+  }
+
+  body > *{
+    display:none !important;
+  }
+
+  #daemon-print-report{
+    display:block !important;
+    visibility:visible !important;
+  }
+
+  .daemon-print-report{
+    display:block !important;
+    visibility:visible !important;
+  }
+
+  .performance-report-page{
+    display:block !important;
+    max-width:none;
+    margin:0;
+    padding:0;
+    background:#ffffff;
+    color:#111827;
+  }
+
+  .performance-report-section{
+    break-inside:auto;
+  }
+
+  .performance-report-table,
+  .performance-report-finding,
+  .performance-report-action-group{
+    break-inside:avoid;
+  }
+
+  .performance-report-header{
+    break-after:avoid;
+  }
+
+  .performance-report-footer{
+    break-inside:avoid;
+  }
+
+  a{
+    color:inherit !important;
+    text-decoration:none !important;
+  }
+}
 </style>
 
 <script id="daemon-proactive-intelligence">
@@ -4120,6 +7569,307 @@ animation:daemonSystemReaction .9s ease-out;
 #daemon-live-signals{left:10px;bottom:10px;width:220px}
 #daemon-live-orbit{width:100vw;height:100vw}
 }
+
+.daemon-print-report{
+  display:none;
+}
+
+.performance-report-page{
+  max-width:1100px;
+  margin:0 auto;
+  padding:48px;
+  background:#ffffff;
+  color:#111827;
+  font-family:Arial,Helvetica,sans-serif;
+}
+
+.performance-report-header{
+  border-bottom:2px solid #dbe4ec;
+  padding-bottom:28px;
+  margin-bottom:34px;
+}
+
+.performance-report-kicker{
+  font-size:11px;
+  font-weight:700;
+  letter-spacing:.18em;
+  color:#2563eb;
+  margin-bottom:12px;
+}
+
+.performance-report-header h1{
+  margin:0 0 12px;
+  font-size:34px;
+  line-height:1.15;
+  color:#0f172a;
+}
+
+.performance-report-header p{
+  margin:0;
+  max-width:780px;
+  color:#475569;
+  font-size:14px;
+  line-height:1.7;
+}
+
+.performance-report-meta{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:16px;
+  margin-top:28px;
+}
+
+.performance-report-meta div{
+  padding:14px;
+  border:1px solid #dbe4ec;
+  border-radius:10px;
+  background:#f8fafc;
+}
+
+.performance-report-meta span{
+  display:block;
+  font-size:9px;
+  font-weight:700;
+  letter-spacing:.14em;
+  color:#64748b;
+  margin-bottom:7px;
+}
+
+.performance-report-meta strong{
+  display:block;
+  font-size:12px;
+  color:#0f172a;
+  word-break:break-word;
+}
+
+.performance-report-section{
+  margin:0 0 34px;
+  break-inside:auto;
+}
+
+.performance-report-section-label{
+  margin-bottom:16px;
+  font-size:10px;
+  font-weight:700;
+  letter-spacing:.16em;
+  color:#2563eb;
+}
+
+.performance-report-summary{
+  display:grid;
+  grid-template-columns:190px 1fr;
+  gap:28px;
+  align-items:center;
+  margin-bottom:20px;
+}
+
+.performance-report-score{
+  padding:24px;
+  border:1px solid #dbe4ec;
+  border-radius:12px;
+  background:#f8fafc;
+  text-align:center;
+}
+
+.performance-report-score span{
+  display:block;
+  font-size:9px;
+  font-weight:700;
+  letter-spacing:.15em;
+  color:#64748b;
+  margin-bottom:10px;
+}
+
+.performance-report-score strong{
+  display:block;
+  font-size:44px;
+  line-height:1;
+  color:#0f172a;
+}
+
+.performance-report-status-label{
+  display:block;
+  font-size:9px;
+  font-weight:700;
+  letter-spacing:.15em;
+  color:#64748b;
+  margin-bottom:6px;
+}
+
+.performance-report-summary h2{
+  margin:0 0 8px;
+  font-size:25px;
+  color:#0f172a;
+}
+
+.performance-report-summary p,
+.performance-report-section p{
+  color:#475569;
+  font-size:13px;
+  line-height:1.7;
+}
+
+.performance-report-finding{
+  margin:0 0 18px;
+  padding:18px 20px;
+  border:1px solid #dbe4ec;
+  border-radius:10px;
+  background:#f8fafc;
+  break-inside:avoid;
+}
+
+.performance-report-finding h3,
+.performance-report-action-group h3{
+  margin:0 0 8px;
+  font-size:14px;
+  color:#0f172a;
+}
+
+.performance-report-table{
+  width:100%;
+  border-collapse:collapse;
+  margin-top:8px;
+  font-size:11px;
+}
+
+.performance-report-table th{
+  padding:11px 10px;
+  border-bottom:2px solid #cbd5e1;
+  text-align:left;
+  font-size:9px;
+  letter-spacing:.1em;
+  color:#475569;
+  background:#f8fafc;
+}
+
+.performance-report-table td{
+  padding:12px 10px;
+  border-bottom:1px solid #e2e8f0;
+  vertical-align:top;
+  color:#334155;
+  line-height:1.5;
+}
+
+.performance-report-table td:first-child{
+  font-weight:700;
+  color:#0f172a;
+}
+
+.performance-report-list{
+  margin:0;
+  padding-left:22px;
+}
+
+.performance-report-list li,
+.performance-report-finding li,
+.performance-report-action-group li{
+  margin:0 0 9px;
+  color:#334155;
+  font-size:12px;
+  line-height:1.6;
+}
+
+.performance-report-action-group{
+  margin:0 0 18px;
+  padding:18px 20px;
+  border-left:3px solid #2563eb;
+  background:#f8fafc;
+  break-inside:avoid;
+}
+
+.performance-report-footer{
+  margin-top:44px;
+  padding-top:20px;
+  border-top:1px solid #dbe4ec;
+  display:flex;
+  justify-content:space-between;
+  gap:20px;
+  font-size:9px;
+  color:#64748b;
+}
+
+.performance-report-footer strong{
+  color:#334155;
+  letter-spacing:.08em;
+}
+
+@media(max-width:700px){
+
+  .performance-report-page{
+    padding:28px 20px;
+  }
+
+  .performance-report-meta{
+    grid-template-columns:1fr;
+  }
+
+  .performance-report-summary{
+    grid-template-columns:1fr;
+  }
+
+  .performance-report-footer{
+    flex-direction:column;
+  }
+}
+
+@media print{
+
+  @page{
+    size:Letter;
+    margin:0.55in;
+  }
+
+  html,
+  body{
+    background:#ffffff !important;
+  }
+
+  body > *{
+    display:none !important;
+  }
+
+  #daemon-print-report{
+    display:block !important;
+    visibility:visible !important;
+  }
+
+  .daemon-print-report{
+    display:block !important;
+    visibility:visible !important;
+  }
+
+  .performance-report-page{
+    display:block !important;
+    max-width:none;
+    margin:0;
+    padding:0;
+    background:#ffffff;
+    color:#111827;
+  }
+
+  .performance-report-section{
+    break-inside:auto;
+  }
+
+  .performance-report-table,
+  .performance-report-finding,
+  .performance-report-action-group{
+    break-inside:avoid;
+  }
+
+  .performance-report-header{
+    break-after:avoid;
+  }
+
+  .performance-report-footer{
+    break-inside:avoid;
+  }
+
+  a{
+    color:inherit !important;
+    text-decoration:none !important;
+  }
+}
 </style>
 
 <div id="daemon-live-intelligence-field" aria-hidden="true">
@@ -4358,6 +8108,307 @@ setInterval(refreshMatrix,5000);
 .daemon-auth-switch button,.daemon-auth-close{background:none;border:0;color:#00d9ff;cursor:pointer}
 .daemon-auth-close{float:right;font-size:22px}
 #daemon-auth-status{margin-top:14px;font-size:13px;color:#ff8295;min-height:18px}
+
+.daemon-print-report{
+  display:none;
+}
+
+.performance-report-page{
+  max-width:1100px;
+  margin:0 auto;
+  padding:48px;
+  background:#ffffff;
+  color:#111827;
+  font-family:Arial,Helvetica,sans-serif;
+}
+
+.performance-report-header{
+  border-bottom:2px solid #dbe4ec;
+  padding-bottom:28px;
+  margin-bottom:34px;
+}
+
+.performance-report-kicker{
+  font-size:11px;
+  font-weight:700;
+  letter-spacing:.18em;
+  color:#2563eb;
+  margin-bottom:12px;
+}
+
+.performance-report-header h1{
+  margin:0 0 12px;
+  font-size:34px;
+  line-height:1.15;
+  color:#0f172a;
+}
+
+.performance-report-header p{
+  margin:0;
+  max-width:780px;
+  color:#475569;
+  font-size:14px;
+  line-height:1.7;
+}
+
+.performance-report-meta{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:16px;
+  margin-top:28px;
+}
+
+.performance-report-meta div{
+  padding:14px;
+  border:1px solid #dbe4ec;
+  border-radius:10px;
+  background:#f8fafc;
+}
+
+.performance-report-meta span{
+  display:block;
+  font-size:9px;
+  font-weight:700;
+  letter-spacing:.14em;
+  color:#64748b;
+  margin-bottom:7px;
+}
+
+.performance-report-meta strong{
+  display:block;
+  font-size:12px;
+  color:#0f172a;
+  word-break:break-word;
+}
+
+.performance-report-section{
+  margin:0 0 34px;
+  break-inside:auto;
+}
+
+.performance-report-section-label{
+  margin-bottom:16px;
+  font-size:10px;
+  font-weight:700;
+  letter-spacing:.16em;
+  color:#2563eb;
+}
+
+.performance-report-summary{
+  display:grid;
+  grid-template-columns:190px 1fr;
+  gap:28px;
+  align-items:center;
+  margin-bottom:20px;
+}
+
+.performance-report-score{
+  padding:24px;
+  border:1px solid #dbe4ec;
+  border-radius:12px;
+  background:#f8fafc;
+  text-align:center;
+}
+
+.performance-report-score span{
+  display:block;
+  font-size:9px;
+  font-weight:700;
+  letter-spacing:.15em;
+  color:#64748b;
+  margin-bottom:10px;
+}
+
+.performance-report-score strong{
+  display:block;
+  font-size:44px;
+  line-height:1;
+  color:#0f172a;
+}
+
+.performance-report-status-label{
+  display:block;
+  font-size:9px;
+  font-weight:700;
+  letter-spacing:.15em;
+  color:#64748b;
+  margin-bottom:6px;
+}
+
+.performance-report-summary h2{
+  margin:0 0 8px;
+  font-size:25px;
+  color:#0f172a;
+}
+
+.performance-report-summary p,
+.performance-report-section p{
+  color:#475569;
+  font-size:13px;
+  line-height:1.7;
+}
+
+.performance-report-finding{
+  margin:0 0 18px;
+  padding:18px 20px;
+  border:1px solid #dbe4ec;
+  border-radius:10px;
+  background:#f8fafc;
+  break-inside:avoid;
+}
+
+.performance-report-finding h3,
+.performance-report-action-group h3{
+  margin:0 0 8px;
+  font-size:14px;
+  color:#0f172a;
+}
+
+.performance-report-table{
+  width:100%;
+  border-collapse:collapse;
+  margin-top:8px;
+  font-size:11px;
+}
+
+.performance-report-table th{
+  padding:11px 10px;
+  border-bottom:2px solid #cbd5e1;
+  text-align:left;
+  font-size:9px;
+  letter-spacing:.1em;
+  color:#475569;
+  background:#f8fafc;
+}
+
+.performance-report-table td{
+  padding:12px 10px;
+  border-bottom:1px solid #e2e8f0;
+  vertical-align:top;
+  color:#334155;
+  line-height:1.5;
+}
+
+.performance-report-table td:first-child{
+  font-weight:700;
+  color:#0f172a;
+}
+
+.performance-report-list{
+  margin:0;
+  padding-left:22px;
+}
+
+.performance-report-list li,
+.performance-report-finding li,
+.performance-report-action-group li{
+  margin:0 0 9px;
+  color:#334155;
+  font-size:12px;
+  line-height:1.6;
+}
+
+.performance-report-action-group{
+  margin:0 0 18px;
+  padding:18px 20px;
+  border-left:3px solid #2563eb;
+  background:#f8fafc;
+  break-inside:avoid;
+}
+
+.performance-report-footer{
+  margin-top:44px;
+  padding-top:20px;
+  border-top:1px solid #dbe4ec;
+  display:flex;
+  justify-content:space-between;
+  gap:20px;
+  font-size:9px;
+  color:#64748b;
+}
+
+.performance-report-footer strong{
+  color:#334155;
+  letter-spacing:.08em;
+}
+
+@media(max-width:700px){
+
+  .performance-report-page{
+    padding:28px 20px;
+  }
+
+  .performance-report-meta{
+    grid-template-columns:1fr;
+  }
+
+  .performance-report-summary{
+    grid-template-columns:1fr;
+  }
+
+  .performance-report-footer{
+    flex-direction:column;
+  }
+}
+
+@media print{
+
+  @page{
+    size:Letter;
+    margin:0.55in;
+  }
+
+  html,
+  body{
+    background:#ffffff !important;
+  }
+
+  body > *{
+    display:none !important;
+  }
+
+  #daemon-print-report{
+    display:block !important;
+    visibility:visible !important;
+  }
+
+  .daemon-print-report{
+    display:block !important;
+    visibility:visible !important;
+  }
+
+  .performance-report-page{
+    display:block !important;
+    max-width:none;
+    margin:0;
+    padding:0;
+    background:#ffffff;
+    color:#111827;
+  }
+
+  .performance-report-section{
+    break-inside:auto;
+  }
+
+  .performance-report-table,
+  .performance-report-finding,
+  .performance-report-action-group{
+    break-inside:avoid;
+  }
+
+  .performance-report-header{
+    break-after:avoid;
+  }
+
+  .performance-report-footer{
+    break-inside:avoid;
+  }
+
+  a{
+    color:inherit !important;
+    text-decoration:none !important;
+  }
+}
 </style>
 <div id="daemon-auth-modal">
   <div class="daemon-auth-card">
@@ -4603,13 +8654,3 @@ setInterval(refreshMatrix,5000);
   });
 })();
 </script>
-
-
-
-
-
-
-
-
-
-
