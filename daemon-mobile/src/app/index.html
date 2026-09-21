@@ -1244,9 +1244,156 @@ body::after {
     }
 }
 </style>
+<style id="daemon-architecture-badges">
+.daemon-architecture-rail {
+    width: min(1180px, calc(100% - 40px));
+    margin: 34px auto 0;
+    padding: 22px 24px 20px;
+    border: 1px solid rgba(120, 160, 220, .16);
+    border-radius: 18px;
+    background:
+        linear-gradient(135deg, rgba(14, 20, 34, .92), rgba(7, 10, 18, .96));
+    box-shadow:
+        0 18px 55px rgba(0, 0, 0, .24),
+        inset 0 1px 0 rgba(255, 255, 255, .035);
+    position: relative;
+    overflow: hidden;
+}
+
+.daemon-architecture-rail::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background:
+        linear-gradient(90deg,
+            transparent,
+            rgba(90, 180, 255, .045),
+            transparent);
+    pointer-events: none;
+}
+
+.daemon-architecture-label {
+    position: relative;
+    margin: 0 0 15px;
+    color: rgba(170, 190, 220, .56);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: .22em;
+    text-transform: uppercase;
+}
+
+.daemon-architecture-grid {
+    position: relative;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 10px;
+}
+
+.daemon-architecture-badge {
+    min-height: 58px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 9px;
+    padding: 12px 14px;
+    border: 1px solid rgba(130, 165, 215, .13);
+    border-radius: 12px;
+    background: rgba(255, 255, 255, .018);
+    color: rgba(235, 242, 255, .88);
+    text-decoration: none;
+    transition:
+        border-color .2s ease,
+        background .2s ease,
+        transform .2s ease;
+}
+
+.daemon-architecture-badge:hover {
+    border-color: rgba(90, 190, 255, .38);
+    background: rgba(70, 130, 210, .075);
+    transform: translateY(-2px);
+}
+
+.daemon-architecture-mark {
+    width: 25px;
+    height: 25px;
+    display: grid;
+    place-items: center;
+    border-radius: 7px;
+    border: 1px solid rgba(130, 170, 220, .18);
+    background: rgba(255, 255, 255, .035);
+    color: #dcecff;
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: -.02em;
+}
+
+.daemon-architecture-name {
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: .04em;
+    white-space: nowrap;
+}
+
+.daemon-architecture-sub {
+    margin-top: 3px;
+    color: rgba(170, 190, 220, .48);
+    font-size: 9px;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+}
+
+.daemon-architecture-footer {
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 9px 18px;
+    margin-top: 16px;
+    color: rgba(160, 185, 220, .48);
+    font-size: 9px;
+    font-weight: 600;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+}
+
+.daemon-architecture-footer span::before {
+    content: "◆";
+    margin-right: 7px;
+    color: rgba(80, 190, 255, .48);
+    font-size: 6px;
+    vertical-align: 2px;
+}
+
+@media (max-width: 820px) {
+    .daemon-architecture-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .daemon-architecture-badge:last-child {
+        grid-column: 1 / -1;
+    }
+}
+
+@media (max-width: 520px) {
+    .daemon-architecture-rail {
+        width: calc(100% - 24px);
+        padding: 18px 14px;
+    }
+
+    .daemon-architecture-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .daemon-architecture-badge:last-child {
+        grid-column: auto;
+    }
+}
+</style>
 </head>
 
 <body>
+
+
 
 <header class="nav">
   <div class="container nav-inner">
@@ -1457,6 +1604,55 @@ body::after {
         <a class="btn btn-primary" href="#pricing">
           Start Daemon — 14 Days Free
         </a>
+<section class="daemon-architecture-rail" aria-label="Daemon OS architecture">
+    <div class="daemon-architecture-label">Engineered for modern infrastructure</div>
+    <div class="daemon-architecture-grid">
+        <a class="daemon-architecture-badge" href="https://www.rust-lang.org/" target="_blank" rel="noopener noreferrer">
+            <span class="daemon-architecture-mark">RS</span>
+            <span>
+                <span class="daemon-architecture-name">Rust Core</span>
+                <span class="daemon-architecture-sub">Systems Engine</span>
+            </span>
+        </a>
+        <a class="daemon-architecture-badge" href="https://developers.cloudflare.com/workers/" target="_blank" rel="noopener noreferrer">
+            <span class="daemon-architecture-mark">CF</span>
+            <span>
+                <span class="daemon-architecture-name">Cloudflare Edge</span>
+                <span class="daemon-architecture-sub">Global Runtime</span>
+            </span>
+        </a>
+        <a class="daemon-architecture-badge" href="https://developers.cloudflare.com/d1/" target="_blank" rel="noopener noreferrer">
+            <span class="daemon-architecture-mark">D1</span>
+            <span>
+                <span class="daemon-architecture-name">D1</span>
+                <span class="daemon-architecture-sub">Edge SQL</span>
+            </span>
+        </a>
+        <a class="daemon-architecture-badge" href="https://developers.cloudflare.com/kv/" target="_blank" rel="noopener noreferrer">
+            <span class="daemon-architecture-mark">KV</span>
+            <span>
+                <span class="daemon-architecture-name">Workers KV</span>
+                <span class="daemon-architecture-sub">Edge State</span>
+            </span>
+        </a>
+        <a class="daemon-architecture-badge" href="https://github.com/lebarionellison/daemon-os" target="_blank" rel="noopener noreferrer">
+            <span class="daemon-architecture-mark">GH</span>
+            <span>
+                <span class="daemon-architecture-name">GitHub</span>
+                <span class="daemon-architecture-sub">Source</span>
+            </span>
+        </a>
+    </div>
+    <div class="daemon-architecture-footer">
+        <span>Local-first intelligence</span>
+        <span>Real-time telemetry</span>
+        <span>Security-aware architecture</span>
+        <span>Infrastructure-native</span>
+    </div>
+</section>
+
+
+
 
         <a class="btn btn-secondary" href="#intelligence">
           See how it works
@@ -4125,7 +4321,8 @@ renderMatrix();
 refreshMatrix();
 setInterval(refreshMatrix,5000);
 })();
-</script></body>
+</script>
+</body>
 </html>
 
 
@@ -4406,6 +4603,11 @@ setInterval(refreshMatrix,5000);
   });
 })();
 </script>
+
+
+
+
+
 
 
 
