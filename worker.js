@@ -1622,7 +1622,7 @@ export default {
         await env.TELEMETRY.put(
           cacheKey,
           JSON.stringify(offline),
-          { expirationTtl: 30 }
+          { expirationTtl: 60 }
         );
 
         return json(offline);
@@ -1666,7 +1666,7 @@ export default {
         await env.TELEMETRY.put(
           cacheKey,
           JSON.stringify(offline),
-          { expirationTtl: 30 }
+          { expirationTtl: 60 }
         );
 
         return json(offline);
@@ -1757,7 +1757,7 @@ export default {
       await env.TELEMETRY.put(
         cacheKey,
         JSON.stringify(intelligence),
-        { expirationTtl: 30 }
+        { expirationTtl: 60 }
       );
 
       return json(intelligence);
