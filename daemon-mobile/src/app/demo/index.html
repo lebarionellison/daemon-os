@@ -1,1550 +1,1939 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="theme-color" content="#06080d">
-
-<meta name="description" content="Daemon OS Demo — infrastructure intelligence in action.">
-<meta property="og:type" content="website">
-<meta property="og:title" content="Daemon OS Demo | Infrastructure Intelligence">
-<meta property="og:description" content="See how Daemon turns infrastructure telemetry into intelligence.">
-<meta property="og:url" content="https://daemon-os.lebarionellison.workers.dev/demo">
-<meta property="og:image" content="https://daemon-os.lebarionellison.workers.dev/og-image.png">
-
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Daemon OS Demo | Infrastructure Intelligence">
-<meta name="twitter:description" content="See how Daemon turns infrastructure telemetry into intelligence.">
-<meta name="twitter:image" content="https://daemon-os.lebarionellison.workers.dev/og-image.png">
-
-<title>Daemon OS Demo | Infrastructure Intelligence</title>
-
-<style>
-:root{
-  --bg:#06080d;
-  --bg2:#090d15;
-  --panel:#0c121c;
-  --panel2:#101722;
-  --line:rgba(255,255,255,.08);
-  --line2:rgba(255,255,255,.14);
-  --text:#f5f8fc;
-  --muted:#8c98aa;
-  --dim:#5f6c7f;
-  --cyan:#62e8ff;
-  --blue:#7087ff;
-  --purple:#a778ff;
-  --green:#59e6a5;
-  --yellow:#ffd66b;
-  --red:#ff687f;
-  --radius:18px;
-}
-
-*{
-  box-sizing:border-box;
-}
-
-html{
-  scroll-behavior:smooth;
-}
-
-body{
-  margin:0;
-  color:var(--text);
-  background:
-    radial-gradient(circle at 10% 0%,rgba(82,112,255,.14),transparent 28%),
-    radial-gradient(circle at 90% 10%,rgba(167,120,255,.11),transparent 30%),
-    var(--bg);
-  font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
-}
-
-body:before{
-  content:"";
-  position:fixed;
-  inset:0;
-  pointer-events:none;
-  background-image:
-    linear-gradient(rgba(255,255,255,.014) 1px,transparent 1px),
-    linear-gradient(90deg,rgba(255,255,255,.014) 1px,transparent 1px);
-  background-size:52px 52px;
-}
-
-a{
-  color:inherit;
-  text-decoration:none;
-}
-
-button{
-  font:inherit;
-}
-
-/* NAV */
-
-.nav{
-  position:sticky;
-  top:0;
-  z-index:100;
-  height:70px;
-  border-bottom:1px solid var(--line);
-  background:rgba(6,8,13,.82);
-  backdrop-filter:blur(20px);
-}
-
-.nav-inner{
-  width:min(1180px,calc(100% - 40px));
-  height:100%;
-  margin:auto;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-}
-
-.logo{
-  display:flex;
-  align-items:center;
-  gap:10px;
-  font-size:12px;
-  font-weight:950;
-  letter-spacing:.16em;
-}
-
-.logo-mark{
-  width:31px;
-  height:31px;
-  display:grid;
-  place-items:center;
-  border-radius:9px;
-  background:linear-gradient(135deg,var(--cyan),var(--blue),var(--purple));
-  box-shadow:0 0 28px rgba(98,150,255,.3);
-  color:white;
-}
-
-.nav-right{
-  display:flex;
-  align-items:center;
-  gap:10px;
-}
-
-.nav-link{
-  color:#8b97a9;
-  font-size:11px;
-  padding:9px 12px;
-}
-
-.nav-link:hover{
-  color:#fff;
-}
-
-.nav-cta{
-  padding:10px 15px;
-  border-radius:10px;
-  color:#fff;
-  background:linear-gradient(135deg,var(--blue),var(--purple));
-  font-size:11px;
-  font-weight:850;
-}
-
-/* HERO */
-
-.hero{
-  width:min(1180px,calc(100% - 40px));
-  margin:auto;
-  padding:75px 0 35px;
-}
-
-.eyebrow{
-  display:inline-flex;
-  align-items:center;
-  gap:8px;
-  padding:7px 11px;
-  border:1px solid rgba(98,232,255,.18);
-  border-radius:999px;
-  color:#9beeff;
-  background:rgba(98,232,255,.045);
-  font-size:9px;
-  font-weight:900;
-  letter-spacing:.15em;
-}
-
-.pulse{
-  width:6px;
-  height:6px;
-  border-radius:50%;
-  background:var(--green);
-  box-shadow:0 0 13px var(--green);
-  animation:pulse 1.8s infinite;
-}
-
-@keyframes pulse{
-  0%,100%{opacity:1;transform:scale(1)}
-  50%{opacity:.45;transform:scale(.72)}
-}
-
-.hero h1{
-  max-width:850px;
-  margin:22px 0 17px;
-  font-size:clamp(42px,6vw,72px);
-  line-height:.98;
-  letter-spacing:-.065em;
-}
-
-.gradient{
-  background:linear-gradient(110deg,#fff,#baf7ff 34%,#8195ff 68%,#bd8aff);
-  -webkit-background-clip:text;
-  background-clip:text;
-  color:transparent;
-}
-
-.hero-copy{
-  max-width:690px;
-  color:#929eaf;
-  font-size:16px;
-  line-height:1.7;
-}
-
-.demo-status{
-  margin-top:22px;
-  display:flex;
-  flex-wrap:wrap;
-  gap:8px;
-}
-
-.status-pill{
-  display:inline-flex;
-  align-items:center;
-  gap:7px;
-  padding:8px 11px;
-  border:1px solid var(--line);
-  border-radius:999px;
-  color:#8996a9;
-  background:rgba(255,255,255,.02);
-  font-size:9px;
-  font-weight:800;
-  letter-spacing:.06em;
-}
-
-.status-pill.live{
-  color:var(--green);
-  border-color:rgba(89,230,165,.18);
-}
-
-/* DASHBOARD */
-
-.dashboard{
-  margin-top:32px;
-  border:1px solid var(--line2);
-  border-radius:23px;
-  overflow:hidden;
-  background:linear-gradient(145deg,#101722,#080c13);
-  box-shadow:0 40px 120px rgba(0,0,0,.52);
-}
-
-.dashboard-top{
-  min-height:58px;
-  padding:0 18px;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  border-bottom:1px solid var(--line);
-}
-
-.dashboard-brand{
-  display:flex;
-  align-items:center;
-  gap:9px;
-  font-size:10px;
-  font-weight:900;
-  letter-spacing:.12em;
-}
-
-.dashboard-brand-mark{
-  width:23px;
-  height:23px;
-  display:grid;
-  place-items:center;
-  border-radius:7px;
-  background:linear-gradient(135deg,var(--cyan),var(--blue));
-  font-size:10px;
-}
-
-.dashboard-live{
-  display:flex;
-  align-items:center;
-  gap:7px;
-  color:var(--green);
-  font-size:8px;
-  font-weight:900;
-  letter-spacing:.1em;
-}
-
-.dashboard-body{
-  padding:18px;
-}
-
-/* TOP GRID */
-
-.top-grid{
-  display:grid;
-  grid-template-columns:1.15fr .85fr;
-  gap:12px;
-}
-
-.card{
-  border:1px solid var(--line);
-  border-radius:17px;
-  background:rgba(255,255,255,.018);
-  overflow:hidden;
-}
-
-.card-head{
-  min-height:47px;
-  padding:0 15px;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  border-bottom:1px solid var(--line);
-}
-
-.card-head strong{
-  font-size:10px;
-  letter-spacing:.08em;
-}
-
-.card-head span{
-  color:var(--dim);
-  font-size:8px;
-  text-transform:uppercase;
-  letter-spacing:.1em;
-}
-
-/* HEALTH */
-
-.health-card{
-  padding:20px;
-  min-height:240px;
-}
-
-.health-layout{
-  display:grid;
-  grid-template-columns:170px 1fr;
-  gap:20px;
-  align-items:center;
-}
-
-.health-ring{
-  width:145px;
-  height:145px;
-  margin:auto;
-  display:grid;
-  place-items:center;
-  border-radius:50%;
-  background:
-    radial-gradient(circle at center,var(--panel) 0 56%,transparent 57%),
-    conic-gradient(var(--cyan) 0 82%,rgba(255,255,255,.07) 82% 100%);
-  box-shadow:0 0 45px rgba(98,232,255,.08);
-}
-
-.health-ring-inner{
-  text-align:center;
-}
-
-.health-number{
-  font-size:45px;
-  line-height:1;
-  font-weight:950;
-  letter-spacing:-.06em;
-}
-
-.health-unit{
-  margin-top:5px;
-  color:var(--green);
-  font-size:8px;
-  font-weight:900;
-  letter-spacing:.13em;
-}
-
-.health-caption{
-  margin-top:3px;
-  color:var(--dim);
-  font-size:8px;
-}
-
-.health-message{
-  padding:16px;
-  border:1px solid rgba(98,232,255,.12);
-  border-radius:13px;
-  background:rgba(98,232,255,.035);
-}
-
-.health-message label{
-  display:block;
-  color:var(--cyan);
-  font-size:8px;
-  font-weight:900;
-  letter-spacing:.13em;
-  text-transform:uppercase;
-}
-
-.health-message h2{
-  margin:8px 0 7px;
-  font-size:19px;
-  letter-spacing:-.025em;
-}
-
-.health-message p{
-  margin:0;
-  color:#8490a2;
-  font-size:10px;
-  line-height:1.65;
-}
-
-/* INTELLIGENCE */
-
-.intelligence-card{
-  min-height:240px;
-}
-
-.intelligence-body{
-  padding:15px;
-}
-
-.intelligence-main{
-  padding:15px;
-  border-radius:13px;
-  background:rgba(167,120,255,.045);
-  border:1px solid rgba(167,120,255,.12);
-}
-
-.intelligence-main label{
-  display:block;
-  color:#ae91ff;
-  font-size:8px;
-  font-weight:900;
-  letter-spacing:.12em;
-  text-transform:uppercase;
-}
-
-.intelligence-main strong{
-  display:block;
-  margin-top:9px;
-  font-size:17px;
-}
-
-.intelligence-main p{
-  margin:7px 0 0;
-  color:#7d899b;
-  font-size:9px;
-  line-height:1.6;
-}
-
-.intel-mini{
-  margin-top:9px;
-  display:grid;
-  grid-template-columns:repeat(2,1fr);
-  gap:8px;
-}
-
-.mini{
-  padding:10px;
-  border:1px solid var(--line);
-  border-radius:11px;
-}
-
-.mini label{
-  display:block;
-  color:var(--dim);
-  font-size:7px;
-  text-transform:uppercase;
-  letter-spacing:.09em;
-}
-
-.mini strong{
-  display:block;
-  margin-top:6px;
-  font-size:12px;
-}
-
-/* METRICS */
-
-.metrics{
-  margin-top:12px;
-  display:grid;
-  grid-template-columns:repeat(4,1fr);
-  gap:9px;
-}
-
-.metric{
-  padding:15px;
-  border:1px solid var(--line);
-  border-radius:14px;
-  background:rgba(255,255,255,.018);
-}
-
-.metric label{
-  display:block;
-  color:var(--dim);
-  font-size:7px;
-  text-transform:uppercase;
-  letter-spacing:.11em;
-}
-
-.metric-value{
-  margin-top:8px;
-  font-size:21px;
-  font-weight:900;
-  letter-spacing:-.04em;
-}
-
-.metric-meta{
-  margin-top:5px;
-  color:#687588;
-  font-size:8px;
-}
-
-.good{
-  color:var(--green);
-}
-
-.info{
-  color:var(--cyan);
-}
-
-.warn{
-  color:var(--yellow);
-}
-
-.bad{
-  color:var(--red);
-}
-
-/* SIGNALS */
-
-.signals{
-  margin-top:12px;
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:12px;
-}
-
-.signal-list{
-  padding:5px 0;
-}
-
-.signal-row{
-  display:grid;
-  grid-template-columns:10px 1fr auto;
-  gap:10px;
-  align-items:center;
-  padding:13px 15px;
-  border-bottom:1px solid rgba(255,255,255,.045);
-}
-
-.signal-row:last-child{
-  border-bottom:0;
-}
-
-.signal-dot{
-  width:7px;
-  height:7px;
-  border-radius:50%;
-}
-
-.signal-dot.green{
-  background:var(--green);
-  box-shadow:0 0 10px rgba(89,230,165,.45);
-}
-
-.signal-dot.yellow{
-  background:var(--yellow);
-  box-shadow:0 0 10px rgba(255,214,107,.35);
-}
-
-.signal-dot.red{
-  background:var(--red);
-  box-shadow:0 0 10px rgba(255,104,127,.35);
-}
-
-.signal-text strong{
-  display:block;
-  font-size:10px;
-}
-
-.signal-text span{
-  display:block;
-  margin-top:3px;
-  color:var(--dim);
-  font-size:8px;
-}
-
-.signal-time{
-  color:#5f6b7c;
-  font-size:8px;
-}
-
-/* INTELLIGENCE EXPLANATION */
-
-.explain{
-  width:min(1180px,calc(100% - 40px));
-  margin:0 auto;
-  padding:75px 0;
-}
-
-.section-label{
-  color:var(--cyan);
-  font-size:9px;
-  font-weight:900;
-  letter-spacing:.17em;
-}
-
-.explain h2{
-  max-width:700px;
-  margin:13px 0;
-  font-size:clamp(34px,5vw,53px);
-  line-height:1;
-  letter-spacing:-.055em;
-}
-
-.explain-copy{
-  max-width:690px;
-  color:#7f8b9e;
-  font-size:13px;
-  line-height:1.7;
-}
-
-.flow{
-  margin-top:32px;
-  display:grid;
-  grid-template-columns:repeat(4,1fr);
-  gap:10px;
-}
-
-.flow-card{
-  position:relative;
-  padding:20px;
-  min-height:155px;
-  border:1px solid var(--line);
-  border-radius:16px;
-  background:rgba(10,15,24,.7);
-}
-
-.flow-number{
-  color:#6879e8;
-  font-size:8px;
-  font-weight:900;
-  letter-spacing:.12em;
-}
-
-.flow-card h3{
-  margin:14px 0 7px;
-  font-size:14px;
-}
-
-.flow-card p{
-  margin:0;
-  color:#6f7b8d;
-  font-size:10px;
-  line-height:1.6;
-}
-
-/* CTA */
-
-.cta{
-  width:min(1180px,calc(100% - 40px));
-  margin:0 auto;
-  padding:35px 0 80px;
-}
-
-.cta-box{
-  padding:55px 25px;
-  text-align:center;
-  border:1px solid rgba(112,135,255,.2);
-  border-radius:23px;
-  background:
-    radial-gradient(circle at 50% 0%,rgba(103,116,255,.14),transparent 48%),
-    #0b1019;
-}
-
-.cta-box h2{
-  max-width:650px;
-  margin:0 auto 12px;
-  font-size:clamp(34px,5vw,55px);
-  line-height:1;
-  letter-spacing:-.055em;
-}
-
-.cta-box p{
-  max-width:580px;
-  margin:0 auto;
-  color:#7f8b9d;
-  font-size:12px;
-  line-height:1.7;
-}
-
-.cta-buttons{
-  margin-top:25px;
-  display:flex;
-  justify-content:center;
-  flex-wrap:wrap;
-  gap:10px;
-}
-
-.btn{
-  display:inline-flex;
-  align-items:center;
-  justify-content:center;
-  border-radius:10px;
-  padding:13px 18px;
-  font-size:11px;
-  font-weight:850;
-}
-
-.btn-primary{
-  color:#fff;
-  background:linear-gradient(135deg,var(--blue),var(--purple));
-  box-shadow:0 14px 40px rgba(100,100,255,.2);
-}
-
-.btn-secondary{
-  color:#dbe3ed;
-  border:1px solid var(--line2);
-  background:rgba(255,255,255,.025);
-}
-
-/* FOOTER */
-
-footer{
-  width:min(1180px,calc(100% - 40px));
-  margin:auto;
-  padding:0 0 35px;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  color:#536072;
-  font-size:9px;
-}
-
-footer a:hover{
-  color:#fff;
-}
-
-/* RESPONSIVE */
-
-@media(max-width:900px){
-
-  .top-grid{
-    grid-template-columns:1fr;
-  }
-
-  .flow{
-    grid-template-columns:repeat(2,1fr);
-  }
-
-}
-
-@media(max-width:700px){
-
-  .nav-link{
-    display:none;
-  }
-
-  .hero{
-    padding-top:50px;
-  }
-
-  .health-layout{
-    grid-template-columns:1fr;
-  }
-
-  .health-ring{
-    width:125px;
-    height:125px;
-  }
-
-  .metrics{
-    grid-template-columns:repeat(2,1fr);
-  }
-
-  .signals{
-    grid-template-columns:1fr;
-  }
-
-  .flow{
-    grid-template-columns:1fr;
-  }
-
-  footer{
-    display:block;
-  }
-
-  footer div+div{
-    margin-top:8px;
-  }
-
-}
-
-@media(max-width:430px){
-
-  .container,
-  .hero,
-  .explain,
-  .cta,
-  footer{
-    width:min(100% - 26px,1180px);
-  }
-
-  .dashboard-body{
-    padding:10px;
-  }
-
-  .health-card{
-    padding:13px;
-  }
-
-  .metrics{
-    gap:6px;
-  }
-
-  .metric{
-    padding:11px;
-  }
-
-  .metric-value{
-    font-size:18px;
-  }
-
-}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Daemon OS — Interactive Product Demo</title>
+  <meta name="description" content="Explore Daemon OS — infrastructure intelligence that detects change, correlates signals, and tells you what matters.">
+  <meta name="theme-color" content="#06080d">
+  <meta property="og:title" content="Daemon OS — Your infrastructure finally understands itself.">
+  <meta property="og:description" content="Explore the Daemon OS interactive infrastructure intelligence demo.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="/demo/">
+  <style>
+    :root {
+      --bg: #06080d;
+      --bg-soft: #0a0e16;
+      --panel: rgba(13, 18, 29, 0.88);
+      --panel-2: rgba(17, 23, 36, 0.92);
+      --border: rgba(123, 151, 190, 0.16);
+      --border-strong: rgba(86, 208, 255, 0.28);
+      --text: #eef6ff;
+      --muted: #8c9bb0;
+      --muted-2: #65748a;
+      --cyan: #55d9ff;
+      --blue: #6288ff;
+      --purple: #9b7cff;
+      --green: #52e0a4;
+      --yellow: #ffd166;
+      --red: #ff647c;
+      --shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
+      --radius: 18px;
+      --max: 1180px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--text);
+      background:
+        radial-gradient(circle at 15% 10%, rgba(85, 217, 255, 0.08), transparent 30%),
+        radial-gradient(circle at 85% 18%, rgba(155, 124, 255, 0.08), transparent 32%),
+        var(--bg);
+      font-family:
+        Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
+        "Segoe UI", sans-serif;
+      line-height: 1.5;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    button,
+    select {
+      font: inherit;
+    }
+
+    button {
+      cursor: pointer;
+    }
+
+    .container {
+      width: min(calc(100% - 36px), var(--max));
+      margin: 0 auto;
+    }
+
+    .nav {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      border-bottom: 1px solid rgba(123, 151, 190, 0.12);
+      background: rgba(6, 8, 13, 0.82);
+      backdrop-filter: blur(18px);
+    }
+
+    .nav-inner {
+      min-height: 70px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 11px;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+    }
+
+    .brand-mark {
+      width: 30px;
+      height: 30px;
+      display: grid;
+      place-items: center;
+      border: 1px solid rgba(85, 217, 255, 0.35);
+      border-radius: 9px;
+      background: linear-gradient(135deg, rgba(85, 217, 255, 0.14), rgba(155, 124, 255, 0.16));
+      color: var(--cyan);
+      font-size: 15px;
+      box-shadow: 0 0 30px rgba(85, 217, 255, 0.08);
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .nav-links a:hover {
+      color: var(--text);
+    }
+
+    .nav-cta {
+      padding: 10px 15px;
+      border: 1px solid rgba(85, 217, 255, 0.35);
+      border-radius: 10px;
+      background: rgba(85, 217, 255, 0.08);
+      color: var(--cyan);
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .hero {
+      padding: 86px 0 52px;
+      text-align: center;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 7px 11px;
+      border: 1px solid rgba(85, 217, 255, 0.2);
+      border-radius: 999px;
+      background: rgba(85, 217, 255, 0.05);
+      color: var(--cyan);
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 0.13em;
+    }
+
+    .eyebrow-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--green);
+      box-shadow: 0 0 12px rgba(82, 224, 164, 0.8);
+    }
+
+    h1 {
+      max-width: 850px;
+      margin: 22px auto 16px;
+      font-size: clamp(42px, 7vw, 76px);
+      line-height: 0.98;
+      letter-spacing: -0.065em;
+    }
+
+    .hero-copy {
+      max-width: 680px;
+      margin: 0 auto;
+      color: var(--muted);
+      font-size: clamp(16px, 2vw, 19px);
+    }
+
+    .hero-note {
+      margin-top: 20px;
+      color: var(--muted-2);
+      font-size: 12px;
+    }
+
+    .dashboard-shell {
+      margin-top: 28px;
+      padding: 1px;
+      border-radius: 24px;
+      background: linear-gradient(
+        135deg,
+        rgba(85, 217, 255, 0.32),
+        rgba(98, 136, 255, 0.12),
+        rgba(155, 124, 255, 0.3)
+      );
+      box-shadow: var(--shadow);
+    }
+
+    .dashboard {
+      overflow: hidden;
+      border-radius: 23px;
+      background:
+        linear-gradient(180deg, rgba(15, 20, 32, 0.98), rgba(8, 11, 18, 0.99));
+    }
+
+    .dashboard-top {
+      padding: 17px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .dashboard-title {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 13px;
+      font-weight: 800;
+    }
+
+    .live-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 5px 8px;
+      border: 1px solid rgba(82, 224, 164, 0.22);
+      border-radius: 999px;
+      color: var(--green);
+      background: rgba(82, 224, 164, 0.06);
+      font-size: 10px;
+      letter-spacing: 0.08em;
+      font-weight: 800;
+    }
+
+    .live-pill span {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: currentColor;
+      box-shadow: 0 0 9px currentColor;
+    }
+
+    .controls {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      justify-content: flex-end;
+    }
+
+    .control {
+      min-height: 38px;
+      padding: 0 11px;
+      border: 1px solid var(--border);
+      border-radius: 9px;
+      outline: none;
+      background: rgba(255, 255, 255, 0.025);
+      color: var(--text);
+      font-size: 12px;
+    }
+
+    .control:focus {
+      border-color: rgba(85, 217, 255, 0.55);
+      box-shadow: 0 0 0 3px rgba(85, 217, 255, 0.08);
+    }
+
+    .dashboard-body {
+      padding: 18px;
+    }
+
+    .overview-grid {
+      display: grid;
+      grid-template-columns: 250px minmax(0, 1fr);
+      gap: 14px;
+    }
+
+    .card {
+      min-width: 0;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: var(--panel);
+    }
+
+    .health-card {
+      min-height: 285px;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+    }
+
+    .section-label {
+      color: var(--muted-2);
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .health-ring {
+      --health: 94;
+      width: 150px;
+      height: 150px;
+      margin: 16px 0;
+      position: relative;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      background:
+        conic-gradient(
+          var(--cyan) calc(var(--health) * 1%),
+          rgba(123, 151, 190, 0.09) 0
+        );
+      transition: background 700ms ease;
+    }
+
+    .health-ring::before {
+      content: "";
+      position: absolute;
+      inset: 10px;
+      border-radius: 50%;
+      background: #0b1019;
+      border: 1px solid rgba(123, 151, 190, 0.11);
+    }
+
+    .health-value {
+      position: relative;
+      z-index: 1;
+      font-size: 40px;
+      font-weight: 850;
+      letter-spacing: -0.06em;
+    }
+
+    .health-status {
+      color: var(--green);
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+    }
+
+    .health-status.attention {
+      color: var(--red);
+    }
+
+    .health-sub {
+      margin-top: 5px;
+      color: var(--muted-2);
+      font-size: 11px;
+    }
+
+    .intelligence-card {
+      min-height: 285px;
+      padding: 20px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .intelligence-card::after {
+      content: "";
+      position: absolute;
+      right: -80px;
+      top: -100px;
+      width: 230px;
+      height: 230px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(85, 217, 255, 0.09), transparent 68%);
+      pointer-events: none;
+    }
+
+    .intel-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .intel-title {
+      margin-top: 6px;
+      font-size: 19px;
+      font-weight: 800;
+      letter-spacing: -0.025em;
+    }
+
+    .severity {
+      flex: 0 0 auto;
+      padding: 6px 8px;
+      border-radius: 7px;
+      background: rgba(82, 224, 164, 0.08);
+      color: var(--green);
+      font-size: 10px;
+      font-weight: 900;
+      letter-spacing: 0.08em;
+    }
+
+    .severity.alert {
+      background: rgba(255, 100, 124, 0.09);
+      color: var(--red);
+    }
+
+    .intel-message {
+      max-width: 700px;
+      margin-top: 22px;
+      font-size: 15px;
+      line-height: 1.7;
+      color: #c8d5e7;
+    }
+
+    .intel-message strong {
+      color: var(--text);
+    }
+
+    .intel-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 7px;
+      margin-top: 18px;
+    }
+
+    .tag {
+      padding: 7px 9px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.025);
+      color: var(--muted);
+      font-size: 10px;
+      font-weight: 700;
+    }
+
+    .tag.alert {
+      border-color: rgba(255, 100, 124, 0.22);
+      color: var(--red);
+      background: rgba(255, 100, 124, 0.05);
+    }
+
+    .action-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 9px;
+      margin-top: 23px;
+    }
+
+    .primary-button,
+    .secondary-button {
+      min-height: 43px;
+      padding: 0 15px;
+      border-radius: 10px;
+      font-size: 12px;
+      font-weight: 850;
+      transition: transform 160ms ease, border-color 160ms ease, background 160ms ease;
+    }
+
+    .primary-button:hover,
+    .secondary-button:hover {
+      transform: translateY(-1px);
+    }
+
+    .primary-button {
+      border: 1px solid rgba(85, 217, 255, 0.4);
+      background: linear-gradient(135deg, rgba(85, 217, 255, 0.15), rgba(98, 136, 255, 0.13));
+      color: var(--cyan);
+    }
+
+    .secondary-button {
+      border: 1px solid var(--border);
+      background: rgba(255, 255, 255, 0.025);
+      color: var(--muted);
+    }
+
+    .metrics-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 14px;
+    }
+
+    .metric-card {
+      padding: 17px;
+    }
+
+    .metric-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+    }
+
+    .metric-name {
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 700;
+    }
+
+    .metric-trend {
+      color: var(--green);
+      font-size: 10px;
+      font-weight: 800;
+    }
+
+    .metric-trend.alert {
+      color: var(--red);
+    }
+
+    .metric-value {
+      margin-top: 10px;
+      font-size: 31px;
+      font-weight: 850;
+      letter-spacing: -0.055em;
+    }
+
+    .metric-bar {
+      height: 5px;
+      margin-top: 13px;
+      overflow: hidden;
+      border-radius: 999px;
+      background: rgba(123, 151, 190, 0.1);
+    }
+
+    .metric-bar-fill {
+      height: 100%;
+      width: 42%;
+      border-radius: inherit;
+      background: linear-gradient(90deg, var(--cyan), var(--blue));
+      transition: width 700ms ease;
+    }
+
+    .metric-card.alert .metric-bar-fill {
+      background: linear-gradient(90deg, var(--yellow), var(--red));
+    }
+
+    .telemetry-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.55fr) minmax(280px, 0.8fr);
+      gap: 14px;
+      margin-top: 14px;
+    }
+
+    .chart-card,
+    .signals-card {
+      padding: 18px;
+    }
+
+    .card-heading {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .card-heading h2 {
+      margin: 0;
+      font-size: 13px;
+      letter-spacing: -0.01em;
+    }
+
+    .small-muted {
+      color: var(--muted-2);
+      font-size: 10px;
+    }
+
+    .chart {
+      width: 100%;
+      height: 205px;
+      margin-top: 14px;
+      display: block;
+      overflow: visible;
+    }
+
+    .chart-grid {
+      stroke: rgba(123, 151, 190, 0.1);
+      stroke-width: 1;
+    }
+
+    .chart-area {
+      fill: url(#areaGradient);
+      opacity: 0.45;
+    }
+
+    .chart-line {
+      fill: none;
+      stroke: var(--cyan);
+      stroke-width: 3;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      filter: drop-shadow(0 0 7px rgba(85, 217, 255, 0.22));
+    }
+
+    .chart-dot {
+      fill: #0a0f18;
+      stroke: var(--cyan);
+      stroke-width: 2;
+    }
+
+    .chart-alert {
+      fill: rgba(255, 100, 124, 0.18);
+      stroke: var(--red);
+      stroke-width: 1;
+    }
+
+    .signals {
+      margin-top: 14px;
+      display: grid;
+      gap: 8px;
+    }
+
+    .signal {
+      width: 100%;
+      padding: 11px;
+      display: grid;
+      grid-template-columns: 9px minmax(0, 1fr) auto;
+      align-items: center;
+      gap: 10px;
+      border: 1px solid transparent;
+      border-radius: 11px;
+      background: rgba(255, 255, 255, 0.025);
+      color: inherit;
+      text-align: left;
+    }
+
+    button.signal {
+      cursor: pointer;
+    }
+
+    .signal:hover {
+      border-color: rgba(85, 217, 255, 0.18);
+      background: rgba(85, 217, 255, 0.04);
+    }
+
+    .signal-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--cyan);
+    }
+
+    .signal-dot.alert {
+      background: var(--red);
+      box-shadow: 0 0 10px rgba(255, 100, 124, 0.5);
+    }
+
+    .signal-dot.security {
+      background: var(--purple);
+    }
+
+    .signal-dot.performance {
+      background: var(--yellow);
+    }
+
+    .signal-main {
+      min-width: 0;
+    }
+
+    .signal-title {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      font-size: 11px;
+      font-weight: 750;
+    }
+
+    .signal-meta {
+      margin-top: 2px;
+      color: var(--muted-2);
+      font-size: 9px;
+    }
+
+    .signal-time {
+      color: var(--muted-2);
+      font-size: 9px;
+      white-space: nowrap;
+    }
+
+    .simulation-section {
+      margin-top: 42px;
+    }
+
+    .section-intro {
+      max-width: 760px;
+      margin-bottom: 18px;
+    }
+
+    .section-intro .eyebrow {
+      margin-bottom: 13px;
+    }
+
+    .section-title {
+      margin: 0;
+      font-size: clamp(28px, 4vw, 42px);
+      letter-spacing: -0.045em;
+      line-height: 1.05;
+    }
+
+    .section-copy {
+      margin: 10px 0 0;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .intelligence-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .intel-mini {
+      padding: 20px;
+      min-height: 170px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: rgba(12, 17, 27, 0.72);
+      transition: border-color 180ms ease, transform 180ms ease;
+      cursor: pointer;
+    }
+
+    .intel-mini:hover,
+    .intel-mini:focus-visible {
+      transform: translateY(-2px);
+      border-color: rgba(85, 217, 255, 0.3);
+      outline: none;
+    }
+
+    .intel-icon {
+      width: 34px;
+      height: 34px;
+      display: grid;
+      place-items: center;
+      border: 1px solid var(--border-strong);
+      border-radius: 9px;
+      background: rgba(85, 217, 255, 0.06);
+      color: var(--cyan);
+      font-size: 15px;
+    }
+
+    .intel-mini h3 {
+      margin: 15px 0 7px;
+      font-size: 14px;
+    }
+
+    .intel-mini p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.6;
+    }
+
+    .flow {
+      margin-top: 42px;
+      padding: 24px;
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      background: rgba(10, 14, 22, 0.74);
+    }
+
+    .flow-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 10px;
+      margin-top: 20px;
+    }
+
+    .flow-step {
+      position: relative;
+      min-height: 125px;
+      padding: 16px;
+      border: 1px solid var(--border);
+      border-radius: 13px;
+      background: rgba(255, 255, 255, 0.018);
+    }
+
+    .flow-step:not(:last-child)::after {
+      content: "→";
+      position: absolute;
+      right: -17px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--muted-2);
+      z-index: 2;
+    }
+
+    .flow-number {
+      color: var(--cyan);
+      font-size: 10px;
+      font-weight: 900;
+      letter-spacing: 0.1em;
+    }
+
+    .flow-step h3 {
+      margin: 11px 0 5px;
+      font-size: 13px;
+    }
+
+    .flow-step p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 11px;
+      line-height: 1.55;
+    }
+
+    .why {
+      margin-top: 42px;
+      padding: 25px;
+      border: 1px solid rgba(155, 124, 255, 0.18);
+      border-radius: 20px;
+      background:
+        radial-gradient(circle at 80% 20%, rgba(155, 124, 255, 0.08), transparent 35%),
+        rgba(12, 15, 25, 0.78);
+    }
+
+    .why-grid {
+      display: grid;
+      grid-template-columns: 0.8fr 1.2fr;
+      gap: 28px;
+      align-items: center;
+    }
+
+    .why h2 {
+      margin: 7px 0 0;
+      font-size: 27px;
+      letter-spacing: -0.04em;
+    }
+
+    .why p {
+      margin: 10px 0 0;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.7;
+    }
+
+    .why-points {
+      display: grid;
+      gap: 10px;
+    }
+
+    .why-point {
+      padding: 13px 14px;
+      display: grid;
+      grid-template-columns: 22px minmax(0, 1fr);
+      gap: 10px;
+      border: 1px solid var(--border);
+      border-radius: 11px;
+      background: rgba(255, 255, 255, 0.022);
+    }
+
+    .check {
+      color: var(--green);
+      font-weight: 900;
+    }
+
+    .why-point strong {
+      display: block;
+      font-size: 12px;
+    }
+
+    .why-point span {
+      display: block;
+      margin-top: 2px;
+      color: var(--muted-2);
+      font-size: 10px;
+    }
+
+    .cta {
+      margin: 52px 0 80px;
+      padding: 42px 24px;
+      text-align: center;
+      border: 1px solid rgba(85, 217, 255, 0.18);
+      border-radius: 22px;
+      background:
+        radial-gradient(circle at 50% 0%, rgba(85, 217, 255, 0.09), transparent 45%),
+        rgba(10, 14, 22, 0.8);
+    }
+
+    .cta h2 {
+      margin: 0;
+      font-size: clamp(29px, 4vw, 45px);
+      letter-spacing: -0.05em;
+    }
+
+    .cta p {
+      max-width: 580px;
+      margin: 11px auto 22px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .cta-button {
+      display: inline-flex;
+      min-height: 48px;
+      align-items: center;
+      justify-content: center;
+      padding: 0 20px;
+      border: 1px solid rgba(85, 217, 255, 0.42);
+      border-radius: 11px;
+      background: linear-gradient(135deg, rgba(85, 217, 255, 0.16), rgba(155, 124, 255, 0.15));
+      color: var(--cyan);
+      font-size: 13px;
+      font-weight: 850;
+    }
+
+    footer {
+      padding-bottom: 35px;
+      color: var(--muted-2);
+      text-align: center;
+      font-size: 10px;
+    }
+
+    .toast {
+      position: fixed;
+      right: 20px;
+      bottom: 20px;
+      z-index: 50;
+      max-width: min(390px, calc(100% - 40px));
+      padding: 13px 15px;
+      border: 1px solid rgba(85, 217, 255, 0.25);
+      border-radius: 11px;
+      background: rgba(11, 16, 25, 0.96);
+      box-shadow: var(--shadow);
+      color: var(--text);
+      font-size: 12px;
+      opacity: 0;
+      transform: translateY(12px);
+      pointer-events: none;
+      transition: opacity 180ms ease, transform 180ms ease;
+    }
+
+    .toast.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .pulse {
+      animation: pulse 850ms ease;
+    }
+
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      45% { transform: scale(1.018); }
+      100% { transform: scale(1); }
+    }
+
+    @media (max-width: 900px) {
+      .overview-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .health-card {
+        min-height: 240px;
+      }
+
+      .metrics-grid,
+      .intelligence-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .telemetry-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .flow-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .flow-step:not(:last-child)::after {
+        display: none;
+      }
+
+      .why-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 650px) {
+      .container {
+        width: min(calc(100% - 22px), var(--max));
+      }
+
+      .nav-inner {
+        min-height: 62px;
+      }
+
+      .nav-links a:not(.nav-cta) {
+        display: none;
+      }
+
+      .hero {
+        padding-top: 60px;
+      }
+
+      h1 {
+        font-size: clamp(38px, 13vw, 58px);
+      }
+
+      .dashboard-top {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .controls {
+        width: 100%;
+        justify-content: flex-start;
+      }
+
+      .control {
+        flex: 1 1 140px;
+      }
+
+      .flow-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .action-row > * {
+        flex: 1 1 150px;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html {
+        scroll-behavior: auto;
+      }
+
+      *,
+      *::before,
+      *::after {
+        animation-duration: 0.001ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.001ms !important;
+      }
+    }
+  </style>
 </head>
 
 <body>
-
-<nav class="nav">
-  <div class="nav-inner">
-
-    <a class="logo" href="/">
-      <span class="logo-mark">D</span>
-      DAEMON OS
-    </a>
-
-    <div class="nav-right">
-      <a class="nav-link" href="/">Overview</a>
-      <a class="nav-link" href="/#intelligence">Intelligence</a>
-      <a class="nav-cta" href="/">Start Daemon — 14 Days Free</a>
-    </div>
-
-  </div>
-</nav>
-
-<main>
-
-<section class="hero">
-
-  <div class="eyebrow">
-    <span class="pulse"></span>
-    LIVE PRODUCT DEMO
-  </div>
-
-  <h1>
-    Your infrastructure
-    <span class="gradient">finally understands itself.</span>
-  </h1>
-
-  <p class="hero-copy">
-    Daemon turns infrastructure telemetry into intelligence —
-    connecting system state, anomalies, security signals and
-    operational history into one command center.
-  </p>
-
-  <div class="demo-status">
-    <div class="status-pill live">
-      <span class="pulse"></span>
-      DAEMON INTELLIGENCE ACTIVE
-    </div>
-
-    <div class="status-pill">
-      READ-ONLY DEMO
-    </div>
-
-    <div class="status-pill">
-      NO LOGIN REQUIRED
-    </div>
-  </div>
-
-  <div class="dashboard">
-
-    <div class="dashboard-top">
-
-      <div class="dashboard-brand">
-        <span class="dashboard-brand-mark">D</span>
-        INFRASTRUCTURE INTELLIGENCE
-      </div>
-
-      <div class="dashboard-live">
-        <span class="pulse"></span>
-        LIVE SYSTEM
-      </div>
-
-    </div>
-
-    <div class="dashboard-body">
-
-      <div class="top-grid">
-
-        <!-- HEALTH -->
-
-        <div class="card health-card">
-
-          <div class="health-layout">
-
-            <div class="health-ring">
-
-              <div class="health-ring-inner">
-                <div class="health-number" id="healthScore">94</div>
-                <div class="health-unit">HEALTHY</div>
-                <div class="health-caption">system health</div>
-              </div>
-
-            </div>
-
-            <div class="health-message">
-
-              <label>Daemon Intelligence</label>
-
-              <h2 id="healthHeadline">
-                Infrastructure operating normally.
-              </h2>
-
-              <p id="healthDescription">
-                Daemon is continuously evaluating telemetry,
-                system state and recent changes to determine
-                whether anything requires attention.
-              </p>
-
-            </div>
-
-          </div>
-
-        </div>
-
-        <!-- INTELLIGENCE -->
-
-        <div class="card intelligence-card">
-
-          <div class="card-head">
-            <strong>INTELLIGENCE</strong>
-            <span>Current assessment</span>
-          </div>
-
-          <div class="intelligence-body">
-
-            <div class="intelligence-main">
-
-              <label>Operational assessment</label>
-
-              <strong id="assessment">
-                Stable system state
-              </strong>
-
-              <p id="assessmentText">
-                No critical condition detected.
-                Recent telemetry remains within normal operating range.
-              </p>
-
-            </div>
-
-            <div class="intel-mini">
-
-              <div class="mini">
-                <label>Trend</label>
-                <strong class="good" id="trend">STABLE</strong>
-              </div>
-
-              <div class="mini">
-                <label>Anomaly</label>
-                <strong class="info" id="anomaly">NONE</strong>
-              </div>
-
-              <div class="mini">
-                <label>Security</label>
-                <strong class="good" id="security">HEALTHY</strong>
-              </div>
-
-              <div class="mini">
-                <label>History</label>
-                <strong class="info" id="history">ACTIVE</strong>
-              </div>
-
-            </div>
-
-          </div>
-
-        </div>
-
-      </div>
-
-      <!-- METRICS -->
-
-      <div class="metrics">
-
-        <div class="metric">
-          <label>CPU Usage</label>
-          <div class="metric-value info" id="cpu">42.8%</div>
-          <div class="metric-meta">Within operating range</div>
-        </div>
-
-        <div class="metric">
-          <label>Memory</label>
-          <div class="metric-value good" id="memory">61.4%</div>
-          <div class="metric-meta">Normal utilization</div>
-        </div>
-
-        <div class="metric">
-          <label>Disk</label>
-          <div class="metric-value good" id="disk">48.2%</div>
-          <div class="metric-meta">Capacity available</div>
-        </div>
-
-        <div class="metric">
-          <label>Telemetry</label>
-          <div class="metric-value good" id="telemetry">LIVE</div>
-          <div class="metric-meta">Continuous observation</div>
-        </div>
-
-      </div>
-
-      <!-- SIGNALS -->
-
-      <div class="signals">
-
-        <div class="card">
-
-          <div class="card-head">
-            <strong>RECENT SIGNALS</strong>
-            <span>Daemon activity</span>
-          </div>
-
-          <div class="signal-list" id="signalList">
-
-            <div class="signal-row">
-              <span class="signal-dot green"></span>
-              <div class="signal-text">
-                <strong>System telemetry operating normally</strong>
-                <span>Current resource state within thresholds</span>
-              </div>
-              <span class="signal-time">NOW</span>
-            </div>
-
-            <div class="signal-row">
-              <span class="signal-dot green"></span>
-              <div class="signal-text">
-                <strong>Security state remains healthy</strong>
-                <span>No critical security signal detected</span>
-              </div>
-              <span class="signal-time">1m</span>
-            </div>
-
-            <div class="signal-row">
-              <span class="signal-dot yellow"></span>
-              <div class="signal-text">
-                <strong>Telemetry pattern under observation</strong>
-                <span>Daemon continues comparing recent state</span>
-              </div>
-              <span class="signal-time">3m</span>
-            </div>
-
-          </div>
-
-        </div>
-
-        <div class="card">
-
-          <div class="card-head">
-            <strong>WHAT DAEMON SEES</strong>
-            <span>System context</span>
-          </div>
-
-          <div class="signal-list">
-
-            <div class="signal-row">
-              <span class="signal-dot green"></span>
-              <div class="signal-text">
-                <strong>Resource pressure</strong>
-                <span id="resourceContext">Normal across monitored resources</span>
-              </div>
-              <span class="signal-time">OK</span>
-            </div>
-
-            <div class="signal-row">
-              <span class="signal-dot green"></span>
-              <div class="signal-text">
-                <strong>Operational state</strong>
-                <span id="operationalContext">Stable compared with recent history</span>
-              </div>
-              <span class="signal-time">OK</span>
-            </div>
-
-            <div class="signal-row">
-              <span class="signal-dot green"></span>
-              <div class="signal-text">
-                <strong>Security state</strong>
-                <span id="securityContext">No critical activity requiring review</span>
-              </div>
-              <span class="signal-time">OK</span>
-            </div>
-
-          </div>
-
-        </div>
-
-      </div>
-
-    </div>
-
-  </div>
-
-</section>
-
-<!-- EXPLANATION -->
-
-<section class="explain">
-
-  <div class="section-label">
-    HOW DAEMON THINKS
-  </div>
-
-  <h2>
-    From raw telemetry
-    to operational intelligence.
-  </h2>
-
-  <p class="explain-copy">
-    Traditional monitoring gives engineers more signals.
-    Daemon is designed to give those signals context —
-    evaluating current state, comparing historical conditions
-    and surfacing changes that deserve attention.
-  </p>
-
-  <div class="flow">
-
-    <div class="flow-card">
-      <div class="flow-number">01 / OBSERVE</div>
-      <h3>Telemetry</h3>
-      <p>
-        Daemon collects the current infrastructure state
-        across the signals available to the system.
-      </p>
-    </div>
-
-    <div class="flow-card">
-      <div class="flow-number">02 / COMPARE</div>
-      <h3>Detect Change</h3>
-      <p>
-        Current observations are compared against thresholds
-        and previous system conditions.
-      </p>
-    </div>
-
-    <div class="flow-card">
-      <div class="flow-number">03 / UNDERSTAND</div>
-      <h3>Intelligence</h3>
-      <p>
-        Daemon turns those observations into an operational
-        assessment rather than leaving engineers to connect
-        every signal manually.
-      </p>
-    </div>
-
-    <div class="flow-card">
-      <div class="flow-number">04 / ACT</div>
-      <h3>Attention</h3>
-      <p>
-        Important changes are surfaced so engineers can
-        investigate the conditions that actually matter.
-      </p>
-    </div>
-
-  </div>
-
-</section>
-
-<!-- CTA -->
-
-<section class="cta">
-
-  <div class="cta-box">
-
-    <h2>
-      Stop watching infrastructure.
-      <span class="gradient">Start understanding it.</span>
-    </h2>
-
-    <p>
-      Explore Daemon OS and see what infrastructure intelligence
-      looks like when telemetry, anomalies, security and system
-      state work together.
-    </p>
-
-    <div class="cta-buttons">
-
-      <a class="btn btn-primary" href="/">
-        Start Daemon — 14 Days Free
+  <nav class="nav">
+    <div class="container nav-inner">
+      <a class="brand" href="/">
+        <span class="brand-mark">D</span>
+        <span>Daemon OS</span>
       </a>
 
-      <a class="btn btn-secondary" href="/">
-        Explore Daemon OS
-      </a>
-
+      <div class="nav-links">
+        <a href="#intelligence">Intelligence</a>
+        <a href="#how-it-works">How it works</a>
+        <a class="nav-cta" href="/">Start Daemon</a>
+      </div>
     </div>
-
-  </div>
-
-</section>
-
-</main>
-
-<footer>
-
-  <div>
-    DAEMON OS · INFRASTRUCTURE INTELLIGENCE
-  </div>
-
-  <div>
-    <a href="/">daemon-os.lebarionellison.workers.dev</a>
-  </div>
-
-</footer>
-
-<script>
-const API = "https://daemon-os.lebarionellison.workers.dev";
-
-const fallback = {
-  cpu: 42.8,
-  memory: 61.4,
-  disk: 48.2
-};
-
-function number(value, fallbackValue){
-  const n = Number(value);
-  return Number.isFinite(n) ? n : fallbackValue;
-}
-
-async function getJSON(path){
-  try{
-    const response = await fetch(API + path,{
-      method:"GET",
-      cache:"no-store"
-    });
-
-    if(!response.ok){
-      throw new Error(path);
-    }
-
-    return await response.json();
-
-  }catch{
-    return null;
-  }
-}
-
-function setText(id,value){
-  const el = document.getElementById(id);
-
-  if(el){
-    el.textContent = value;
-  }
-}
-
-function updateMetric(id,value){
-  setText(id,value.toFixed(1) + "%");
-}
-
-function classify(value,warning,critical){
-
-  if(value >= critical){
-    return "bad";
-  }
-
-  if(value >= warning){
-    return "warn";
-  }
-
-  return "good";
-}
-
-function setMetricClass(id,className){
-
-  const el = document.getElementById(id);
-
-  if(!el){
-    return;
-  }
-
-  el.classList.remove("good","warn","bad","info");
-  el.classList.add(className);
-}
-
-function calculateHealth(cpu,memory,disk){
-
-  let score = 100;
-
-  if(cpu >= 90){
-    score -= 30;
-  }else if(cpu >= 80){
-    score -= 15;
-  }else if(cpu >= 70){
-    score -= 6;
-  }
-
-  if(memory >= 90){
-    score -= 30;
-  }else if(memory >= 80){
-    score -= 15;
-  }else if(memory >= 70){
-    score -= 6;
-  }
-
-  if(disk >= 95){
-    score -= 25;
-  }else if(disk >= 90){
-    score -= 12;
-  }else if(disk >= 80){
-    score -= 5;
-  }
-
-  return Math.max(0,Math.min(100,Math.round(score)));
-}
-
-function updateDashboard(telemetry,security,intelligence,history){
-
-  const cpu = number(
-    telemetry?.cpu_usage ??
-    telemetry?.cpu_percent ??
-    telemetry?.cpu,
-    fallback.cpu
-  );
-
-  const memory = number(
-    telemetry?.memory_used_percent ??
-    telemetry?.memory_usage ??
-    telemetry?.memory_percent ??
-    telemetry?.memory,
-    fallback.memory
-  );
-
-  const disk = number(
-    telemetry?.disk_used_percent ??
-    telemetry?.disk_usage ??
-    telemetry?.disk_percent ??
-    telemetry?.disk,
-    fallback.disk
-  );
-
-  const health = calculateHealth(cpu,memory,disk);
-
-  updateMetric("cpu",cpu);
-  updateMetric("memory",memory);
-  updateMetric("disk",disk);
-
-  setMetricClass("cpu",classify(cpu,70,90));
-  setMetricClass("memory",classify(memory,70,90));
-  setMetricClass("disk",classify(disk,80,95));
-
-  setText("healthScore",health);
-
-  let attention = [];
-
-  if(cpu >= 90){
-    attention.push("CPU pressure is critically high.");
-  }else if(cpu >= 80){
-    attention.push("CPU pressure is elevated.");
-  }
-
-  if(memory >= 90){
-    attention.push("Memory pressure is critically high.");
-  }else if(memory >= 80){
-    attention.push("Memory pressure is elevated.");
-  }
-
-  if(disk >= 95){
-    attention.push("Disk capacity is critically high.");
-  }else if(disk >= 90){
-    attention.push("Disk capacity requires attention.");
-  }
-
-  const securityText = JSON.stringify(
-    security || {}
-  ).toLowerCase();
-
-  if(
-    securityText.includes("critical") ||
-    securityText.includes("threat") ||
-    securityText.includes("alert")
-  ){
-    attention.push("Security activity requires review.");
-  }
-
-  if(attention.length){
-
-    setText(
-      "healthHeadline",
-      attention[0]
-    );
-
-    setText(
-      "healthDescription",
-      attention.length +
-      " active signal" +
-      (attention.length === 1 ? "" : "s") +
-      " detected. Daemon has surfaced the condition for investigation."
-    );
-
-    setText("anomaly","DETECTED");
-    setMetricClass("anomaly","warn");
-
-  }else{
-
-    setText(
-      "healthHeadline",
-      "Infrastructure operating normally."
-    );
-
-    setText(
-      "healthDescription",
-      "Daemon is continuously evaluating telemetry, system state and recent changes to determine whether anything requires attention."
-    );
-
-    setText("anomaly","NONE");
-    setMetricClass("anomaly","info");
-
-  }
-
-  if(
-    intelligence &&
-    typeof intelligence === "object"
-  ){
-
-    const raw = JSON.stringify(intelligence).toLowerCase();
-
-    if(
-      raw.includes("critical") ||
-      raw.includes("high") ||
-      raw.includes("attention") ||
-      raw.includes("anomaly")
-    ){
-
-      setText(
-        "assessment",
-        "Meaningful system condition detected"
-      );
-
-      setText(
-        "assessmentText",
-        "Daemon intelligence has identified a condition that may require investigation."
-      );
-
-    }else{
-
-      setText(
-        "assessment",
-        "Stable system state"
-      );
-
-      setText(
-        "assessmentText",
-        "Current telemetry remains within the normal operating range."
-      );
-    }
-
-  }
-
-  if(history){
-
-    setText(
-      "history",
-      "ACTIVE"
-    );
-
-    setText(
-      "operationalContext",
-      "Daemon is comparing current conditions with recorded system history"
-    );
-
-  }
-
-  if(
-    securityText.includes("critical") ||
-    securityText.includes("threat") ||
-    securityText.includes("alert")
-  ){
-
-    setText("security","REVIEW");
-    setMetricClass("security","warn");
-
-    setText(
-      "securityContext",
-      "Security activity detected — investigation recommended"
-    );
-
-  }else{
-
-    setText("security","HEALTHY");
-    setMetricClass("security","good");
-
-    setText(
-      "securityContext",
-      "No critical security activity requiring review"
-    );
-
-  }
-
-  if(
-    cpu >= 80 ||
-    memory >= 80 ||
-    disk >= 90
-  ){
-
-    setText(
-      "resourceContext",
-      "Elevated resource pressure detected"
-    );
-
-  }else{
-
-    setText(
-      "resourceContext",
-      "Normal across monitored resources"
-    );
-
-  }
-}
-
-async function refresh(){
-
-  const [
-    telemetry,
-    security,
-    intelligence,
-    history
-  ] = await Promise.all([
-
-    getJSON("/telemetry"),
-    getJSON("/security"),
-    getJSON("/intelligence"),
-    getJSON("/history")
-
-  ]);
-
-  updateDashboard(
-    telemetry,
-    security,
-    intelligence,
-    history
-  );
-}
-
-refresh();
-
-setInterval(refresh,15000);
-</script>
-
+  </nav>
+
+  <main>
+    <section class="hero">
+      <div class="container">
+        <div class="eyebrow">
+          <span class="eyebrow-dot"></span>
+          LIVE PRODUCT DEMO
+        </div>
+
+        <h1>Your infrastructure finally understands itself.</h1>
+
+        <p class="hero-copy">
+          Daemon turns raw infrastructure telemetry into signals, correlations,
+          and actionable intelligence — so you can see what changed and why it matters.
+        </p>
+
+        <p class="hero-note">
+          No login required. Everything below is safe simulated infrastructure.
+        </p>
+
+        <div class="dashboard-shell">
+          <div class="dashboard" id="dashboard">
+            <div class="dashboard-top">
+              <div class="dashboard-title">
+                <span>Infrastructure Intelligence</span>
+                <span class="live-pill">
+                  <span></span>
+                  DEMO
+                </span>
+              </div>
+
+              <div class="controls">
+                <select class="control" id="systemSelect" aria-label="System">
+                  <option value="production">Production</option>
+                  <option value="database">Database</option>
+                  <option value="api">API Gateway</option>
+                  <option value="worker">Worker Fabric</option>
+                </select>
+
+                <select class="control" id="windowSelect" aria-label="Time window">
+                  <option value="live">Live</option>
+                  <option value="5m">5 minutes</option>
+                  <option value="1h">1 hour</option>
+                  <option value="24h">24 hours</option>
+                </select>
+
+                <select class="control" id="filterSelect" aria-label="Signal filter">
+                  <option value="all">All signals</option>
+                  <option value="anomaly">Anomalies</option>
+                  <option value="performance">Performance</option>
+                  <option value="security">Security</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="dashboard-body">
+              <div class="overview-grid">
+                <div class="card health-card">
+                  <div class="section-label">System Health</div>
+
+                  <div class="health-ring" id="healthRing">
+                    <div class="health-value" id="healthValue">94%</div>
+                  </div>
+
+                  <div class="health-status" id="healthStatus">HEALTHY</div>
+                  <div class="health-sub" id="healthSub">
+                    No active infrastructure anomalies
+                  </div>
+                </div>
+
+                <div class="card intelligence-card" id="intelligenceCard">
+                  <div class="intel-header">
+                    <div>
+                      <div class="section-label">Daemon Intelligence</div>
+                      <div class="intel-title" id="intelTitle">
+                        Infrastructure operating normally
+                      </div>
+                    </div>
+
+                    <div class="severity" id="severity">STABLE</div>
+                  </div>
+
+                  <div class="intel-message" id="intelMessage">
+                    Daemon is continuously observing telemetry and looking for
+                    relationships across infrastructure signals.
+                    <strong>No intervention is currently required.</strong>
+                  </div>
+
+                  <div class="intel-tags" id="intelTags">
+                    <span class="tag">TREND: STABLE</span>
+                    <span class="tag">ANOMALY: NONE</span>
+                    <span class="tag">CORRELATION: NORMAL</span>
+                  </div>
+
+                  <div class="action-row">
+                    <button class="primary-button" id="simulateButton" type="button">
+                      ⚡ SIMULATE ANOMALY
+                    </button>
+
+                    <button class="secondary-button" id="resetButton" type="button">
+                      RESET
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              <div class="metrics-grid">
+                <div class="card metric-card" id="cpuCard">
+                  <div class="metric-top">
+                    <span class="metric-name">CPU UTILIZATION</span>
+                    <span class="metric-trend" id="cpuTrend">NORMAL</span>
+                  </div>
+                  <div class="metric-value"><span id="cpuValue">42</span>%</div>
+                  <div class="metric-bar">
+                    <div class="metric-bar-fill" id="cpuBar"></div>
+                  </div>
+                </div>
+
+                <div class="card metric-card" id="memoryCard">
+                  <div class="metric-top">
+                    <span class="metric-name">MEMORY PRESSURE</span>
+                    <span class="metric-trend" id="memoryTrend">NORMAL</span>
+                  </div>
+                  <div class="metric-value"><span id="memoryValue">61</span>%</div>
+                  <div class="metric-bar">
+                    <div class="metric-bar-fill" id="memoryBar"></div>
+                  </div>
+                </div>
+
+                <div class="card metric-card" id="diskCard">
+                  <div class="metric-top">
+                    <span class="metric-name">STORAGE</span>
+                    <span class="metric-trend" id="diskTrend">STABLE</span>
+                  </div>
+                  <div class="metric-value"><span id="diskValue">73</span>%</div>
+                  <div class="metric-bar">
+                    <div class="metric-bar-fill" id="diskBar"></div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="telemetry-grid">
+                <div class="card chart-card">
+                  <div class="card-heading">
+                    <h2>Telemetry Signal</h2>
+                    <span class="small-muted" id="chartLabel">LIVE · CPU</span>
+                  </div>
+
+                  <svg class="chart" viewBox="0 0 700 205" preserveAspectRatio="none" aria-label="Telemetry chart">
+                    <defs>
+                      <linearGradient id="areaGradient" x1="0" x2="0" y1="0" y2="1">
+                        <stop offset="0%" stop-color="#55d9ff" stop-opacity="0.28"></stop>
+                        <stop offset="100%" stop-color="#55d9ff" stop-opacity="0"></stop>
+                      </linearGradient>
+                    </defs>
+
+                    <line class="chart-grid" x1="0" y1="30" x2="700" y2="30"></line>
+                    <line class="chart-grid" x1="0" y1="75" x2="700" y2="75"></line>
+                    <line class="chart-grid" x1="0" y1="120" x2="700" y2="120"></line>
+                    <line class="chart-grid" x1="0" y1="165" x2="700" y2="165"></line>
+
+                    <path class="chart-area" id="chartArea" d=""></path>
+                    <path class="chart-line" id="chartLine" d=""></path>
+                    <circle class="chart-dot" id="chartDot" cx="680" cy="100" r="5"></circle>
+                    <circle class="chart-alert" id="chartAlert" cx="610" cy="90" r="11" opacity="0"></circle>
+                  </svg>
+                </div>
+
+                <div class="card signals-card">
+                  <div class="card-heading">
+                    <h2>Recent Signals</h2>
+                    <span class="small-muted" id="signalCount">4 signals</span>
+                  </div>
+
+                  <div class="signals" id="signals"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="simulation-section" id="intelligence">
+      <div class="container">
+        <div class="section-intro">
+          <div class="eyebrow">WHAT DAEMON SEES</div>
+          <h2 class="section-title">From telemetry to intelligence.</h2>
+          <p class="section-copy">
+            The demo is designed to show the difference between monitoring
+            infrastructure and actually understanding it.
+          </p>
+        </div>
+
+        <div class="intelligence-grid">
+          <div class="intel-mini" tabindex="0" data-toast="Daemon watches for meaningful changes, not just static thresholds.">
+            <div class="intel-icon">◌</div>
+            <h3>Detect change</h3>
+            <p>
+              Daemon identifies unusual movement in infrastructure signals and
+              separates meaningful changes from normal operating noise.
+            </p>
+          </div>
+
+          <div class="intel-mini" tabindex="0" data-toast="Signals are correlated across infrastructure instead of viewed in isolation.">
+            <div class="intel-icon">⌁</div>
+            <h3>Correlate signals</h3>
+            <p>
+              CPU, memory, telemetry, security, and system events can be
+              connected into a single infrastructure story.
+            </p>
+          </div>
+
+          <div class="intel-mini" tabindex="0" data-toast="Daemon turns infrastructure state into attention-worthy intelligence.">
+            <div class="intel-icon">✦</div>
+            <h3>Explain what matters</h3>
+            <p>
+              Instead of forcing operators to interpret every metric,
+              Daemon surfaces the change that deserves attention.
+            </p>
+          </div>
+        </div>
+
+        <div class="flow" id="how-it-works">
+          <div class="section-label">HOW DAEMON THINKS</div>
+
+          <div class="flow-grid">
+            <div class="flow-step">
+              <div class="flow-number">01 · TELEMETRY</div>
+              <h3>Observe</h3>
+              <p>
+                Infrastructure continuously emits operational signals.
+              </p>
+            </div>
+
+            <div class="flow-step">
+              <div class="flow-number">02 · DETECTION</div>
+              <h3>Detect change</h3>
+              <p>
+                Daemon identifies movement that differs from expected behavior.
+              </p>
+            </div>
+
+            <div class="flow-step">
+              <div class="flow-number">03 · INTELLIGENCE</div>
+              <h3>Correlate</h3>
+              <p>
+                Related signals are connected to produce useful context.
+              </p>
+            </div>
+
+            <div class="flow-step">
+              <div class="flow-number">04 · ATTENTION</div>
+              <h3>Prioritize</h3>
+              <p>
+                The system tells you what changed and why you should care.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="why">
+          <div class="why-grid">
+            <div>
+              <div class="section-label">WHY THIS MATTERS</div>
+              <h2>Less dashboard watching. More infrastructure understanding.</h2>
+              <p>
+                Modern infrastructure produces enormous amounts of telemetry.
+                The challenge is not collecting another metric. The challenge
+                is understanding the relationship between signals quickly enough
+                to act.
+              </p>
+            </div>
+
+            <div class="why-points">
+              <div class="why-point">
+                <div class="check">✓</div>
+                <div>
+                  <strong>Find meaningful changes</strong>
+                  <span>Move beyond isolated threshold alerts.</span>
+                </div>
+              </div>
+
+              <div class="why-point">
+                <div class="check">✓</div>
+                <div>
+                  <strong>Understand correlations</strong>
+                  <span>Connect infrastructure signals into a coherent story.</span>
+                </div>
+              </div>
+
+              <div class="why-point">
+                <div class="check">✓</div>
+                <div>
+                  <strong>Focus operator attention</strong>
+                  <span>Surface the information most likely to matter.</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="cta">
+          <div class="eyebrow">READY WHEN YOU ARE</div>
+          <h2>Give your infrastructure a brain.</h2>
+          <p>
+            Explore the real Daemon OS control plane and see what infrastructure
+            intelligence looks like beyond traditional monitoring.
+          </p>
+          <a class="cta-button" href="/">
+            Start Daemon — 14 Days Free
+          </a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">
+      Daemon OS · Infrastructure Intelligence
+    </div>
+  </footer>
+
+  <div class="toast" id="toast" aria-live="polite"></div>
+
+  <script>
+    (function () {
+      "use strict";
+
+      const state = {
+        anomaly: false,
+        system: "production",
+        window: "live",
+        filter: "all",
+        cpu: 42,
+        memory: 61,
+        disk: 73,
+        health: 94,
+        chart: [
+          38, 41, 39, 43, 40, 42, 44, 41, 43, 42,
+          45, 43, 42, 44, 41, 43, 42, 44, 43, 42
+        ]
+      };
+
+      const baseline = {
+        cpu: 42,
+        memory: 61,
+        disk: 73,
+        health: 94
+      };
+
+      const els = {
+        dashboard: document.getElementById("dashboard"),
+        systemSelect: document.getElementById("systemSelect"),
+        windowSelect: document.getElementById("windowSelect"),
+        filterSelect: document.getElementById("filterSelect"),
+        healthRing: document.getElementById("healthRing"),
+        healthValue: document.getElementById("healthValue"),
+        healthStatus: document.getElementById("healthStatus"),
+        healthSub: document.getElementById("healthSub"),
+        intelligenceCard: document.getElementById("intelligenceCard"),
+        intelTitle: document.getElementById("intelTitle"),
+        intelMessage: document.getElementById("intelMessage"),
+        intelTags: document.getElementById("intelTags"),
+        severity: document.getElementById("severity"),
+        simulateButton: document.getElementById("simulateButton"),
+        resetButton: document.getElementById("resetButton"),
+        cpuCard: document.getElementById("cpuCard"),
+        memoryCard: document.getElementById("memoryCard"),
+        diskCard: document.getElementById("diskCard"),
+        cpuValue: document.getElementById("cpuValue"),
+        memoryValue: document.getElementById("memoryValue"),
+        diskValue: document.getElementById("diskValue"),
+        cpuTrend: document.getElementById("cpuTrend"),
+        memoryTrend: document.getElementById("memoryTrend"),
+        diskTrend: document.getElementById("diskTrend"),
+        cpuBar: document.getElementById("cpuBar"),
+        memoryBar: document.getElementById("memoryBar"),
+        diskBar: document.getElementById("diskBar"),
+        chartLabel: document.getElementById("chartLabel"),
+        chartLine: document.getElementById("chartLine"),
+        chartArea: document.getElementById("chartArea"),
+        chartDot: document.getElementById("chartDot"),
+        chartAlert: document.getElementById("chartAlert"),
+        signals: document.getElementById("signals"),
+        signalCount: document.getElementById("signalCount"),
+        toast: document.getElementById("toast")
+      };
+
+      let toastTimer = null;
+      let chartTimer = null;
+
+      const signalData = [
+        {
+          type: "performance",
+          title: "Telemetry sampling normal",
+          meta: "Collection pipeline",
+          time: "now"
+        },
+        {
+          type: "security",
+          title: "No active security anomalies",
+          meta: "Security state",
+          time: "1m"
+        },
+        {
+          type: "performance",
+          title: "CPU utilization within baseline",
+          meta: "Compute",
+          time: "2m"
+        },
+        {
+          type: "normal",
+          title: "Memory pressure stable",
+          meta: "Memory",
+          time: "3m"
+        }
+      ];
+
+      function clamp(value, min, max) {
+        const number = Number(value);
+        if (!Number.isFinite(number)) return min;
+        return Math.min(max, Math.max(min, number));
+      }
+
+      function showToast(message) {
+        if (!els.toast) return;
+
+        els.toast.textContent = message;
+        els.toast.classList.add("show");
+
+        window.clearTimeout(toastTimer);
+        toastTimer = window.setTimeout(function () {
+          els.toast.classList.remove("show");
+        }, 2600);
+      }
+
+      function animateNumber(element, from, to, duration) {
+        if (!element) return;
+
+        const start = performance.now();
+        const safeFrom = Number.isFinite(Number(from)) ? Number(from) : 0;
+        const safeTo = Number.isFinite(Number(to)) ? Number(to) : safeFrom;
+
+        function frame(now) {
+          const progress = Math.min(1, (now - start) / duration);
+          const eased = 1 - Math.pow(1 - progress, 3);
+          const value = Math.round(safeFrom + (safeTo - safeFrom) * eased);
+
+          element.textContent = String(value);
+
+          if (progress < 1) {
+            requestAnimationFrame(frame);
+          }
+        }
+
+        requestAnimationFrame(frame);
+      }
+
+      function renderHealth(previousHealth) {
+        const health = clamp(state.health, 0, 100);
+
+        els.healthRing.style.setProperty("--health", health);
+        animateNumber(
+          els.healthValue,
+          Number.isFinite(Number(previousHealth)) ? previousHealth : health,
+          health,
+          650
+        );
+
+        if (health < 80) {
+          els.healthStatus.textContent = "ATTENTION REQUIRED";
+          els.healthStatus.classList.add("attention");
+          els.healthSub.textContent = "Daemon detected an infrastructure anomaly";
+        } else {
+          els.healthStatus.textContent = "HEALTHY";
+          els.healthStatus.classList.remove("attention");
+          els.healthSub.textContent = "No active infrastructure anomalies";
+        }
+      }
+
+      function renderMetric(element, value, bar, trend, card, label) {
+        const safeValue = clamp(value, 0, 100);
+
+        element.textContent = String(Math.round(safeValue));
+        bar.style.width = safeValue + "%";
+
+        if (state.anomaly && label !== "disk") {
+          trend.textContent = "ELEVATED";
+          trend.classList.add("alert");
+          card.classList.add("alert");
+        } else {
+          trend.textContent = label === "disk" ? "STABLE" : "NORMAL";
+          trend.classList.remove("alert");
+          card.classList.remove("alert");
+        }
+      }
+
+      function renderMetrics(previous) {
+        renderMetric(
+          els.cpuValue,
+          state.cpu,
+          els.cpuBar,
+          els.cpuTrend,
+          els.cpuCard,
+          "cpu"
+        );
+
+        renderMetric(
+          els.memoryValue,
+          state.memory,
+          els.memoryBar,
+          els.memoryTrend,
+          els.memoryCard,
+          "memory"
+        );
+
+        renderMetric(
+          els.diskValue,
+          state.disk,
+          els.diskBar,
+          els.diskTrend,
+          els.diskCard,
+          "disk"
+        );
+
+        if (previous) {
+          animateNumber(els.cpuValue, previous.cpu, state.cpu, 650);
+          animateNumber(els.memoryValue, previous.memory, state.memory, 650);
+          animateNumber(els.diskValue, previous.disk, state.disk, 650);
+        }
+      }
+
+      function renderIntelligence() {
+        if (state.anomaly) {
+          els.intelTitle.textContent =
+            "CPU spike correlated with memory pressure";
+
+          els.intelMessage.innerHTML =
+            "Daemon detected a significant change in compute behavior. " +
+            "<strong>CPU increased from 42% to 87% while memory pressure rose from 61% to 79%.</strong> " +
+            "The signals are correlated and require operator attention.";
+
+          els.severity.textContent = "ATTENTION";
+          els.severity.classList.add("alert");
+
+          els.intelTags.innerHTML =
+            '<span class="tag alert">TREND: WORSENING</span>' +
+            '<span class="tag alert">ANOMALY: DETECTED</span>' +
+            '<span class="tag">CORRELATION: CPU + MEMORY</span>';
+        } else {
+          els.intelTitle.textContent =
+            "Infrastructure operating normally";
+
+          els.intelMessage.innerHTML =
+            "Daemon is continuously observing telemetry and looking for " +
+            "relationships across infrastructure signals. " +
+            "<strong>No intervention is currently required.</strong>";
+
+          els.severity.textContent = "STABLE";
+          els.severity.classList.remove("alert");
+
+          els.intelTags.innerHTML =
+            '<span class="tag">TREND: STABLE</span>' +
+            '<span class="tag">ANOMALY: NONE</span>' +
+            '<span class="tag">CORRELATION: NORMAL</span>';
+        }
+      }
+
+      function buildSignals() {
+        let data = signalData.slice();
+
+        if (state.anomaly) {
+          data.unshift({
+            type: "anomaly",
+            title: "CPU spike correlated with memory pressure",
+            meta: "Daemon Intelligence",
+            time: "now"
+          });
+        }
+
+        if (state.filter !== "all") {
+          data = data.filter(function (signal) {
+            return signal.type === state.filter;
+          });
+        }
+
+        if (!data.length) {
+          els.signals.innerHTML =
+            '<div class="signal">' +
+              '<div class="signal-dot"></div>' +
+              '<div class="signal-main">' +
+                '<div class="signal-title">No matching signals</div>' +
+                '<div class="signal-meta">Try another filter</div>' +
+              '</div>' +
+              '<div class="signal-time">—</div>' +
+            '</div>';
+
+          els.signalCount.textContent = "0 signals";
+          return;
+        }
+
+        els.signals.innerHTML = data.slice(0, 5).map(function (signal) {
+          const dotClass =
+            signal.type === "anomaly"
+              ? "alert"
+              : signal.type === "security"
+              ? "security"
+              : signal.type === "performance"
+              ? "performance"
+              : "";
+
+          return (
+            '<button type="button" class="signal" data-signal="' +
+            escapeHtml(signal.title) +
+            '">' +
+              '<div class="signal-dot ' + dotClass + '"></div>' +
+              '<div class="signal-main">' +
+                '<div class="signal-title">' +
+                  escapeHtml(signal.title) +
+                '</div>' +
+                '<div class="signal-meta">' +
+                  escapeHtml(signal.meta) +
+                '</div>' +
+              '</div>' +
+              '<div class="signal-time">' +
+                escapeHtml(signal.time) +
+              '</div>' +
+            '</button>'
+          );
+        }).join("");
+
+        els.signalCount.textContent =
+          data.length + (data.length === 1 ? " signal" : " signals");
+
+        els.signals.querySelectorAll("[data-signal]").forEach(function (button) {
+          button.addEventListener("click", function () {
+            showToast(button.getAttribute("data-signal"));
+          });
+        });
+      }
+
+      function escapeHtml(value) {
+        return String(value)
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;")
+          .replace(/>/g, "&gt;")
+          .replace(/"/g, "&quot;")
+          .replace(/'/g, "&#039;");
+      }
+
+      function generateChartData() {
+        const points = [];
+
+        if (state.anomaly) {
+          points.push(
+            39, 41, 42, 40, 43, 41, 44, 43, 45,
+            44, 47, 51, 58, 67, 76, 87, 84, 86, 87, 85
+          );
+        } else {
+          const base = state.system === "database"
+            ? 47
+            : state.system === "api"
+            ? 39
+            : state.system === "worker"
+            ? 34
+            : 42;
+
+          for (let i = 0; i < 20; i += 1) {
+            const variation = Math.sin(i * 1.7) * 3 + ((i % 3) - 1);
+            points.push(clamp(Math.round(base + variation), 18, 72));
+          }
+        }
+
+        state.chart = points;
+      }
+
+      function renderChart() {
+        const values = state.chart.slice(0, 20);
+
+        if (!values.length) return;
+
+        const width = 700;
+        const height = 180;
+        const padX = 8;
+        const padY = 10;
+        const usableWidth = width - padX * 2;
+        const usableHeight = height - padY * 2;
+
+        const points = values.map(function (value, index) {
+          const x =
+            padX + (index / Math.max(1, values.length - 1)) * usableWidth;
+
+          const y =
+            height -
+            padY -
+            (clamp(value, 0, 100) / 100) * usableHeight;
+
+          return { x: x, y: y };
+        });
+
+        const linePath = points.map(function (point, index) {
+          return (index === 0 ? "M" : "L") +
+            " " +
+            point.x.toFixed(2) +
+            " " +
+            point.y.toFixed(2);
+        }).join(" ");
+
+        const areaPath =
+          linePath +
+          " L " +
+          points[points.length - 1].x.toFixed(2) +
+          " " +
+          height +
+          " L " +
+          points[0].x.toFixed(2) +
+          " " +
+          height +
+          " Z";
+
+        els.chartLine.setAttribute("d", linePath);
+        els.chartArea.setAttribute("d", areaPath);
+
+        const last = points[points.length - 1];
+
+        els.chartDot.setAttribute("cx", last.x);
+        els.chartDot.setAttribute("cy", last.y);
+
+        if (state.anomaly) {
+          const alertIndex = Math.max(0, points.length - 5);
+          const alertPoint = points[alertIndex];
+
+          els.chartAlert.setAttribute("cx", alertPoint.x);
+          els.chartAlert.setAttribute("cy", alertPoint.y);
+          els.chartAlert.setAttribute("opacity", "1");
+        } else {
+          els.chartAlert.setAttribute("opacity", "0");
+        }
+
+        const windowLabel = {
+          live: "LIVE",
+          "5m": "5 MIN",
+          "1h": "1 HOUR",
+          "24h": "24 HOURS"
+        }[state.window] || "LIVE";
+
+        els.chartLabel.textContent = windowLabel + " · CPU";
+      }
+
+      function renderAll(previous) {
+        renderHealth(previous ? previous.health : state.health);
+        renderMetrics(previous);
+        renderIntelligence();
+        generateChartData();
+        renderChart();
+        buildSignals();
+      }
+
+      function simulateAnomaly() {
+        if (state.anomaly) {
+          showToast("Anomaly simulation is already active.");
+          return;
+        }
+
+        const previous = {
+          cpu: state.cpu,
+          memory: state.memory,
+          disk: state.disk,
+          health: state.health
+        };
+
+        state.anomaly = true;
+        state.cpu = 87;
+        state.memory = 79;
+        state.disk = 76;
+        state.health = 71;
+
+        renderAll(previous);
+
+        els.dashboard.classList.remove("pulse");
+        void els.dashboard.offsetWidth;
+        els.dashboard.classList.add("pulse");
+
+        showToast(
+          "Daemon detected a correlated CPU + memory anomaly."
+        );
+      }
+
+      function resetDemo() {
+        const previous = {
+          cpu: state.cpu,
+          memory: state.memory,
+          disk: state.disk,
+          health: state.health
+        };
+
+        state.anomaly = false;
+        state.cpu = baseline.cpu;
+        state.memory = baseline.memory;
+        state.disk = baseline.disk;
+        state.health = baseline.health;
+
+        renderAll(previous);
+
+        showToast("Infrastructure state returned to baseline.");
+      }
+
+      function changeSystem() {
+        state.system = els.systemSelect.value;
+        renderAll({
+          cpu: state.cpu,
+          memory: state.memory,
+          disk: state.disk,
+          health: state.health
+        });
+
+        const labels = {
+          production: "Production",
+          database: "Database",
+          api: "API Gateway",
+          worker: "Worker Fabric"
+        };
+
+        showToast("Viewing " + (labels[state.system] || "Production") + ".");
+      }
+
+      function changeWindow() {
+        state.window = els.windowSelect.value;
+        renderChart();
+        showToast("Telemetry window changed.");
+      }
+
+      function changeFilter() {
+        state.filter = els.filterSelect.value;
+        buildSignals();
+      }
+
+      function attachListeners() {
+        els.simulateButton.addEventListener("click", simulateAnomaly);
+        els.resetButton.addEventListener("click", resetDemo);
+        els.systemSelect.addEventListener("change", changeSystem);
+        els.windowSelect.addEventListener("change", changeWindow);
+        els.filterSelect.addEventListener("change", changeFilter);
+
+        document.querySelectorAll(".intel-mini[data-toast]").forEach(function (card) {
+          const activate = function () {
+            showToast(card.getAttribute("data-toast"));
+          };
+
+          card.addEventListener("click", activate);
+
+          card.addEventListener("keydown", function (event) {
+            if (event.key === "Enter" || event.key === " ") {
+              event.preventDefault();
+              activate();
+            }
+          });
+        });
+      }
+
+      function startTelemetryAnimation() {
+        window.clearInterval(chartTimer);
+
+        chartTimer = window.setInterval(function () {
+          if (state.anomaly) {
+            return;
+          }
+
+          if (!state.chart.length) {
+            generateChartData();
+          }
+
+          const last = state.chart[state.chart.length - 1] || state.cpu;
+          const drift = Math.round((Math.random() - 0.5) * 5);
+          const next = clamp(last + drift, 25, 65);
+
+          state.chart.push(next);
+
+          if (state.chart.length > 20) {
+            state.chart.shift();
+          }
+
+          renderChart();
+        }, 3500);
+      }
+
+      attachListeners();
+      renderAll();
+      startTelemetryAnimation();
+    })();
+  </script>
 </body>
 </html>
