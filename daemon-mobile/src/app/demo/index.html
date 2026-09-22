@@ -1,0 +1,1550 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#06080d">
+
+<meta name="description" content="Daemon OS Demo — infrastructure intelligence in action.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Daemon OS Demo | Infrastructure Intelligence">
+<meta property="og:description" content="See how Daemon turns infrastructure telemetry into intelligence.">
+<meta property="og:url" content="https://daemon-os.lebarionellison.workers.dev/demo">
+<meta property="og:image" content="https://daemon-os.lebarionellison.workers.dev/og-image.png">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Daemon OS Demo | Infrastructure Intelligence">
+<meta name="twitter:description" content="See how Daemon turns infrastructure telemetry into intelligence.">
+<meta name="twitter:image" content="https://daemon-os.lebarionellison.workers.dev/og-image.png">
+
+<title>Daemon OS Demo | Infrastructure Intelligence</title>
+
+<style>
+:root{
+  --bg:#06080d;
+  --bg2:#090d15;
+  --panel:#0c121c;
+  --panel2:#101722;
+  --line:rgba(255,255,255,.08);
+  --line2:rgba(255,255,255,.14);
+  --text:#f5f8fc;
+  --muted:#8c98aa;
+  --dim:#5f6c7f;
+  --cyan:#62e8ff;
+  --blue:#7087ff;
+  --purple:#a778ff;
+  --green:#59e6a5;
+  --yellow:#ffd66b;
+  --red:#ff687f;
+  --radius:18px;
+}
+
+*{
+  box-sizing:border-box;
+}
+
+html{
+  scroll-behavior:smooth;
+}
+
+body{
+  margin:0;
+  color:var(--text);
+  background:
+    radial-gradient(circle at 10% 0%,rgba(82,112,255,.14),transparent 28%),
+    radial-gradient(circle at 90% 10%,rgba(167,120,255,.11),transparent 30%),
+    var(--bg);
+  font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+}
+
+body:before{
+  content:"";
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  background-image:
+    linear-gradient(rgba(255,255,255,.014) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(255,255,255,.014) 1px,transparent 1px);
+  background-size:52px 52px;
+}
+
+a{
+  color:inherit;
+  text-decoration:none;
+}
+
+button{
+  font:inherit;
+}
+
+/* NAV */
+
+.nav{
+  position:sticky;
+  top:0;
+  z-index:100;
+  height:70px;
+  border-bottom:1px solid var(--line);
+  background:rgba(6,8,13,.82);
+  backdrop-filter:blur(20px);
+}
+
+.nav-inner{
+  width:min(1180px,calc(100% - 40px));
+  height:100%;
+  margin:auto;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+}
+
+.logo{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  font-size:12px;
+  font-weight:950;
+  letter-spacing:.16em;
+}
+
+.logo-mark{
+  width:31px;
+  height:31px;
+  display:grid;
+  place-items:center;
+  border-radius:9px;
+  background:linear-gradient(135deg,var(--cyan),var(--blue),var(--purple));
+  box-shadow:0 0 28px rgba(98,150,255,.3);
+  color:white;
+}
+
+.nav-right{
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+
+.nav-link{
+  color:#8b97a9;
+  font-size:11px;
+  padding:9px 12px;
+}
+
+.nav-link:hover{
+  color:#fff;
+}
+
+.nav-cta{
+  padding:10px 15px;
+  border-radius:10px;
+  color:#fff;
+  background:linear-gradient(135deg,var(--blue),var(--purple));
+  font-size:11px;
+  font-weight:850;
+}
+
+/* HERO */
+
+.hero{
+  width:min(1180px,calc(100% - 40px));
+  margin:auto;
+  padding:75px 0 35px;
+}
+
+.eyebrow{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  padding:7px 11px;
+  border:1px solid rgba(98,232,255,.18);
+  border-radius:999px;
+  color:#9beeff;
+  background:rgba(98,232,255,.045);
+  font-size:9px;
+  font-weight:900;
+  letter-spacing:.15em;
+}
+
+.pulse{
+  width:6px;
+  height:6px;
+  border-radius:50%;
+  background:var(--green);
+  box-shadow:0 0 13px var(--green);
+  animation:pulse 1.8s infinite;
+}
+
+@keyframes pulse{
+  0%,100%{opacity:1;transform:scale(1)}
+  50%{opacity:.45;transform:scale(.72)}
+}
+
+.hero h1{
+  max-width:850px;
+  margin:22px 0 17px;
+  font-size:clamp(42px,6vw,72px);
+  line-height:.98;
+  letter-spacing:-.065em;
+}
+
+.gradient{
+  background:linear-gradient(110deg,#fff,#baf7ff 34%,#8195ff 68%,#bd8aff);
+  -webkit-background-clip:text;
+  background-clip:text;
+  color:transparent;
+}
+
+.hero-copy{
+  max-width:690px;
+  color:#929eaf;
+  font-size:16px;
+  line-height:1.7;
+}
+
+.demo-status{
+  margin-top:22px;
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+}
+
+.status-pill{
+  display:inline-flex;
+  align-items:center;
+  gap:7px;
+  padding:8px 11px;
+  border:1px solid var(--line);
+  border-radius:999px;
+  color:#8996a9;
+  background:rgba(255,255,255,.02);
+  font-size:9px;
+  font-weight:800;
+  letter-spacing:.06em;
+}
+
+.status-pill.live{
+  color:var(--green);
+  border-color:rgba(89,230,165,.18);
+}
+
+/* DASHBOARD */
+
+.dashboard{
+  margin-top:32px;
+  border:1px solid var(--line2);
+  border-radius:23px;
+  overflow:hidden;
+  background:linear-gradient(145deg,#101722,#080c13);
+  box-shadow:0 40px 120px rgba(0,0,0,.52);
+}
+
+.dashboard-top{
+  min-height:58px;
+  padding:0 18px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  border-bottom:1px solid var(--line);
+}
+
+.dashboard-brand{
+  display:flex;
+  align-items:center;
+  gap:9px;
+  font-size:10px;
+  font-weight:900;
+  letter-spacing:.12em;
+}
+
+.dashboard-brand-mark{
+  width:23px;
+  height:23px;
+  display:grid;
+  place-items:center;
+  border-radius:7px;
+  background:linear-gradient(135deg,var(--cyan),var(--blue));
+  font-size:10px;
+}
+
+.dashboard-live{
+  display:flex;
+  align-items:center;
+  gap:7px;
+  color:var(--green);
+  font-size:8px;
+  font-weight:900;
+  letter-spacing:.1em;
+}
+
+.dashboard-body{
+  padding:18px;
+}
+
+/* TOP GRID */
+
+.top-grid{
+  display:grid;
+  grid-template-columns:1.15fr .85fr;
+  gap:12px;
+}
+
+.card{
+  border:1px solid var(--line);
+  border-radius:17px;
+  background:rgba(255,255,255,.018);
+  overflow:hidden;
+}
+
+.card-head{
+  min-height:47px;
+  padding:0 15px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  border-bottom:1px solid var(--line);
+}
+
+.card-head strong{
+  font-size:10px;
+  letter-spacing:.08em;
+}
+
+.card-head span{
+  color:var(--dim);
+  font-size:8px;
+  text-transform:uppercase;
+  letter-spacing:.1em;
+}
+
+/* HEALTH */
+
+.health-card{
+  padding:20px;
+  min-height:240px;
+}
+
+.health-layout{
+  display:grid;
+  grid-template-columns:170px 1fr;
+  gap:20px;
+  align-items:center;
+}
+
+.health-ring{
+  width:145px;
+  height:145px;
+  margin:auto;
+  display:grid;
+  place-items:center;
+  border-radius:50%;
+  background:
+    radial-gradient(circle at center,var(--panel) 0 56%,transparent 57%),
+    conic-gradient(var(--cyan) 0 82%,rgba(255,255,255,.07) 82% 100%);
+  box-shadow:0 0 45px rgba(98,232,255,.08);
+}
+
+.health-ring-inner{
+  text-align:center;
+}
+
+.health-number{
+  font-size:45px;
+  line-height:1;
+  font-weight:950;
+  letter-spacing:-.06em;
+}
+
+.health-unit{
+  margin-top:5px;
+  color:var(--green);
+  font-size:8px;
+  font-weight:900;
+  letter-spacing:.13em;
+}
+
+.health-caption{
+  margin-top:3px;
+  color:var(--dim);
+  font-size:8px;
+}
+
+.health-message{
+  padding:16px;
+  border:1px solid rgba(98,232,255,.12);
+  border-radius:13px;
+  background:rgba(98,232,255,.035);
+}
+
+.health-message label{
+  display:block;
+  color:var(--cyan);
+  font-size:8px;
+  font-weight:900;
+  letter-spacing:.13em;
+  text-transform:uppercase;
+}
+
+.health-message h2{
+  margin:8px 0 7px;
+  font-size:19px;
+  letter-spacing:-.025em;
+}
+
+.health-message p{
+  margin:0;
+  color:#8490a2;
+  font-size:10px;
+  line-height:1.65;
+}
+
+/* INTELLIGENCE */
+
+.intelligence-card{
+  min-height:240px;
+}
+
+.intelligence-body{
+  padding:15px;
+}
+
+.intelligence-main{
+  padding:15px;
+  border-radius:13px;
+  background:rgba(167,120,255,.045);
+  border:1px solid rgba(167,120,255,.12);
+}
+
+.intelligence-main label{
+  display:block;
+  color:#ae91ff;
+  font-size:8px;
+  font-weight:900;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+}
+
+.intelligence-main strong{
+  display:block;
+  margin-top:9px;
+  font-size:17px;
+}
+
+.intelligence-main p{
+  margin:7px 0 0;
+  color:#7d899b;
+  font-size:9px;
+  line-height:1.6;
+}
+
+.intel-mini{
+  margin-top:9px;
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:8px;
+}
+
+.mini{
+  padding:10px;
+  border:1px solid var(--line);
+  border-radius:11px;
+}
+
+.mini label{
+  display:block;
+  color:var(--dim);
+  font-size:7px;
+  text-transform:uppercase;
+  letter-spacing:.09em;
+}
+
+.mini strong{
+  display:block;
+  margin-top:6px;
+  font-size:12px;
+}
+
+/* METRICS */
+
+.metrics{
+  margin-top:12px;
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:9px;
+}
+
+.metric{
+  padding:15px;
+  border:1px solid var(--line);
+  border-radius:14px;
+  background:rgba(255,255,255,.018);
+}
+
+.metric label{
+  display:block;
+  color:var(--dim);
+  font-size:7px;
+  text-transform:uppercase;
+  letter-spacing:.11em;
+}
+
+.metric-value{
+  margin-top:8px;
+  font-size:21px;
+  font-weight:900;
+  letter-spacing:-.04em;
+}
+
+.metric-meta{
+  margin-top:5px;
+  color:#687588;
+  font-size:8px;
+}
+
+.good{
+  color:var(--green);
+}
+
+.info{
+  color:var(--cyan);
+}
+
+.warn{
+  color:var(--yellow);
+}
+
+.bad{
+  color:var(--red);
+}
+
+/* SIGNALS */
+
+.signals{
+  margin-top:12px;
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:12px;
+}
+
+.signal-list{
+  padding:5px 0;
+}
+
+.signal-row{
+  display:grid;
+  grid-template-columns:10px 1fr auto;
+  gap:10px;
+  align-items:center;
+  padding:13px 15px;
+  border-bottom:1px solid rgba(255,255,255,.045);
+}
+
+.signal-row:last-child{
+  border-bottom:0;
+}
+
+.signal-dot{
+  width:7px;
+  height:7px;
+  border-radius:50%;
+}
+
+.signal-dot.green{
+  background:var(--green);
+  box-shadow:0 0 10px rgba(89,230,165,.45);
+}
+
+.signal-dot.yellow{
+  background:var(--yellow);
+  box-shadow:0 0 10px rgba(255,214,107,.35);
+}
+
+.signal-dot.red{
+  background:var(--red);
+  box-shadow:0 0 10px rgba(255,104,127,.35);
+}
+
+.signal-text strong{
+  display:block;
+  font-size:10px;
+}
+
+.signal-text span{
+  display:block;
+  margin-top:3px;
+  color:var(--dim);
+  font-size:8px;
+}
+
+.signal-time{
+  color:#5f6b7c;
+  font-size:8px;
+}
+
+/* INTELLIGENCE EXPLANATION */
+
+.explain{
+  width:min(1180px,calc(100% - 40px));
+  margin:0 auto;
+  padding:75px 0;
+}
+
+.section-label{
+  color:var(--cyan);
+  font-size:9px;
+  font-weight:900;
+  letter-spacing:.17em;
+}
+
+.explain h2{
+  max-width:700px;
+  margin:13px 0;
+  font-size:clamp(34px,5vw,53px);
+  line-height:1;
+  letter-spacing:-.055em;
+}
+
+.explain-copy{
+  max-width:690px;
+  color:#7f8b9e;
+  font-size:13px;
+  line-height:1.7;
+}
+
+.flow{
+  margin-top:32px;
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:10px;
+}
+
+.flow-card{
+  position:relative;
+  padding:20px;
+  min-height:155px;
+  border:1px solid var(--line);
+  border-radius:16px;
+  background:rgba(10,15,24,.7);
+}
+
+.flow-number{
+  color:#6879e8;
+  font-size:8px;
+  font-weight:900;
+  letter-spacing:.12em;
+}
+
+.flow-card h3{
+  margin:14px 0 7px;
+  font-size:14px;
+}
+
+.flow-card p{
+  margin:0;
+  color:#6f7b8d;
+  font-size:10px;
+  line-height:1.6;
+}
+
+/* CTA */
+
+.cta{
+  width:min(1180px,calc(100% - 40px));
+  margin:0 auto;
+  padding:35px 0 80px;
+}
+
+.cta-box{
+  padding:55px 25px;
+  text-align:center;
+  border:1px solid rgba(112,135,255,.2);
+  border-radius:23px;
+  background:
+    radial-gradient(circle at 50% 0%,rgba(103,116,255,.14),transparent 48%),
+    #0b1019;
+}
+
+.cta-box h2{
+  max-width:650px;
+  margin:0 auto 12px;
+  font-size:clamp(34px,5vw,55px);
+  line-height:1;
+  letter-spacing:-.055em;
+}
+
+.cta-box p{
+  max-width:580px;
+  margin:0 auto;
+  color:#7f8b9d;
+  font-size:12px;
+  line-height:1.7;
+}
+
+.cta-buttons{
+  margin-top:25px;
+  display:flex;
+  justify-content:center;
+  flex-wrap:wrap;
+  gap:10px;
+}
+
+.btn{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  border-radius:10px;
+  padding:13px 18px;
+  font-size:11px;
+  font-weight:850;
+}
+
+.btn-primary{
+  color:#fff;
+  background:linear-gradient(135deg,var(--blue),var(--purple));
+  box-shadow:0 14px 40px rgba(100,100,255,.2);
+}
+
+.btn-secondary{
+  color:#dbe3ed;
+  border:1px solid var(--line2);
+  background:rgba(255,255,255,.025);
+}
+
+/* FOOTER */
+
+footer{
+  width:min(1180px,calc(100% - 40px));
+  margin:auto;
+  padding:0 0 35px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  color:#536072;
+  font-size:9px;
+}
+
+footer a:hover{
+  color:#fff;
+}
+
+/* RESPONSIVE */
+
+@media(max-width:900px){
+
+  .top-grid{
+    grid-template-columns:1fr;
+  }
+
+  .flow{
+    grid-template-columns:repeat(2,1fr);
+  }
+
+}
+
+@media(max-width:700px){
+
+  .nav-link{
+    display:none;
+  }
+
+  .hero{
+    padding-top:50px;
+  }
+
+  .health-layout{
+    grid-template-columns:1fr;
+  }
+
+  .health-ring{
+    width:125px;
+    height:125px;
+  }
+
+  .metrics{
+    grid-template-columns:repeat(2,1fr);
+  }
+
+  .signals{
+    grid-template-columns:1fr;
+  }
+
+  .flow{
+    grid-template-columns:1fr;
+  }
+
+  footer{
+    display:block;
+  }
+
+  footer div+div{
+    margin-top:8px;
+  }
+
+}
+
+@media(max-width:430px){
+
+  .container,
+  .hero,
+  .explain,
+  .cta,
+  footer{
+    width:min(100% - 26px,1180px);
+  }
+
+  .dashboard-body{
+    padding:10px;
+  }
+
+  .health-card{
+    padding:13px;
+  }
+
+  .metrics{
+    gap:6px;
+  }
+
+  .metric{
+    padding:11px;
+  }
+
+  .metric-value{
+    font-size:18px;
+  }
+
+}
+</style>
+</head>
+
+<body>
+
+<nav class="nav">
+  <div class="nav-inner">
+
+    <a class="logo" href="/">
+      <span class="logo-mark">D</span>
+      DAEMON OS
+    </a>
+
+    <div class="nav-right">
+      <a class="nav-link" href="/">Overview</a>
+      <a class="nav-link" href="/#intelligence">Intelligence</a>
+      <a class="nav-cta" href="/">Start Daemon — 14 Days Free</a>
+    </div>
+
+  </div>
+</nav>
+
+<main>
+
+<section class="hero">
+
+  <div class="eyebrow">
+    <span class="pulse"></span>
+    LIVE PRODUCT DEMO
+  </div>
+
+  <h1>
+    Your infrastructure
+    <span class="gradient">finally understands itself.</span>
+  </h1>
+
+  <p class="hero-copy">
+    Daemon turns infrastructure telemetry into intelligence —
+    connecting system state, anomalies, security signals and
+    operational history into one command center.
+  </p>
+
+  <div class="demo-status">
+    <div class="status-pill live">
+      <span class="pulse"></span>
+      DAEMON INTELLIGENCE ACTIVE
+    </div>
+
+    <div class="status-pill">
+      READ-ONLY DEMO
+    </div>
+
+    <div class="status-pill">
+      NO LOGIN REQUIRED
+    </div>
+  </div>
+
+  <div class="dashboard">
+
+    <div class="dashboard-top">
+
+      <div class="dashboard-brand">
+        <span class="dashboard-brand-mark">D</span>
+        INFRASTRUCTURE INTELLIGENCE
+      </div>
+
+      <div class="dashboard-live">
+        <span class="pulse"></span>
+        LIVE SYSTEM
+      </div>
+
+    </div>
+
+    <div class="dashboard-body">
+
+      <div class="top-grid">
+
+        <!-- HEALTH -->
+
+        <div class="card health-card">
+
+          <div class="health-layout">
+
+            <div class="health-ring">
+
+              <div class="health-ring-inner">
+                <div class="health-number" id="healthScore">94</div>
+                <div class="health-unit">HEALTHY</div>
+                <div class="health-caption">system health</div>
+              </div>
+
+            </div>
+
+            <div class="health-message">
+
+              <label>Daemon Intelligence</label>
+
+              <h2 id="healthHeadline">
+                Infrastructure operating normally.
+              </h2>
+
+              <p id="healthDescription">
+                Daemon is continuously evaluating telemetry,
+                system state and recent changes to determine
+                whether anything requires attention.
+              </p>
+
+            </div>
+
+          </div>
+
+        </div>
+
+        <!-- INTELLIGENCE -->
+
+        <div class="card intelligence-card">
+
+          <div class="card-head">
+            <strong>INTELLIGENCE</strong>
+            <span>Current assessment</span>
+          </div>
+
+          <div class="intelligence-body">
+
+            <div class="intelligence-main">
+
+              <label>Operational assessment</label>
+
+              <strong id="assessment">
+                Stable system state
+              </strong>
+
+              <p id="assessmentText">
+                No critical condition detected.
+                Recent telemetry remains within normal operating range.
+              </p>
+
+            </div>
+
+            <div class="intel-mini">
+
+              <div class="mini">
+                <label>Trend</label>
+                <strong class="good" id="trend">STABLE</strong>
+              </div>
+
+              <div class="mini">
+                <label>Anomaly</label>
+                <strong class="info" id="anomaly">NONE</strong>
+              </div>
+
+              <div class="mini">
+                <label>Security</label>
+                <strong class="good" id="security">HEALTHY</strong>
+              </div>
+
+              <div class="mini">
+                <label>History</label>
+                <strong class="info" id="history">ACTIVE</strong>
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+      <!-- METRICS -->
+
+      <div class="metrics">
+
+        <div class="metric">
+          <label>CPU Usage</label>
+          <div class="metric-value info" id="cpu">42.8%</div>
+          <div class="metric-meta">Within operating range</div>
+        </div>
+
+        <div class="metric">
+          <label>Memory</label>
+          <div class="metric-value good" id="memory">61.4%</div>
+          <div class="metric-meta">Normal utilization</div>
+        </div>
+
+        <div class="metric">
+          <label>Disk</label>
+          <div class="metric-value good" id="disk">48.2%</div>
+          <div class="metric-meta">Capacity available</div>
+        </div>
+
+        <div class="metric">
+          <label>Telemetry</label>
+          <div class="metric-value good" id="telemetry">LIVE</div>
+          <div class="metric-meta">Continuous observation</div>
+        </div>
+
+      </div>
+
+      <!-- SIGNALS -->
+
+      <div class="signals">
+
+        <div class="card">
+
+          <div class="card-head">
+            <strong>RECENT SIGNALS</strong>
+            <span>Daemon activity</span>
+          </div>
+
+          <div class="signal-list" id="signalList">
+
+            <div class="signal-row">
+              <span class="signal-dot green"></span>
+              <div class="signal-text">
+                <strong>System telemetry operating normally</strong>
+                <span>Current resource state within thresholds</span>
+              </div>
+              <span class="signal-time">NOW</span>
+            </div>
+
+            <div class="signal-row">
+              <span class="signal-dot green"></span>
+              <div class="signal-text">
+                <strong>Security state remains healthy</strong>
+                <span>No critical security signal detected</span>
+              </div>
+              <span class="signal-time">1m</span>
+            </div>
+
+            <div class="signal-row">
+              <span class="signal-dot yellow"></span>
+              <div class="signal-text">
+                <strong>Telemetry pattern under observation</strong>
+                <span>Daemon continues comparing recent state</span>
+              </div>
+              <span class="signal-time">3m</span>
+            </div>
+
+          </div>
+
+        </div>
+
+        <div class="card">
+
+          <div class="card-head">
+            <strong>WHAT DAEMON SEES</strong>
+            <span>System context</span>
+          </div>
+
+          <div class="signal-list">
+
+            <div class="signal-row">
+              <span class="signal-dot green"></span>
+              <div class="signal-text">
+                <strong>Resource pressure</strong>
+                <span id="resourceContext">Normal across monitored resources</span>
+              </div>
+              <span class="signal-time">OK</span>
+            </div>
+
+            <div class="signal-row">
+              <span class="signal-dot green"></span>
+              <div class="signal-text">
+                <strong>Operational state</strong>
+                <span id="operationalContext">Stable compared with recent history</span>
+              </div>
+              <span class="signal-time">OK</span>
+            </div>
+
+            <div class="signal-row">
+              <span class="signal-dot green"></span>
+              <div class="signal-text">
+                <strong>Security state</strong>
+                <span id="securityContext">No critical activity requiring review</span>
+              </div>
+              <span class="signal-time">OK</span>
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+<!-- EXPLANATION -->
+
+<section class="explain">
+
+  <div class="section-label">
+    HOW DAEMON THINKS
+  </div>
+
+  <h2>
+    From raw telemetry
+    to operational intelligence.
+  </h2>
+
+  <p class="explain-copy">
+    Traditional monitoring gives engineers more signals.
+    Daemon is designed to give those signals context —
+    evaluating current state, comparing historical conditions
+    and surfacing changes that deserve attention.
+  </p>
+
+  <div class="flow">
+
+    <div class="flow-card">
+      <div class="flow-number">01 / OBSERVE</div>
+      <h3>Telemetry</h3>
+      <p>
+        Daemon collects the current infrastructure state
+        across the signals available to the system.
+      </p>
+    </div>
+
+    <div class="flow-card">
+      <div class="flow-number">02 / COMPARE</div>
+      <h3>Detect Change</h3>
+      <p>
+        Current observations are compared against thresholds
+        and previous system conditions.
+      </p>
+    </div>
+
+    <div class="flow-card">
+      <div class="flow-number">03 / UNDERSTAND</div>
+      <h3>Intelligence</h3>
+      <p>
+        Daemon turns those observations into an operational
+        assessment rather than leaving engineers to connect
+        every signal manually.
+      </p>
+    </div>
+
+    <div class="flow-card">
+      <div class="flow-number">04 / ACT</div>
+      <h3>Attention</h3>
+      <p>
+        Important changes are surfaced so engineers can
+        investigate the conditions that actually matter.
+      </p>
+    </div>
+
+  </div>
+
+</section>
+
+<!-- CTA -->
+
+<section class="cta">
+
+  <div class="cta-box">
+
+    <h2>
+      Stop watching infrastructure.
+      <span class="gradient">Start understanding it.</span>
+    </h2>
+
+    <p>
+      Explore Daemon OS and see what infrastructure intelligence
+      looks like when telemetry, anomalies, security and system
+      state work together.
+    </p>
+
+    <div class="cta-buttons">
+
+      <a class="btn btn-primary" href="/">
+        Start Daemon — 14 Days Free
+      </a>
+
+      <a class="btn btn-secondary" href="/">
+        Explore Daemon OS
+      </a>
+
+    </div>
+
+  </div>
+
+</section>
+
+</main>
+
+<footer>
+
+  <div>
+    DAEMON OS · INFRASTRUCTURE INTELLIGENCE
+  </div>
+
+  <div>
+    <a href="/">daemon-os.lebarionellison.workers.dev</a>
+  </div>
+
+</footer>
+
+<script>
+const API = "https://daemon-os.lebarionellison.workers.dev";
+
+const fallback = {
+  cpu: 42.8,
+  memory: 61.4,
+  disk: 48.2
+};
+
+function number(value, fallbackValue){
+  const n = Number(value);
+  return Number.isFinite(n) ? n : fallbackValue;
+}
+
+async function getJSON(path){
+  try{
+    const response = await fetch(API + path,{
+      method:"GET",
+      cache:"no-store"
+    });
+
+    if(!response.ok){
+      throw new Error(path);
+    }
+
+    return await response.json();
+
+  }catch{
+    return null;
+  }
+}
+
+function setText(id,value){
+  const el = document.getElementById(id);
+
+  if(el){
+    el.textContent = value;
+  }
+}
+
+function updateMetric(id,value){
+  setText(id,value.toFixed(1) + "%");
+}
+
+function classify(value,warning,critical){
+
+  if(value >= critical){
+    return "bad";
+  }
+
+  if(value >= warning){
+    return "warn";
+  }
+
+  return "good";
+}
+
+function setMetricClass(id,className){
+
+  const el = document.getElementById(id);
+
+  if(!el){
+    return;
+  }
+
+  el.classList.remove("good","warn","bad","info");
+  el.classList.add(className);
+}
+
+function calculateHealth(cpu,memory,disk){
+
+  let score = 100;
+
+  if(cpu >= 90){
+    score -= 30;
+  }else if(cpu >= 80){
+    score -= 15;
+  }else if(cpu >= 70){
+    score -= 6;
+  }
+
+  if(memory >= 90){
+    score -= 30;
+  }else if(memory >= 80){
+    score -= 15;
+  }else if(memory >= 70){
+    score -= 6;
+  }
+
+  if(disk >= 95){
+    score -= 25;
+  }else if(disk >= 90){
+    score -= 12;
+  }else if(disk >= 80){
+    score -= 5;
+  }
+
+  return Math.max(0,Math.min(100,Math.round(score)));
+}
+
+function updateDashboard(telemetry,security,intelligence,history){
+
+  const cpu = number(
+    telemetry?.cpu_usage ??
+    telemetry?.cpu_percent ??
+    telemetry?.cpu,
+    fallback.cpu
+  );
+
+  const memory = number(
+    telemetry?.memory_used_percent ??
+    telemetry?.memory_usage ??
+    telemetry?.memory_percent ??
+    telemetry?.memory,
+    fallback.memory
+  );
+
+  const disk = number(
+    telemetry?.disk_used_percent ??
+    telemetry?.disk_usage ??
+    telemetry?.disk_percent ??
+    telemetry?.disk,
+    fallback.disk
+  );
+
+  const health = calculateHealth(cpu,memory,disk);
+
+  updateMetric("cpu",cpu);
+  updateMetric("memory",memory);
+  updateMetric("disk",disk);
+
+  setMetricClass("cpu",classify(cpu,70,90));
+  setMetricClass("memory",classify(memory,70,90));
+  setMetricClass("disk",classify(disk,80,95));
+
+  setText("healthScore",health);
+
+  let attention = [];
+
+  if(cpu >= 90){
+    attention.push("CPU pressure is critically high.");
+  }else if(cpu >= 80){
+    attention.push("CPU pressure is elevated.");
+  }
+
+  if(memory >= 90){
+    attention.push("Memory pressure is critically high.");
+  }else if(memory >= 80){
+    attention.push("Memory pressure is elevated.");
+  }
+
+  if(disk >= 95){
+    attention.push("Disk capacity is critically high.");
+  }else if(disk >= 90){
+    attention.push("Disk capacity requires attention.");
+  }
+
+  const securityText = JSON.stringify(
+    security || {}
+  ).toLowerCase();
+
+  if(
+    securityText.includes("critical") ||
+    securityText.includes("threat") ||
+    securityText.includes("alert")
+  ){
+    attention.push("Security activity requires review.");
+  }
+
+  if(attention.length){
+
+    setText(
+      "healthHeadline",
+      attention[0]
+    );
+
+    setText(
+      "healthDescription",
+      attention.length +
+      " active signal" +
+      (attention.length === 1 ? "" : "s") +
+      " detected. Daemon has surfaced the condition for investigation."
+    );
+
+    setText("anomaly","DETECTED");
+    setMetricClass("anomaly","warn");
+
+  }else{
+
+    setText(
+      "healthHeadline",
+      "Infrastructure operating normally."
+    );
+
+    setText(
+      "healthDescription",
+      "Daemon is continuously evaluating telemetry, system state and recent changes to determine whether anything requires attention."
+    );
+
+    setText("anomaly","NONE");
+    setMetricClass("anomaly","info");
+
+  }
+
+  if(
+    intelligence &&
+    typeof intelligence === "object"
+  ){
+
+    const raw = JSON.stringify(intelligence).toLowerCase();
+
+    if(
+      raw.includes("critical") ||
+      raw.includes("high") ||
+      raw.includes("attention") ||
+      raw.includes("anomaly")
+    ){
+
+      setText(
+        "assessment",
+        "Meaningful system condition detected"
+      );
+
+      setText(
+        "assessmentText",
+        "Daemon intelligence has identified a condition that may require investigation."
+      );
+
+    }else{
+
+      setText(
+        "assessment",
+        "Stable system state"
+      );
+
+      setText(
+        "assessmentText",
+        "Current telemetry remains within the normal operating range."
+      );
+    }
+
+  }
+
+  if(history){
+
+    setText(
+      "history",
+      "ACTIVE"
+    );
+
+    setText(
+      "operationalContext",
+      "Daemon is comparing current conditions with recorded system history"
+    );
+
+  }
+
+  if(
+    securityText.includes("critical") ||
+    securityText.includes("threat") ||
+    securityText.includes("alert")
+  ){
+
+    setText("security","REVIEW");
+    setMetricClass("security","warn");
+
+    setText(
+      "securityContext",
+      "Security activity detected — investigation recommended"
+    );
+
+  }else{
+
+    setText("security","HEALTHY");
+    setMetricClass("security","good");
+
+    setText(
+      "securityContext",
+      "No critical security activity requiring review"
+    );
+
+  }
+
+  if(
+    cpu >= 80 ||
+    memory >= 80 ||
+    disk >= 90
+  ){
+
+    setText(
+      "resourceContext",
+      "Elevated resource pressure detected"
+    );
+
+  }else{
+
+    setText(
+      "resourceContext",
+      "Normal across monitored resources"
+    );
+
+  }
+}
+
+async function refresh(){
+
+  const [
+    telemetry,
+    security,
+    intelligence,
+    history
+  ] = await Promise.all([
+
+    getJSON("/telemetry"),
+    getJSON("/security"),
+    getJSON("/intelligence"),
+    getJSON("/history")
+
+  ]);
+
+  updateDashboard(
+    telemetry,
+    security,
+    intelligence,
+    history
+  );
+}
+
+refresh();
+
+setInterval(refresh,15000);
+</script>
+
+</body>
+</html>
