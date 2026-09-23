@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -2666,6 +2666,448 @@ body::after {
   }
 }
 </style>
+<style id="daemon-live-intelligence-rail">
+/* ============================================================
+   DAEMON OS — LIVE INTELLIGENCE LANDING RAIL
+   Real telemetry / intelligence / security / history
+   ============================================================ */
+
+.daemon-live-rail{
+  position:relative;
+  width:min(1200px,calc(100% - 28px));
+  margin:0 auto 28px;
+  border:1px solid rgba(120,210,255,.16);
+  border-radius:22px;
+  overflow:hidden;
+  background:
+    linear-gradient(145deg,rgba(13,19,29,.96),rgba(7,10,17,.97));
+  box-shadow:
+    0 30px 90px rgba(0,0,0,.32),
+    inset 0 1px 0 rgba(255,255,255,.025);
+}
+
+.daemon-live-header{
+  min-height:58px;
+  padding:0 17px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:14px;
+  border-bottom:1px solid rgba(255,255,255,.065);
+}
+
+.daemon-live-title{
+  display:flex;
+  align-items:center;
+  gap:9px;
+  font-size:10px;
+  font-weight:900;
+  letter-spacing:.14em;
+}
+
+.daemon-live-state{
+  display:flex;
+  align-items:center;
+  gap:7px;
+  color:#72ffb1;
+  font-size:9px;
+  font-weight:900;
+  letter-spacing:.1em;
+}
+
+.daemon-live-state-dot{
+  width:7px;
+  height:7px;
+  border-radius:50%;
+  background:#72ffb1;
+  box-shadow:0 0 14px rgba(114,255,177,.65);
+}
+
+.daemon-live-state.attention{
+  color:#ff9a9a;
+}
+
+.daemon-live-state.attention .daemon-live-state-dot{
+  background:#ff7f8f;
+  box-shadow:0 0 14px rgba(255,127,143,.7);
+}
+
+.daemon-live-ticker{
+  position:relative;
+  overflow:hidden;
+  white-space:nowrap;
+  border-bottom:1px solid rgba(255,255,255,.06);
+  background:rgba(255,255,255,.012);
+}
+
+.daemon-live-ticker-track{
+  display:inline-flex;
+  min-width:max-content;
+  animation:daemonLiveTicker 32s linear infinite;
+}
+
+.daemon-live-ticker:hover .daemon-live-ticker-track{
+  animation-play-state:paused;
+}
+
+.daemon-live-ticker-item{
+  display:inline-flex;
+  align-items:center;
+  gap:7px;
+  padding:12px 21px;
+  border-right:1px solid rgba(255,255,255,.055);
+  color:#718094;
+  font-size:10px;
+  letter-spacing:.03em;
+}
+
+.daemon-live-ticker-item strong{
+  color:#dce5f0;
+  font-weight:800;
+}
+
+.daemon-live-ticker-item.alert strong{
+  color:#ff9aa8;
+}
+
+.daemon-live-ticker-item.good strong{
+  color:#7df0b4;
+}
+
+.daemon-live-ticker-item .ticker-dot{
+  width:5px;
+  height:5px;
+  border-radius:50%;
+  background:#667386;
+}
+
+.daemon-live-ticker-item.alert .ticker-dot{
+  background:#ff7588;
+}
+
+.daemon-live-ticker-item.good .ticker-dot{
+  background:#72ffb1;
+}
+
+@keyframes daemonLiveTicker{
+  from{transform:translateX(0)}
+  to{transform:translateX(-50%)}
+}
+
+.daemon-live-grid{
+  display:grid;
+  grid-template-columns:minmax(0,1.45fr) minmax(280px,.55fr);
+}
+
+.daemon-live-console{
+  padding:24px;
+  border-right:1px solid rgba(255,255,255,.06);
+}
+
+.daemon-live-kicker{
+  color:#718094;
+  font-size:9px;
+  font-weight:800;
+  letter-spacing:.18em;
+  text-transform:uppercase;
+}
+
+.daemon-live-heading{
+  margin:9px 0 7px;
+  font-size:clamp(25px,3.5vw,43px);
+  line-height:1.03;
+  letter-spacing:-.055em;
+  font-weight:800;
+}
+
+.daemon-live-description{
+  max-width:650px;
+  color:#7e8b9e;
+  font-size:12px;
+  line-height:1.65;
+}
+
+.daemon-live-metrics{
+  display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:8px;
+  margin-top:20px;
+}
+
+.daemon-live-metric{
+  min-width:0;
+  padding:13px;
+  border:1px solid rgba(255,255,255,.07);
+  border-radius:14px;
+  background:rgba(255,255,255,.018);
+}
+
+.daemon-live-metric-label{
+  color:#687589;
+  font-size:8px;
+  font-weight:800;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+}
+
+.daemon-live-metric-value{
+  margin-top:6px;
+  color:#edf4fb;
+  font-size:20px;
+  line-height:1;
+  font-weight:800;
+  font-variant-numeric:tabular-nums;
+}
+
+.daemon-live-chart{
+  position:relative;
+  height:104px;
+  margin-top:13px;
+  overflow:hidden;
+  border:1px solid rgba(255,255,255,.065);
+  border-radius:14px;
+  background:
+    linear-gradient(rgba(255,255,255,.025) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(255,255,255,.025) 1px,transparent 1px),
+    rgba(0,0,0,.12);
+  background-size:25px 25px;
+}
+
+.daemon-live-chart svg{
+  width:100%;
+  height:100%;
+  display:block;
+}
+
+.daemon-live-chart-line{
+  fill:none;
+  stroke:#76ddff;
+  stroke-width:2;
+  vector-effect:non-scaling-stroke;
+}
+
+.daemon-live-chart-glow{
+  fill:none;
+  stroke:rgba(118,221,255,.16);
+  stroke-width:8;
+  vector-effect:non-scaling-stroke;
+}
+
+.daemon-live-chart-label{
+  position:absolute;
+  left:12px;
+  top:10px;
+  color:#617085;
+  font-size:8px;
+  letter-spacing:.12em;
+}
+
+.daemon-live-incident{
+  padding:20px;
+  background:
+    radial-gradient(circle at 100% 0,rgba(255,100,130,.055),transparent 45%),
+    rgba(255,255,255,.008);
+}
+
+.daemon-live-incident-card{
+  border:1px solid rgba(255,120,140,.2);
+  border-radius:17px;
+  background:rgba(24,13,18,.58);
+  overflow:hidden;
+}
+
+.daemon-live-incident-top{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  padding:14px 15px;
+  border-bottom:1px solid rgba(255,255,255,.06);
+}
+
+.daemon-live-bug{
+  width:35px;
+  height:35px;
+  display:grid;
+  place-items:center;
+  border:1px solid rgba(255,110,135,.3);
+  border-radius:50%;
+  background:rgba(255,90,115,.07);
+  color:#ff8999;
+  font-size:16px;
+  cursor:pointer;
+  transition:transform .2s ease,background .2s ease,border-color .2s ease;
+}
+
+.daemon-live-bug:hover{
+  transform:scale(1.06);
+  background:rgba(255,90,115,.14);
+  border-color:rgba(255,130,150,.5);
+}
+
+.daemon-live-bug:focus-visible{
+  outline:2px solid #76ddff;
+  outline-offset:3px;
+}
+
+.daemon-live-severity{
+  color:#ff9aa8;
+  font-size:8px;
+  font-weight:900;
+  letter-spacing:.15em;
+}
+
+.daemon-live-incident-state{
+  color:#6f7d90;
+  font-size:8px;
+  font-weight:800;
+  letter-spacing:.1em;
+}
+
+.daemon-live-incident-body{
+  padding:16px;
+}
+
+.daemon-live-incident-body h3{
+  margin:0 0 7px;
+  font-size:17px;
+  letter-spacing:-.025em;
+}
+
+.daemon-live-incident-body p{
+  margin:0;
+  color:#7f8c9f;
+  font-size:11px;
+  line-height:1.55;
+}
+
+.daemon-live-actions{
+  display:flex;
+  gap:7px;
+  flex-wrap:wrap;
+  margin-top:15px;
+}
+
+.daemon-live-button{
+  min-height:40px;
+  padding:9px 12px;
+  border:1px solid rgba(255,255,255,.1);
+  border-radius:10px;
+  background:rgba(255,255,255,.025);
+  color:#dce4ed;
+  cursor:pointer;
+  font:inherit;
+  font-size:10px;
+  font-weight:800;
+}
+
+.daemon-live-button.primary{
+  border-color:rgba(118,221,255,.28);
+  background:rgba(70,190,230,.09);
+  color:#9be9ff;
+}
+
+.daemon-live-button:disabled{
+  opacity:.45;
+  cursor:default;
+}
+
+.daemon-live-button:focus-visible{
+  outline:2px solid #76ddff;
+  outline-offset:2px;
+}
+
+.daemon-live-analysis{
+  min-height:40px;
+  margin-top:12px;
+  color:#748196;
+  font-size:10px;
+  line-height:1.5;
+}
+
+.daemon-live-timeline{
+  margin-top:12px;
+  border-top:1px solid rgba(255,255,255,.055);
+}
+
+.daemon-live-step{
+  display:flex;
+  gap:9px;
+  padding:9px 0;
+  border-bottom:1px solid rgba(255,255,255,.045);
+  color:#687589;
+  font-size:9px;
+}
+
+.daemon-live-step strong{
+  color:#cbd5e1;
+}
+
+.daemon-live-footer{
+  display:flex;
+  justify-content:space-between;
+  gap:12px;
+  flex-wrap:wrap;
+  padding:11px 17px;
+  border-top:1px solid rgba(255,255,255,.06);
+  color:#566276;
+  font-size:8px;
+  letter-spacing:.04em;
+}
+
+.daemon-live-footer span:last-child{
+  color:#718094;
+}
+
+.daemon-live-attention{
+  animation:daemonLiveAttention 2.5s ease-in-out infinite;
+}
+
+@keyframes daemonLiveAttention{
+  0%,100%{box-shadow:0 0 0 rgba(255,100,130,0)}
+  50%{box-shadow:0 0 28px rgba(255,100,130,.11)}
+}
+
+@media(max-width:900px){
+  .daemon-live-grid{
+    grid-template-columns:1fr;
+  }
+
+  .daemon-live-console{
+    border-right:0;
+    border-bottom:1px solid rgba(255,255,255,.06);
+  }
+}
+
+@media(max-width:600px){
+  .daemon-live-console,
+  .daemon-live-incident{
+    padding:15px;
+  }
+
+  .daemon-live-metrics{
+    grid-template-columns:repeat(2,minmax(0,1fr));
+  }
+
+  .daemon-live-heading{
+    font-size:32px;
+  }
+
+  .daemon-live-ticker-track{
+    animation-duration:24s;
+  }
+}
+
+@media(prefers-reduced-motion:reduce){
+  .daemon-live-ticker-track{
+    animation:none;
+  }
+
+  .daemon-live-attention{
+    animation:none;
+  }
+}
+</style>
 </head>
 
 <body>
@@ -3152,6 +3594,310 @@ body::after {
   setInterval(updateState,3000);
 })();
 </script>
+
+<!-- DAEMON LIVE INTELLIGENCE RAIL -->
+<section class="daemon-live-rail" id="daemon-live-intelligence-rail" aria-label="Live Daemon infrastructure intelligence">
+
+  <div class="daemon-live-header">
+    <div class="daemon-live-title">
+      <span class="dot"></span>
+      DAEMON OS / LIVE INTELLIGENCE
+    </div>
+
+    <div class="daemon-live-state" id="daemon-live-state">
+      <span class="daemon-live-state-dot"></span>
+      <span id="daemon-live-state-text">CONNECTING</span>
+    </div>
+  </div>
+
+  <div class="daemon-live-ticker" aria-label="Live infrastructure signals">
+    <div class="daemon-live-ticker-track" id="daemon-live-ticker-track">
+
+      <div class="daemon-live-ticker-item">
+        <span class="ticker-dot"></span>
+        <strong>TELEMETRY</strong>
+        <span id="ticker-telemetry">connecting</span>
+      </div>
+
+      <div class="daemon-live-ticker-item">
+        <span class="ticker-dot"></span>
+        <strong>CPU</strong>
+        <span id="ticker-cpu">--</span>
+      </div>
+
+      <div class="daemon-live-ticker-item">
+        <span class="ticker-dot"></span>
+        <strong>MEMORY</strong>
+        <span id="ticker-memory">--</span>
+      </div>
+
+      <div class="daemon-live-ticker-item">
+        <span class="ticker-dot"></span>
+        <strong>DISK</strong>
+        <span id="ticker-disk">--</span>
+      </div>
+
+      <div class="daemon-live-ticker-item">
+        <span class="ticker-dot"></span>
+        <strong>SECURITY</strong>
+        <span id="ticker-security">monitoring</span>
+      </div>
+
+      <div class="daemon-live-ticker-item">
+        <span class="ticker-dot"></span>
+        <strong>INTELLIGENCE</strong>
+        <span id="ticker-intelligence">watching</span>
+      </div>
+
+      <div class="daemon-live-ticker-item">
+        <span class="ticker-dot"></span>
+        <strong>HISTORY</strong>
+        <span id="ticker-history">tracking</span>
+      </div>
+
+      <div class="daemon-live-ticker-item">
+        <span class="ticker-dot"></span>
+        <strong>HEALTH</strong>
+        <span id="ticker-health">--</span>
+      </div>
+
+      <div class="daemon-live-ticker-item">
+        <span class="ticker-dot"></span>
+        <strong>TELEMETRY</strong>
+        <span id="ticker-telemetry-copy">connecting</span>
+      </div>
+
+      <div class="daemon-live-ticker-item">
+        <span class="ticker-dot"></span>
+        <strong>CPU</strong>
+        <span id="ticker-cpu-copy">--</span>
+      </div>
+
+      <div class="daemon-live-ticker-item">
+        <span class="ticker-dot"></span>
+        <strong>MEMORY</strong>
+        <span id="ticker-memory-copy">--</span>
+      </div>
+
+      <div class="daemon-live-ticker-item">
+        <span class="ticker-dot"></span>
+        <strong>DISK</strong>
+        <span id="ticker-disk-copy">--</span>
+      </div>
+
+      <div class="daemon-live-ticker-item">
+        <span class="ticker-dot"></span>
+        <strong>SECURITY</strong>
+        <span id="ticker-security-copy">monitoring</span>
+      </div>
+
+      <div class="daemon-live-ticker-item">
+        <span class="ticker-dot"></span>
+        <strong>INTELLIGENCE</strong>
+        <span id="ticker-intelligence-copy">watching</span>
+      </div>
+
+      <div class="daemon-live-ticker-item">
+        <span class="ticker-dot"></span>
+        <strong>HISTORY</strong>
+        <span id="ticker-history-copy">tracking</span>
+      </div>
+
+      <div class="daemon-live-ticker-item">
+        <span class="ticker-dot"></span>
+        <strong>HEALTH</strong>
+        <span id="ticker-health-copy">--</span>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="daemon-live-grid">
+
+    <div class="daemon-live-console">
+
+      <div class="daemon-live-kicker">
+        Continuous infrastructure observation
+      </div>
+
+      <div class="daemon-live-heading">
+        Your infrastructure finally understands itself.
+      </div>
+
+      <div class="daemon-live-description">
+        Daemon watches telemetry, security, system behavior and historical
+        state continuously — then turns meaningful changes into intelligence.
+      </div>
+
+      <div class="daemon-live-metrics">
+
+        <div class="daemon-live-metric">
+          <div class="daemon-live-metric-label">Health</div>
+          <div class="daemon-live-metric-value" id="daemon-live-health">--</div>
+        </div>
+
+        <div class="daemon-live-metric">
+          <div class="daemon-live-metric-label">CPU</div>
+          <div class="daemon-live-metric-value" id="daemon-live-cpu">--</div>
+        </div>
+
+        <div class="daemon-live-metric">
+          <div class="daemon-live-metric-label">Memory</div>
+          <div class="daemon-live-metric-value" id="daemon-live-memory">--</div>
+        </div>
+
+        <div class="daemon-live-metric">
+          <div class="daemon-live-metric-label">Disk</div>
+          <div class="daemon-live-metric-value" id="daemon-live-disk">--</div>
+        </div>
+
+      </div>
+
+      <div class="daemon-live-chart">
+
+        <div class="daemon-live-chart-label">
+          LIVE TELEMETRY SIGNAL
+        </div>
+
+        <svg viewBox="0 0 700 100" preserveAspectRatio="none" aria-label="Live telemetry trend">
+
+          <path
+            id="daemon-live-chart-glow"
+            class="daemon-live-chart-glow"
+            d="M0 72 C40 66 60 74 90 58 S140 48 175 60 S225 73 260 51 S310 35 345 49 S390 67 425 42 S470 35 505 50 S550 62 585 39 S635 25 700 32"
+          ></path>
+
+          <path
+            id="daemon-live-chart-line"
+            class="daemon-live-chart-line"
+            d="M0 72 C40 66 60 74 90 58 S140 48 175 60 S225 73 260 51 S310 35 345 49 S390 67 425 42 S470 35 505 50 S550 62 585 39 S635 25 700 32"
+          ></path>
+
+        </svg>
+
+      </div>
+
+    </div>
+
+    <aside class="daemon-live-incident" id="daemon-live-incident">
+
+      <div class="daemon-live-kicker">
+        Daemon detection engine
+      </div>
+
+      <div class="daemon-live-incident-card">
+
+        <div class="daemon-live-incident-top">
+
+          <div style="display:flex;align-items:center;gap:10px;">
+            <button
+              id="daemon-live-bug"
+              class="daemon-live-bug"
+              type="button"
+              aria-label="Open Daemon alert"
+              title="Open Daemon alert"
+            >⌁</button>
+
+            <div>
+              <div class="daemon-live-severity" id="daemon-live-severity">
+                WATCHING
+              </div>
+
+              <div
+                class="daemon-live-incident-state"
+                id="daemon-live-incident-state"
+              >
+                NO ACTIVE INCIDENT
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="daemon-live-incident-body">
+
+          <h3 id="daemon-live-incident-title">
+            Infrastructure is being watched.
+          </h3>
+
+          <p id="daemon-live-incident-copy">
+            Daemon is continuously comparing live system signals with
+            current infrastructure state.
+          </p>
+
+          <div class="daemon-live-actions">
+
+            <button
+              class="daemon-live-button primary"
+              id="daemon-live-investigate"
+              type="button"
+              disabled
+            >
+              Investigate
+            </button>
+
+            <button
+              class="daemon-live-button"
+              id="daemon-live-resolve"
+              type="button"
+              disabled
+            >
+              Resolve
+            </button>
+
+          </div>
+
+          <div
+            class="daemon-live-analysis"
+            id="daemon-live-analysis"
+            aria-live="polite"
+          >
+            Waiting for live intelligence…
+          </div>
+
+          <div class="daemon-live-timeline">
+
+            <div class="daemon-live-step">
+              <span>01</span>
+              <span><strong>Signal</strong> · telemetry observed</span>
+            </div>
+
+            <div class="daemon-live-step">
+              <span>02</span>
+              <span><strong>Context</strong> · system state compared</span>
+            </div>
+
+            <div class="daemon-live-step">
+              <span>03</span>
+              <span><strong>Intelligence</strong> · meaningful change interpreted</span>
+            </div>
+
+            <div class="daemon-live-step">
+              <span>04</span>
+              <span><strong>Action</strong> · investigation path surfaced</span>
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </aside>
+
+  </div>
+
+  <div class="daemon-live-footer">
+    <span id="daemon-live-footer-left">
+      LIVE DAEMON DATA · TELEMETRY / SECURITY / INTELLIGENCE / HISTORY
+    </span>
+
+    <span id="daemon-live-updated">
+      Updating…
+    </span>
+  </div>
+
+</section>
 
 <!-- HERO -->
 
@@ -8598,6 +9344,734 @@ setInterval(refreshMatrix,5000);
     <img src="https://saashunt.best/images/badges/featured-on-dark.svg" alt="Featured on SaaSHunt" style="height:44px;width:auto"/>
   </a>
 </div>
+<script id="daemon-live-intelligence-script">
+(function(){
+
+  const rail = document.getElementById("daemon-live-intelligence-rail");
+  if(!rail || rail.dataset.initialized === "true") return;
+
+  rail.dataset.initialized = "true";
+
+  const API =
+    window.DAEMON_API_URL ||
+    window.DAEMON_API ||
+    window.location.origin;
+
+  const $ = id => document.getElementById(id);
+
+  const state = {
+    telemetry: null,
+    intelligence: null,
+    security: null,
+    history: null,
+    incident: null,
+    values: []
+  };
+
+  function number(value, fallback = 0){
+    const n = Number(value);
+    return Number.isFinite(n) ? n : fallback;
+  }
+
+  function clamp(value,min,max){
+    return Math.min(max,Math.max(min,value));
+  }
+
+  function text(value,fallback = "--"){
+    if(value === null || value === undefined || value === ""){
+      return fallback;
+    }
+
+    return String(value);
+  }
+
+  function escapeValue(value){
+    return String(value)
+      .replace(/[&<>"]/g,function(char){
+        return {
+          "&":"&amp;",
+          "<":"&lt;",
+          ">":"&gt;",
+          "\"":"&quot;"
+        }[char];
+      });
+  }
+
+  async function json(endpoint){
+    try{
+      const response = await fetch(
+        API + endpoint,
+        {
+          cache:"no-store",
+          credentials:"include"
+        }
+      );
+
+      if(!response.ok){
+        throw new Error(endpoint);
+      }
+
+      return await response.json();
+    }catch{
+      return null;
+    }
+  }
+
+  function extractAlerts(data){
+    if(!data) return [];
+
+    const candidates = [
+      data.alerts,
+      data.anomalies,
+      data.events,
+      data.threats,
+      data.findings,
+      data.data
+    ];
+
+    for(const candidate of candidates){
+      if(Array.isArray(candidate) && candidate.length){
+        return candidate;
+      }
+    }
+
+    return [];
+  }
+
+  function historyItems(data){
+    if(!data) return [];
+
+    if(Array.isArray(data)){
+      return data;
+    }
+
+    const candidates = [
+      data.events,
+      data.history,
+      data.data,
+      data.items
+    ];
+
+    for(const candidate of candidates){
+      if(Array.isArray(candidate)){
+        return candidate;
+      }
+    }
+
+    return [];
+  }
+
+  function securityHasAttention(data){
+    if(!data) return false;
+
+    const raw = JSON.stringify(data).toLowerCase();
+
+    return (
+      raw.includes("critical") ||
+      raw.includes("threat") ||
+      raw.includes("alert") ||
+      raw.includes("high")
+    );
+  }
+
+  function calculateHealth(cpu,mem,disk,attention){
+    const resourcePenalty =
+      Math.max(0,cpu - 65) * .22 +
+      Math.max(0,mem - 70) * .22 +
+      Math.max(0,disk - 75) * .12;
+
+    const securityPenalty = attention ? 12 : 0;
+
+    return Math.round(
+      clamp(
+        100 - resourcePenalty - securityPenalty,
+        0,
+        100
+      )
+    );
+  }
+
+  function updateMetric(id,value){
+    const element = $(id);
+
+    if(element){
+      element.textContent = value;
+    }
+  }
+
+  function setTicker(id,value){
+    const element = $(id);
+
+    if(element){
+      element.textContent = value;
+    }
+  }
+
+  function updateTickerPairs(id,value){
+    setTicker(id,value);
+    setTicker(id + "-copy",value);
+  }
+
+  function setAttentionVisual(attention){
+    const stateEl = $("daemon-live-state");
+    const incident = $("daemon-live-incident");
+    const severity = $("daemon-live-severity");
+
+    if(stateEl){
+      stateEl.classList.toggle("attention",attention);
+    }
+
+    if(incident){
+      incident.classList.toggle("daemon-live-attention",attention);
+    }
+
+    if(severity){
+      severity.textContent = attention ? "ATTENTION" : "WATCHING";
+    }
+  }
+
+  function updateChart(value){
+    const safe = clamp(number(value,0),0,100);
+
+    state.values.push(safe);
+
+    if(state.values.length > 32){
+      state.values.shift();
+    }
+
+    if(state.values.length < 3){
+      return;
+    }
+
+    const width = 700;
+    const height = 100;
+
+    const points = state.values.map(function(item,index){
+
+      const x =
+        index *
+        (width / Math.max(1,state.values.length - 1));
+
+      const y =
+        height -
+        ((item / 100) * 62 + 18);
+
+      return [
+        Math.round(x),
+        Math.round(y)
+      ];
+
+    });
+
+    let path = "M" + points[0][0] + " " + points[0][1];
+
+    for(let i=1;i<points.length;i++){
+
+      const previous = points[i - 1];
+      const current = points[i];
+
+      const midX =
+        Math.round((previous[0] + current[0]) / 2);
+
+      path +=
+        " C" +
+        midX + " " + previous[1] +
+        " " +
+        midX + " " + current[1] +
+        " " +
+        current[0] + " " + current[1];
+    }
+
+    const line = $("daemon-live-chart-line");
+    const glow = $("daemon-live-chart-glow");
+
+    if(line){
+      line.setAttribute("d",path);
+    }
+
+    if(glow){
+      glow.setAttribute("d",path);
+    }
+  }
+
+  function buildIncident(alerts,cpu,mem,disk,securityAttention){
+
+    let incident = null;
+
+    if(alerts.length){
+
+      const first = alerts[0];
+
+      incident = {
+        type:"intelligence",
+        title:
+          text(
+            first.title ||
+            first.message ||
+            first.type,
+            "Daemon detected an intelligence signal."
+          ),
+        copy:
+          text(
+            first.description ||
+            first.message ||
+            first.value,
+            "Daemon detected a signal that warrants investigation."
+          )
+      };
+
+    }else if(securityAttention){
+
+      incident = {
+        type:"security",
+        title:"Security activity needs review.",
+        copy:
+          "Daemon detected security-related activity in the live security state."
+      };
+
+    }else if(cpu >= 90){
+
+      incident = {
+        type:"telemetry",
+        title:"CPU utilization is critically high.",
+        copy:
+          "Live telemetry crossed the 90% CPU threshold."
+      };
+
+    }else if(mem >= 90){
+
+      incident = {
+        type:"telemetry",
+        title:"Memory utilization is critically high.",
+        copy:
+          "Live telemetry crossed the 90% memory threshold."
+      };
+
+    }else if(disk >= 90){
+
+      incident = {
+        type:"telemetry",
+        title:"Disk utilization is critically high.",
+        copy:
+          "Live telemetry crossed the 90% disk threshold."
+      };
+    }
+
+    return incident;
+  }
+
+  function renderIncident(incident){
+
+    const stateEl = $("daemon-live-incident-state");
+    const title = $("daemon-live-incident-title");
+    const copy = $("daemon-live-incident-copy");
+    const investigate = $("daemon-live-investigate");
+    const resolve = $("daemon-live-resolve");
+    const analysis = $("daemon-live-analysis");
+    const bug = $("daemon-live-bug");
+
+    if(!incident){
+
+      if(stateEl){
+        stateEl.textContent = "NO ACTIVE INCIDENT";
+      }
+
+      if(title){
+        title.textContent =
+          "Infrastructure is being watched.";
+      }
+
+      if(copy){
+        copy.textContent =
+          "Daemon is continuously comparing live system signals with current infrastructure state.";
+      }
+
+      if(analysis){
+        analysis.textContent =
+          "No immediate attention signal detected.";
+      }
+
+      if(investigate){
+        investigate.disabled = true;
+      }
+
+      if(resolve){
+        resolve.disabled = true;
+      }
+
+      if(bug){
+        bug.setAttribute(
+          "aria-label",
+          "No active Daemon alert"
+        );
+      }
+
+      return;
+    }
+
+    state.incident = incident;
+
+    if(stateEl){
+      stateEl.textContent = "ACTIVE SIGNAL";
+    }
+
+    if(title){
+      title.textContent = incident.title;
+    }
+
+    if(copy){
+      copy.textContent = incident.copy;
+    }
+
+    if(analysis){
+      analysis.textContent =
+        "Daemon has an active signal ready for investigation.";
+    }
+
+    if(investigate){
+      investigate.disabled = false;
+    }
+
+    if(resolve){
+      resolve.disabled = true;
+    }
+
+    if(bug){
+      bug.setAttribute(
+        "aria-label",
+        "Open active Daemon alert"
+      );
+    }
+  }
+
+  async function refresh(){
+
+    const results = await Promise.all([
+      json("/telemetry"),
+      json("/security"),
+      json("/intelligence"),
+      json("/history")
+    ]);
+
+    state.telemetry = results[0];
+    state.security = results[1];
+    state.intelligence = results[2];
+    state.history = results[3];
+
+    const telemetry = state.telemetry;
+
+    if(!telemetry){
+
+      const stateText = $("daemon-live-state-text");
+
+      if(stateText){
+        stateText.textContent = "OFFLINE";
+      }
+
+      updateTickerPairs(
+        "ticker-telemetry",
+        "unavailable"
+      );
+
+      return;
+    }
+
+    const cpu = number(
+      telemetry.cpu_usage ??
+      telemetry.cpu ??
+      telemetry.cpu_percent,
+      0
+    );
+
+    const memory = number(
+      telemetry.memory_used_percent ??
+      telemetry.memory_usage ??
+      telemetry.memory ??
+      telemetry.memory_percent,
+      0
+    );
+
+    const disk = number(
+      telemetry.disk_used_percent ??
+      telemetry.disk_usage ??
+      telemetry.disk ??
+      telemetry.disk_percent,
+      0
+    );
+
+    const alerts = extractAlerts(
+      state.intelligence
+    );
+
+    const securityAttention =
+      securityHasAttention(
+        state.security
+      );
+
+    const attention =
+      alerts.length > 0 ||
+      securityAttention ||
+      cpu >= 90 ||
+      memory >= 90 ||
+      disk >= 90;
+
+    const health =
+      calculateHealth(
+        cpu,
+        memory,
+        disk,
+        attention
+      );
+
+    updateMetric(
+      "daemon-live-health",
+      health + "/100"
+    );
+
+    updateMetric(
+      "daemon-live-cpu",
+      cpu.toFixed(1) + "%"
+    );
+
+    updateMetric(
+      "daemon-live-memory",
+      memory.toFixed(1) + "%"
+    );
+
+    updateMetric(
+      "daemon-live-disk",
+      disk.toFixed(1) + "%"
+    );
+
+    updateTickerPairs(
+      "ticker-telemetry",
+      "LIVE"
+    );
+
+    updateTickerPairs(
+      "ticker-cpu",
+      cpu.toFixed(1) + "%"
+    );
+
+    updateTickerPairs(
+      "ticker-memory",
+      memory.toFixed(1) + "%"
+    );
+
+    updateTickerPairs(
+      "ticker-disk",
+      disk.toFixed(1) + "%"
+    );
+
+    updateTickerPairs(
+      "ticker-health",
+      health + "/100"
+    );
+
+    updateTickerPairs(
+      "ticker-security",
+      securityAttention ? "attention" : "clear"
+    );
+
+    updateTickerPairs(
+      "ticker-intelligence",
+      alerts.length
+        ? alerts.length + " signal" + (alerts.length === 1 ? "" : "s")
+        : "watching"
+    );
+
+    updateTickerPairs(
+      "ticker-history",
+      historyItems(state.history).length
+        ? historyItems(state.history).length + " records"
+        : "tracking"
+    );
+
+    const stateText = $("daemon-live-state-text");
+
+    if(stateText){
+      stateText.textContent =
+        attention ? "ATTENTION" : "LIVE";
+    }
+
+    setAttentionVisual(attention);
+
+    updateChart(
+      (cpu * .55) +
+      (memory * .3) +
+      (disk * .15)
+    );
+
+    const incident =
+      buildIncident(
+        alerts,
+        cpu,
+        memory,
+        disk,
+        securityAttention
+      );
+
+    renderIncident(incident);
+
+    const updated = $("daemon-live-updated");
+
+    if(updated){
+      updated.textContent =
+        "Updated " +
+        new Date().toLocaleTimeString(
+          [],
+          {
+            hour:"numeric",
+            minute:"2-digit",
+            second:"2-digit"
+          }
+        );
+    }
+
+  }
+
+  $("daemon-live-bug")?.addEventListener(
+    "click",
+    function(){
+
+      if(!state.incident){
+        $("daemon-live-analysis").textContent =
+          "No active alert. Daemon is watching live infrastructure state.";
+        return;
+      }
+
+      $("daemon-live-analysis").textContent =
+        "Signal opened: " +
+        state.incident.title +
+        " — Daemon is correlating telemetry, security and historical context.";
+
+      document
+        .getElementById("daemon-live-incident")
+        ?.scrollIntoView({
+          behavior:"smooth",
+          block:"center"
+        });
+    }
+  );
+
+  $("daemon-live-investigate")?.addEventListener(
+    "click",
+    function(){
+
+      if(!state.incident) return;
+
+      const button = this;
+      const resolve = $("daemon-live-resolve");
+      const analysis = $("daemon-live-analysis");
+
+      button.disabled = true;
+
+      if(analysis){
+        analysis.textContent =
+          "Analyzing live telemetry…";
+      }
+
+      window.setTimeout(function(){
+
+        if(analysis){
+          analysis.textContent =
+            "Context correlated: Daemon compared current telemetry with security state and operational history.";
+        }
+
+        window.setTimeout(function(){
+
+          if(analysis){
+            analysis.textContent =
+              "Intelligence ready: investigate the affected signal and its recent operational context.";
+          }
+
+          if(resolve){
+            resolve.disabled = false;
+          }
+
+          button.disabled = false;
+
+        },700);
+
+      },700);
+    }
+  );
+
+  $("daemon-live-resolve")?.addEventListener(
+    "click",
+    function(){
+
+      if(!state.incident) return;
+
+      state.incident = null;
+
+      const stateEl =
+        $("daemon-live-incident-state");
+
+      const severity =
+        $("daemon-live-severity");
+
+      const title =
+        $("daemon-live-incident-title");
+
+      const copy =
+        $("daemon-live-incident-copy");
+
+      const analysis =
+        $("daemon-live-analysis");
+
+      const investigate =
+        $("daemon-live-investigate");
+
+      const resolve =
+        $("daemon-live-resolve");
+
+      if(stateEl){
+        stateEl.textContent =
+          "RESOLVED";
+      }
+
+      if(severity){
+        severity.textContent =
+          "RESOLVED";
+      }
+
+      if(title){
+        title.textContent =
+          "Signal cleared.";
+      }
+
+      if(copy){
+        copy.textContent =
+          "The incident view has been cleared. Daemon continues watching live infrastructure state.";
+      }
+
+      if(analysis){
+        analysis.textContent =
+          "Incident lifecycle: detected → analyzed → understood → resolved.";
+      }
+
+      if(investigate){
+        investigate.disabled = true;
+      }
+
+      if(resolve){
+        resolve.disabled = true;
+      }
+
+      setAttentionVisual(false);
+    }
+  );
+
+  refresh();
+
+  window.setInterval(
+    refresh,
+    5000
+  );
+
+})();
+</script>
 </body>
 </html>
 
