@@ -3108,9 +3108,297 @@ body::after {
   }
 }
 </style>
+<style id="daemon-security-nav-style">
+.daemon-top-nav{
+  position:sticky;
+  top:0;
+  z-index:9999;
+  width:100%;
+  background:rgba(6,8,13,.78);
+  border-bottom:1px solid rgba(255,255,255,.08);
+  backdrop-filter:blur(22px) saturate(140%);
+  -webkit-backdrop-filter:blur(22px) saturate(140%);
+}
+
+.daemon-top-nav-inner{
+  max-width:1240px;
+  min-height:64px;
+  margin:0 auto;
+  padding:0 24px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:24px;
+}
+
+.daemon-top-brand{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  color:#fff;
+  text-decoration:none;
+  font-size:12px;
+  font-weight:700;
+  letter-spacing:.16em;
+  white-space:nowrap;
+}
+
+.daemon-top-brand-dot{
+  width:7px;
+  height:7px;
+  border-radius:50%;
+  background:#72e8ff;
+  box-shadow:0 0 14px rgba(114,232,255,.85);
+}
+
+.daemon-top-links{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:28px;
+  flex:1;
+}
+
+.daemon-top-links a{
+  color:rgba(255,255,255,.62);
+  text-decoration:none;
+  font-size:12px;
+  letter-spacing:.04em;
+  transition:color .2s ease;
+}
+
+.daemon-top-links a:hover{
+  color:#fff;
+}
+
+.daemon-top-cta{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  min-height:38px;
+  padding:0 17px;
+  border-radius:999px;
+  color:#05070b !important;
+  background:#fff;
+  text-decoration:none;
+  font-size:11px;
+  font-weight:700;
+  letter-spacing:.03em;
+  white-space:nowrap;
+  transition:transform .2s ease,box-shadow .2s ease;
+}
+
+.daemon-top-cta:hover{
+  transform:translateY(-1px);
+  box-shadow:0 8px 28px rgba(255,255,255,.16);
+}
+
+.daemon-security-live-ticker{
+  position:relative;
+  width:100%;
+  overflow:hidden;
+  border-bottom:1px solid rgba(255,255,255,.06);
+  background:rgba(5,8,13,.92);
+}
+
+.daemon-security-live-track{
+  width:max-content;
+  min-width:100%;
+  display:flex;
+  animation:daemonSecurityTicker 34s linear infinite;
+  will-change:transform;
+}
+
+.daemon-security-live-group{
+  display:flex;
+  align-items:center;
+  gap:34px;
+  padding:12px 34px;
+  white-space:nowrap;
+}
+
+.daemon-security-live-item{
+  display:inline-flex;
+  align-items:center;
+  gap:9px;
+  color:rgba(255,255,255,.58);
+  font-size:9px;
+  font-weight:600;
+  letter-spacing:.14em;
+}
+
+.daemon-security-live-item strong{
+  color:#fff;
+  font-weight:700;
+}
+
+.daemon-security-live-dot{
+  width:5px;
+  height:5px;
+  border-radius:50%;
+  background:#67e8a5;
+  box-shadow:0 0 10px rgba(103,232,165,.75);
+}
+
+.daemon-security-live-dot.attention{
+  background:#ffb86b;
+  box-shadow:0 0 10px rgba(255,184,107,.75);
+}
+
+.daemon-security-live-label{
+  color:#72e8ff;
+}
+
+.daemon-security-live-state{
+  color:#67e8a5;
+}
+
+.daemon-security-live-state.attention{
+  color:#ffb86b;
+}
+
+@keyframes daemonSecurityTicker{
+  from{transform:translateX(0)}
+  to{transform:translateX(-50%)}
+}
+
+@media(max-width:760px){
+  .daemon-top-nav-inner{
+    min-height:58px;
+    padding:0 16px;
+  }
+
+  .daemon-top-links{
+    display:none;
+  }
+
+  .daemon-top-cta{
+    min-height:34px;
+    padding:0 13px;
+    font-size:10px;
+  }
+
+  .daemon-security-live-group{
+    gap:24px;
+    padding:10px 24px;
+  }
+}
+</style>
 </head>
 
 <body>
+<nav class="daemon-top-nav" aria-label="Daemon OS navigation">
+  <div class="daemon-top-nav-inner">
+    <a class="daemon-top-brand" href="#" aria-label="Daemon OS home">
+      <span class="daemon-top-brand-dot"></span>
+      DAEMON OS
+    </a>
+
+    <div class="daemon-top-links">
+      <a href="#platform">Platform</a>
+      <a href="#security">Security</a>
+      <a href="#pricing">Pricing</a>
+      <a href="#contact">Contact</a>
+    </div>
+
+    <a class="daemon-top-cta" href="#pricing">
+      Start Daemon — 14 Days Free
+    </a>
+  </div>
+</nav>
+
+<section class="daemon-security-live-ticker" id="daemon-security-live-ticker" aria-label="Live Daemon security status">
+  <div class="daemon-security-live-track">
+    <div class="daemon-security-live-group">
+
+      <span class="daemon-security-live-item">
+        <span class="daemon-security-live-dot"></span>
+        <span class="daemon-security-live-label">LIVE SECURITY</span>
+      </span>
+
+      <span class="daemon-security-live-item">
+        THREAT MONITORING
+        <strong id="daemon-sec-threat">ACTIVE</strong>
+      </span>
+
+      <span class="daemon-security-live-item">
+        SECURITY STATE
+        <strong id="daemon-sec-state" class="daemon-security-live-state">CLEAR</strong>
+      </span>
+
+      <span class="daemon-security-live-item">
+        EVENTS
+        <strong id="daemon-sec-events">0</strong>
+      </span>
+
+      <span class="daemon-security-live-item">
+        ANOMALIES
+        <strong id="daemon-sec-anomalies">MONITORING</strong>
+      </span>
+
+      <span class="daemon-security-live-item">
+        API ACTIVITY
+        <strong>MONITORED</strong>
+      </span>
+
+      <span class="daemon-security-live-item">
+        INFRASTRUCTURE
+        <strong>UNDER WATCH</strong>
+      </span>
+
+      <span class="daemon-security-live-item">
+        SECURITY ENGINE
+        <strong>ACTIVE</strong>
+      </span>
+
+    </div>
+
+    <div class="daemon-security-live-group" aria-hidden="true">
+
+      <span class="daemon-security-live-item">
+        <span class="daemon-security-live-dot"></span>
+        <span class="daemon-security-live-label">LIVE SECURITY</span>
+      </span>
+
+      <span class="daemon-security-live-item">
+        THREAT MONITORING
+        <strong>ACTIVE</strong>
+      </span>
+
+      <span class="daemon-security-live-item">
+        SECURITY STATE
+        <strong>CLEAR</strong>
+      </span>
+
+      <span class="daemon-security-live-item">
+        EVENTS
+        <strong>0</strong>
+      </span>
+
+      <span class="daemon-security-live-item">
+        ANOMALIES
+        <strong>MONITORING</strong>
+      </span>
+
+      <span class="daemon-security-live-item">
+        API ACTIVITY
+        <strong>MONITORED</strong>
+      </span>
+
+      <span class="daemon-security-live-item">
+        INFRASTRUCTURE
+        <strong>UNDER WATCH</strong>
+      </span>
+
+      <span class="daemon-security-live-item">
+        SECURITY ENGINE
+        <strong>ACTIVE</strong>
+      </span>
+
+    </div>
+  </div>
+</section>
+
 
 
 
@@ -10069,6 +10357,121 @@ setInterval(refreshMatrix,5000);
     refresh,
     5000
   );
+
+})();
+</script>
+<script id="daemon-security-live-script">
+(function(){
+
+  const api =
+    window.DAEMON_API_URL ||
+    window.DAEMON_API ||
+    window.location.origin;
+
+  function set(id,value){
+    const el=document.getElementById(id);
+    if(el)el.textContent=value;
+  }
+
+  function setState(state,attention){
+    const el=document.getElementById("daemon-sec-state");
+    if(!el)return;
+
+    el.textContent=state;
+    el.classList.toggle("attention",!!attention);
+
+    const dots=document.querySelectorAll(
+      "#daemon-security-live-ticker .daemon-security-live-dot"
+    );
+
+    dots.forEach(dot=>{
+      dot.classList.toggle("attention",!!attention);
+    });
+  }
+
+  function countSecuritySignals(data){
+    if(!data)return 0;
+
+    const candidates=[
+      data.alerts,
+      data.anomalies,
+      data.events,
+      data.threats,
+      data.findings
+    ];
+
+    let count=0;
+
+    candidates.forEach(value=>{
+      if(Array.isArray(value))count+=value.length;
+    });
+
+    if(typeof data.count==="number")count=data.count;
+
+    if(typeof data.events_count==="number"){
+      count=data.events_count;
+    }
+
+    return count;
+  }
+
+  function hasAttention(data){
+    if(!data)return false;
+
+    const text=JSON.stringify(data).toLowerCase();
+
+    return (
+      text.includes("critical") ||
+      text.includes("threat") ||
+      text.includes("alert") ||
+      text.includes("high") ||
+      text.includes("suspicious")
+    );
+  }
+
+  async function updateSecurity(){
+
+    try{
+
+      const response=await fetch(
+        api+"/security",
+        {
+          cache:"no-store",
+          credentials:"include"
+        }
+      );
+
+      if(!response.ok)throw new Error("security");
+
+      const data=await response.json();
+
+      const attention=hasAttention(data);
+      const count=countSecuritySignals(data);
+
+      set("daemon-sec-threat",attention?"REVIEW":"ACTIVE");
+      set("daemon-sec-events",String(count));
+      set(
+        "daemon-sec-anomalies",
+        attention ? "ATTENTION" : "MONITORING"
+      );
+
+      setState(
+        attention ? "ATTENTION" : "CLEAR",
+        attention
+      );
+
+    }catch{
+
+      set("daemon-sec-threat","MONITORING");
+      set("daemon-sec-anomalies","MONITORING");
+      setState("LIVE",false);
+
+    }
+
+  }
+
+  updateSecurity();
+  setInterval(updateSecurity,5000);
 
 })();
 </script>
