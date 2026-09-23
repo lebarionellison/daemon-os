@@ -1,4 +1,4 @@
-export default {
+ï»¿export default {
   async fetch(request, env) {
     const url = new URL(request.url);
 
@@ -13,6 +13,15 @@ export default {
     const origin = allowedOrigins.has(requestOrigin)
       ? requestOrigin
       : "https://daemon-os.lebarionellison.workers.dev";
+    const securityHeaders = {
+      "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+      "Content-Security-Policy": "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; connect-src 'self' https:; font-src 'self' data: https:; frame-src 'self' https://checkout.stripe.com https://billing.stripe.com; frame-ancestors 'none'; base-uri 'self'; form-action 'self' https://checkout.stripe.com https://billing.stripe.com; object-src 'none'",
+      "X-Content-Type-Options": "nosniff",
+      "Referrer-Policy": "strict-origin-when-cross-origin",
+      "Permissions-Policy": "camera=(), microphone=(), geolocation=(), payment=(self)",
+      "X-Frame-Options": "DENY"
+    };
+
 
     const corsHeaders = {
       "Access-Control-Allow-Origin": origin,
@@ -25,10 +34,7 @@ export default {
     const json = (data, status = 200, extraHeaders = {}) =>
       Response.json(data, {
         status,
-        headers: {
-          ...corsHeaders,
-          ...extraHeaders
-        }
+        headers: { ...securityHeaders, ...corsHeaders, ...extraHeaders }
       });
 
     if (request.method === "OPTIONS") {
@@ -533,7 +539,7 @@ export default {
 
     /*
      * ------------------------------------------------------------
-     * AUTH — REGISTER
+     * AUTH â€” REGISTER
      * ------------------------------------------------------------
      */
 
@@ -647,7 +653,7 @@ export default {
 
     /*
      * ------------------------------------------------------------
-     * AUTH — LOGIN
+     * AUTH â€” LOGIN
      * ------------------------------------------------------------
      */
 
@@ -749,7 +755,7 @@ export default {
 
     /*
      * ------------------------------------------------------------
-     * AUTH — LOGOUT
+     * AUTH â€” LOGOUT
      * ------------------------------------------------------------
      */
 
@@ -781,7 +787,7 @@ export default {
 
     /*
      * ------------------------------------------------------------
-     * AUTH — CURRENT USER
+     * AUTH â€” CURRENT USER
      * ------------------------------------------------------------
      */
 
@@ -811,7 +817,7 @@ export default {
 
     /*
      * ------------------------------------------------------------
-     * DEVICES — LIST
+     * DEVICES â€” LIST
      * ------------------------------------------------------------
      */
 
@@ -848,7 +854,7 @@ export default {
 
     /*
      * ------------------------------------------------------------
-     * DEVICES — REGISTER
+     * DEVICES â€” REGISTER
      * ------------------------------------------------------------
      */
 
@@ -1768,9 +1774,17 @@ export default {
      * ------------------------------------------------------------
      */
 
-    return env.ASSETS.fetch(request);
+        const assetResponse = await env.ASSETS.fetch(request);
+    const securedResponse = new Response(assetResponse.body, assetResponse);
+
+    for (const [name, value] of Object.entries(securityHeaders)) {
+      securedResponse.headers.set(name, value);
+    }
+
+    return securedResponse;
   }
 };
+
 
 
 
