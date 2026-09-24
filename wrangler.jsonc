@@ -1,4 +1,4 @@
-﻿{
+{
     "$schema":  "https://json.schemastore.org/wrangler.json",
     "name":  "daemon-os",
     "main":  "./worker.js",
@@ -9,7 +9,7 @@
                               "id":  "e905a6efaae44a919570613831269196"
                           }
                       ],
-    "assets":  {
+    "assets-version": "cinematic-20260924",`r`n    "assets":  {
                    "binding":  "ASSETS",
                    "directory":  "./daemon-mobile/src/app",
                    "run_worker_first": ["/api/*", "/telemetry", "/events", "/history", "/intelligence", "/security", "/memory", "/health"]
