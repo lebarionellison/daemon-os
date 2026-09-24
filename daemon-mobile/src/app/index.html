@@ -9732,3 +9732,83 @@ setInterval(refreshMatrix,5000);
 
 })();
 </script>
+
+<!-- DAEMON OS CINEMATIC ENVIRONMENT -->
+<style id="daemon-cinematic-environment">
+html,body{
+  background:
+    radial-gradient(1300px 760px at 50% -12%,rgba(0,196,255,.16),transparent 62%),
+    radial-gradient(1000px 700px at 92% 22%,rgba(91,64,255,.14),transparent 64%),
+    radial-gradient(1000px 800px at 8% 55%,rgba(0,125,255,.11),transparent 66%),
+    #020407 !important;
+}
+
+body{
+  background-color:#020407 !important;
+  position:relative;
+  isolation:isolate;
+  overflow-x:hidden;
+}
+
+body:before{
+  content:"";
+  position:fixed;
+  inset:-25%;
+  z-index:-2;
+  pointer-events:none;
+  background:
+    radial-gradient(ellipse at 50% 12%,rgba(0,210,255,.20),transparent 48%),
+    radial-gradient(ellipse at 82% 38%,rgba(104,67,255,.14),transparent 44%),
+    radial-gradient(ellipse at 16% 68%,rgba(0,150,255,.11),transparent 48%);
+  filter:blur(60px);
+}
+
+body:after{
+  content:"";
+  position:fixed;
+  inset:0;
+  z-index:-1;
+  pointer-events:none;
+  opacity:.48;
+  background-image:
+    linear-gradient(rgba(90,190,255,.028) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(90,190,255,.028) 1px,transparent 1px),
+    radial-gradient(circle at 50% 18%,rgba(0,200,255,.09),transparent 34%);
+  background-size:76px 76px,76px 76px,100% 100%;
+  mask-image:linear-gradient(to bottom,#000 0%,rgba(0,0,0,.85) 38%,transparent 100%);
+  -webkit-mask-image:linear-gradient(to bottom,#000 0%,rgba(0,0,0,.85) 38%,transparent 100%);
+}
+
+main,section{
+  background:transparent !important;
+}
+
+header,nav{
+  background:rgba(2,5,9,.66) !important;
+  border-color:rgba(100,200,255,.11) !important;
+  backdrop-filter:blur(24px) saturate(135%);
+  -webkit-backdrop-filter:blur(24px) saturate(135%);
+}
+
+.card,.panel,.glass,
+[class*="card"],[class*="panel"],[class*="glass"]{
+  background:rgba(5,11,18,.52) !important;
+  border-color:rgba(100,200,255,.12) !important;
+  box-shadow:
+    0 28px 90px rgba(0,0,0,.40),
+    inset 0 1px 0 rgba(255,255,255,.025);
+  backdrop-filter:blur(20px) saturate(130%);
+  -webkit-backdrop-filter:blur(20px) saturate(130%);
+}
+
+.hero,#hero,[class*="hero"]{
+  background:transparent !important;
+}
+
+footer{
+  background:linear-gradient(to bottom,transparent,rgba(0,0,0,.42)) !important;
+}
+
+</style>
+<!-- END DAEMON OS CINEMATIC ENVIRONMENT -->
+
