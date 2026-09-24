@@ -9529,4 +9529,49 @@ section,
   }
 }
 </style>
+<!-- DAEMON OS — FINAL CINEMATIC STACKING FIX -->
+<style id="daemon-cinematic-stacking-fix">
+/*
+  The cinematic field must live ABOVE the body background
+  but BELOW all actual page content.
+*/
+html,
+body {
+  background: #02050a !important;
+}
 
+body {
+  isolation: isolate !important;
+}
+
+/* Put the environment into the visible stacking plane. */
+#daemon-live-intelligence-field {
+  position: fixed !important;
+  inset: 0 !important;
+  z-index: 0 !important;
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  pointer-events: none !important;
+}
+
+/* Everything except the environment renders above it. */
+body > *:not(#daemon-live-intelligence-field):not(script):not(style) {
+  position: relative;
+  z-index: 1;
+}
+
+/* Preserve fixed UI layers. */
+#daemon-personal-console,
+#daemon-auth-modal {
+  position: fixed !important;
+}
+
+#daemon-personal-console {
+  z-index: 9998 !important;
+}
+
+#daemon-auth-modal {
+  z-index: 99999 !important;
+}
+</style>
