@@ -9812,3 +9812,190 @@ footer{
 </style>
 <!-- END DAEMON OS CINEMATIC ENVIRONMENT -->
 
+
+<!-- DAEMON OS — CINEMATIC ENVIRONMENT FINAL OVERRIDE -->
+<style id="daemon-cinematic-final">
+html,
+body {
+  background: #02050a !important;
+}
+
+body {
+  position: relative;
+  isolation: isolate;
+  overflow-x: hidden;
+}
+
+/* Kill the competing page-wide visual layers without removing their markup. */
+body::before,
+body::after {
+  display: none !important;
+}
+
+#daemon-field {
+  opacity: .10 !important;
+}
+
+/* Make the cinematic environment the actual visual foundation. */
+#daemon-live-intelligence-field {
+  position: fixed !important;
+  inset: 0 !important;
+  z-index: -1 !important;
+  display: block !important;
+  opacity: 1 !important;
+  pointer-events: none !important;
+  background:
+    radial-gradient(
+      900px 650px at 50% 18%,
+      rgba(0, 210, 255, .20),
+      transparent 62%
+    ),
+    radial-gradient(
+      850px 700px at 8% 42%,
+      rgba(55, 85, 255, .17),
+      transparent 64%
+    ),
+    radial-gradient(
+      900px 750px at 92% 58%,
+      rgba(145, 70, 255, .18),
+      transparent 64%
+    ),
+    radial-gradient(
+      1000px 500px at 50% 100%,
+      rgba(0, 125, 255, .09),
+      transparent 70%
+    ),
+    #02050a !important;
+}
+
+/* Atmospheric light moving across the environment. */
+#daemon-live-intelligence-field::before {
+  content: "" !important;
+  position: absolute !important;
+  inset: -25% !important;
+  background:
+    radial-gradient(
+      ellipse at 50% 42%,
+      rgba(80, 210, 255, .10),
+      transparent 34%
+    ),
+    linear-gradient(
+      115deg,
+      transparent 20%,
+      rgba(0, 210, 255, .055) 42%,
+      rgba(120, 80, 255, .045) 52%,
+      transparent 75%
+    ) !important;
+  filter: blur(18px) !important;
+  animation: daemonCinematicDrift 20s ease-in-out infinite alternate !important;
+}
+
+/* Visible technical grid, fading toward the horizon. */
+#daemon-live-grid {
+  position: absolute !important;
+  inset: -15% !important;
+  opacity: .34 !important;
+  background-image:
+    linear-gradient(
+      rgba(80, 205, 255, .075) 1px,
+      transparent 1px
+    ),
+    linear-gradient(
+      90deg,
+      rgba(80, 205, 255, .075) 1px,
+      transparent 1px
+    ) !important;
+  background-size: 64px 64px !important;
+  transform:
+    perspective(900px)
+    rotateX(58deg)
+    scale(1.55) !important;
+  transform-origin: center bottom !important;
+  mask-image:
+    linear-gradient(
+      to bottom,
+      transparent 0%,
+      rgba(0,0,0,.15) 22%,
+      #000 58%,
+      #000 100%
+    ) !important;
+  -webkit-mask-image:
+    linear-gradient(
+      to bottom,
+      transparent 0%,
+      rgba(0,0,0,.15) 22%,
+      #000 58%,
+      #000 100%
+    ) !important;
+}
+
+/* Give the page a cinematic horizon behind the hero. */
+#daemon-live-intelligence-field::after {
+  content: "" !important;
+  position: absolute !important;
+  left: 50% !important;
+  top: 22% !important;
+  width: min(1100px, 90vw) !important;
+  height: 520px !important;
+  transform: translateX(-50%) !important;
+  border-radius: 50% !important;
+  border: 1px solid rgba(70, 205, 255, .075) !important;
+  box-shadow:
+    0 0 80px rgba(0, 190, 255, .07),
+    0 0 180px rgba(90, 80, 255, .055),
+    inset 0 0 100px rgba(0, 180, 255, .035) !important;
+  pointer-events: none !important;
+}
+
+/* Remove opaque section foundations so the environment can be seen. */
+section,
+.hero,
+.features,
+.intelligence,
+.settings,
+.proof,
+.dashboard,
+.matrix,
+.pricing {
+  background-color: transparent !important;
+}
+
+/* Preserve readable content surfaces while avoiding page-wide opaque blocks. */
+.nav {
+  background: rgba(3, 7, 13, .68) !important;
+  border-bottom-color: rgba(100, 210, 255, .12) !important;
+}
+
+/* Existing cards stay functional, but become part of the environment. */
+.card,
+.panel,
+.feature,
+.pricing-card,
+.dashboard-card,
+.intel-card,
+.settings-card {
+  background-color: rgba(7, 13, 23, .58) !important;
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  border-color: rgba(100, 200, 255, .11);
+}
+
+@keyframes daemonCinematicDrift {
+  0% {
+    transform: translate3d(-2%, -1%, 0) scale(1);
+  }
+  50% {
+    transform: translate3d(2%, 2%, 0) scale(1.035);
+  }
+  100% {
+    transform: translate3d(-1%, 3%, 0) scale(1.015);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #daemon-live-intelligence-field::before,
+  #daemon-live-grid {
+    animation: none !important;
+  }
+}
+</style>
