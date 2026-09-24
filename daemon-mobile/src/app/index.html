@@ -8324,6 +8324,17 @@ body{background:#05070a}
     try{const r=await fetch(API+endpoint,{cache:"no-store"});if(!r.ok)throw 0;return await r.json()}catch(e){return null}
   }
 
+  const MONITOR_API = "https://daemon-os-monitor.lebarionellison.workers.dev";
+  async function monitorStatus(){
+    try{
+      const response = await fetch(MONITOR_API + "/status",{cache:"no-store",mode:"cors"});
+      if(!response.ok) return null;
+      return await response.json();
+    }catch(e){
+      return null;
+    }
+  }
+
   async function refresh(){
     const t=await json("/telemetry");
     if(t){
@@ -9966,13 +9977,15 @@ setInterval(refreshMatrix,5000);
       json("/telemetry"),
       json("/security"),
       json("/intelligence"),
-      json("/history")
+      json("/history"),
+      monitorStatus()
     ]);
 
     state.telemetry = results[0];
     state.security = results[1];
     state.intelligence = results[2];
     state.history = results[3];
+    state.monitor = results[4];
 
     const telemetry = state.telemetry;
 
@@ -10079,9 +10092,14 @@ setInterval(refreshMatrix,5000);
       disk.toFixed(1) + "%"
     );
 
+    const monitor = state.monitor;
+    const monitorTargets = Array.isArray(monitor?.targets) ? monitor.targets : [];
+    const healthyTargets = monitorTargets.filter(function(target){ return target.healthy; }).length;
+    const monitorSummary = monitor ? healthyTargets + "/" + monitorTargets.length + " monitored" : "monitor unavailable";
+
     updateTickerPairs(
       "ticker-health",
-      health + "/100"
+      health + "/100" + " · " + monitorSummary
     );
 
     updateTickerPairs(
