@@ -1411,7 +1411,7 @@
       url.pathname === "/telemetry" &&
       request.method === "GET"
     ) {
-      const list = await env.TELEMETRY.list({ prefix: "public:" });
+      const publicValue = await env.TELEMETRY.get("public:demo");`r`n      const list = { keys: publicValue ? [{ name: "public:demo" }] : [] };
 
       if (!list.keys.length) {
         return json({
@@ -1484,7 +1484,7 @@
       url.pathname === "/history" &&
       request.method === "GET"
     ) {
-      const list = await env.TELEMETRY.list({ prefix: "public:" });
+      const publicValue = await env.TELEMETRY.get("public:demo");`r`n      const list = { keys: publicValue ? [{ name: "public:demo" }] : [] };
       const history = [];
 
       for (const key of list.keys) {
@@ -1524,7 +1524,7 @@
      */
 
     if (url.pathname === "/events" && request.method === "GET") {
-      const list = await env.TELEMETRY.list({ prefix: "public:" });
+      const publicValue = await env.TELEMETRY.get("public:demo");`r`n      const list = { keys: publicValue ? [{ name: "public:demo" }] : [] };
       const events = [];
 
       for (const key of list.keys) {
@@ -1607,7 +1607,7 @@
           return json(JSON.parse(cached));
         } catch {}
       }
-      const list = await env.TELEMETRY.list({ prefix: "public:" });
+      const publicValue = await env.TELEMETRY.get("public:demo");`r`n      const list = { keys: publicValue ? [{ name: "public:demo" }] : [] };
 
       if (!list.keys.length) {
         const offline = {
@@ -1784,6 +1784,7 @@
     return securedResponse;
   }
 };
+
 
 
 
