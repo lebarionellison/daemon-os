@@ -6784,20 +6784,11 @@ async function refreshDaemon(){
 
 refreshDaemon();
 
-setInterval(
-  loadTelemetry,
-  2000
-);
 
-setInterval(
-  loadIntelligence,
-  5000
-);
 
-setInterval(
-  loadHistory,
-  10000
-);
+
+
+
 
 /* SETTINGS */
 
@@ -7112,7 +7103,7 @@ async function loadDaemonMemory() {
 }
 
 loadDaemonMemory();
-setInterval(loadDaemonMemory, 10000);
+
 </script>
 <style>
 #daemon-field{position:fixed;inset:0;z-index:-1;pointer-events:none;opacity:.72}
@@ -8367,7 +8358,7 @@ body{background:#05070a}
   }
 
   refresh();
-  
+
 })();
 </script><style id="daemon-proactive-intelligence">
 #dpc-insight{margin:10px 0 12px;padding:12px 14px;border:1px solid rgba(120,220,255,.24);border-radius:14px;background:linear-gradient(135deg,rgba(10,25,42,.92),rgba(20,12,42,.78));box-shadow:0 0 24px rgba(60,180,255,.08)}
@@ -8881,7 +8872,7 @@ body{background:#05070a}
 
  renderEvents();
  monitor();
- setInterval(monitor,8000);
+ 
 })();
 </script><style id="daemon-live-intelligence-field">
 /* DAEMON LIVE INTELLIGENCE ENVIRONMENT */
@@ -9445,7 +9436,7 @@ q("daemon-live-state").textContent="INTELLIGENCE OFFLINE";
 }
 
 update();
-setInterval(update,3000);
+
 })();
 </script><section id="daemon-event-intelligence" style="margin:32px auto;max-width:1200px;padding:24px;border:1px solid rgba(80,180,255,.16);border-radius:18px;background:rgba(5,10,18,.72);backdrop-filter:blur(14px);">
 <div style="display:flex;justify-content:space-between;align-items:center;gap:16px;margin-bottom:18px;">
@@ -9496,7 +9487,7 @@ list.innerHTML='<div style="color:rgba(255,160,160,.7);font-size:13px;">Event in
 }
 }
 loadDaemonEvents();
-setInterval(loadDaemonEvents,5000);
+
 })();
 </script><section id="daemon-intelligence-matrix" style="margin:32px auto;max-width:1200px;padding:24px;border:1px solid rgba(80,180,255,.16);border-radius:18px;background:rgba(5,10,18,.78);backdrop-filter:blur(14px);">
 <div style="display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;margin-bottom:20px;">
@@ -10281,10 +10272,7 @@ refreshMatrix();
 
   refresh();
 
-  window.setInterval(
-    refresh,
-    5000
-  );
+  
 
 })();
 </script>
@@ -10399,7 +10387,7 @@ refreshMatrix();
   }
 
   updateSecurity();
-  setInterval(updateSecurity,5000);
+
 
 })();
 </script>
