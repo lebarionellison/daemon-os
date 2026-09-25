@@ -296,19 +296,6 @@
   .daemon-personal-grid>div:first-child{grid-column:1/-1}
 }
 
-#daemon-live-motion{
-  opacity:.9!important;
-  background:
-    radial-gradient(circle at 50% 45%,rgba(0,220,255,.035),transparent 25%),
-    linear-gradient(rgba(0,220,255,.025) 1px,transparent 1px),
-    linear-gradient(90deg,rgba(0,220,255,.025) 1px,transparent 1px);
-  background-size:auto,70px 70px,70px 70px;
-  animation:daemonFutureGrid 22s linear infinite;
-}
-@keyframes daemonFutureGrid{
-  from{background-position:0 0,0 0,0 0}
-  to{background-position:0 0,0 70px,70px 0}
-}
 
 .daemon-print-report{
   display:none;
