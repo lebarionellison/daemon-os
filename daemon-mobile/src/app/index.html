@@ -1,4 +1,4 @@
-﻿<section id="daemon-live-production" class="daemon-live-production">
+<section id="daemon-live-production" class="daemon-live-production">
 
   <div class="container">
 
@@ -9519,46 +9519,76 @@ section,
 <!-- DAEMON OS — FINAL CINEMATIC STACKING FIX -->
 <style id="daemon-cinematic-stacking-fix">
 /*
-  The cinematic field must live ABOVE the body background
-  but BELOW all actual page content.
+  FINAL VISUAL COMPOSITING
+  The intelligence environment is a viewport layer.
+  Page content is explicitly above it.
+  This does not depend on the environment being a direct
+  child of body.
 */
+
 html,
 body {
   background: #02050a !important;
+  min-height: 100% !important;
 }
 
 body {
   isolation: isolate !important;
 }
 
-/* Put the environment into the visible stacking plane. */
+/* Cinematic environment: always occupies the viewport. */
 #daemon-live-intelligence-field {
   position: fixed !important;
-  inset: 0 !important;
+  top: 0 !important;
+  right: 0 !important;
+  bottom: 0 !important;
+  left: 0 !important;
+  width: 100vw !important;
+  height: 100vh !important;
   z-index: 0 !important;
   display: block !important;
   visibility: visible !important;
   opacity: 1 !important;
   pointer-events: none !important;
+  overflow: hidden !important;
 }
 
-/* Everything except the environment renders above it. */
-body > *:not(#daemon-live-intelligence-field):not(script):not(style) {
+/* Its internal grid must remain inside the viewport layer. */
+#daemon-live-intelligence-field::before,
+#daemon-live-intelligence-field::after,
+#daemon-live-grid {
+  pointer-events: none !important;
+}
+
+/*
+  Explicitly lift the actual application above the environment.
+  These selectors work regardless of where the environment
+  element is nested in the HTML fragment.
+*/
+header,
+main,
+footer,
+section,
+.nav,
+.container,
+#top,
+.daemon-live-production,
+.daemon-stage,
+.performance-report-header,
+#daemon-personal-console,
+#daemon-auth-modal {
   position: relative;
   z-index: 1;
 }
 
-/* Preserve fixed UI layers. */
-#daemon-personal-console,
-#daemon-auth-modal {
-  position: fixed !important;
-}
-
+/* Keep interactive/fixed control-plane layers above everything. */
 #daemon-personal-console {
+  position: fixed !important;
   z-index: 9998 !important;
 }
 
 #daemon-auth-modal {
+  position: fixed !important;
   z-index: 99999 !important;
 }
 </style>
