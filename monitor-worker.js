@@ -116,6 +116,46 @@ async function runMonitor(env) {
     status = "CHECKING";
   }
 
+  /*
+   * Compare only meaningful monitor state.
+   *
+   * Do NOT compare timestamps or response times because those naturally
+   * change every check and would defeat the KV write reduction.
+   */
+  const currentState = JSON.stringify({
+    status,
+    consecutive_failures: consecutiveFailures,
+    targets: results.map((result) => ({
+      target: result.target,
+      url: result.url,
+      healthy: result.healthy,
+      status_code: result.status_code,
+      error: result.error || null
+    }))
+  });
+
+  const previousState = JSON.stringify({
+    status: previous.status || null,
+    consecutive_failures: Number(previous.consecutive_failures || 0),
+    targets: Array.isArray(previous.targets)
+      ? previous.targets.map((result) => ({
+          target: result.target,
+          url: result.url,
+          healthy: result.healthy,
+          status_code: result.status_code,
+          error: result.error || null
+        }))
+      : []
+  });
+
+  /*
+   * The monitor still runs every 3 minutes, but KV is only written when
+   * meaningful infrastructure state changes.
+   */
+  if (currentState === previousState) {
+    return;
+  }
+
   const record = {
     status,
     checked_at: new Date().toISOString(),
@@ -133,8 +173,12 @@ async function runMonitor(env) {
     }
   );
 
-  const historyKey =
-    `monitor:history:${Date.now()}`;
+  /*
+   * Preserve monitor history, but only create a history entry when the
+   * meaningful monitor state changes. This prevents one history write
+   * every 3 minutes while retaining outage/recovery/state-change history.
+   */
+  const historyKey = `monitor:history:${Date.now()}`;
 
   await env.TELEMETRY.put(
     historyKey,
@@ -144,6 +188,3 @@ async function runMonitor(env) {
     }
   );
 }
-
-
-
