@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -4206,7 +4206,7 @@ body::after {
 
       <div class="price-card featured">
 
-        <div class="price-name">
+        <div id="daemon-pro-conversion" style="margin:-4px 0 14px;padding:7px 10px;border-radius:999px;background:rgba(98,232,255,.08);border:1px solid rgba(98,232,255,.18);color:#8feeff;font-size:10px;font-weight:900;letter-spacing:.13em;text-align:center;">RECOMMENDED STARTING POINT</div><div class="price-name">
           PRO
         </div>
 
@@ -4337,16 +4337,27 @@ body::after {
         LIVE INFRASTRUCTURE INTELLIGENCE
       </div>
 
+      <div style="display:inline-flex;align-items:center;gap:8px;margin-bottom:18px;padding:7px 12px;border:1px solid rgba(98,232,255,.22);border-radius:999px;background:rgba(98,232,255,.055);color:#8feeff;font-size:10px;font-weight:800;letter-spacing:.16em;">
+        <span class="dot"></span>
+        COMMAND CENTER ONLINE
+      </div>
+
       <h1>
         Your infrastructure
         <span class="gradient">finally understands itself.</span>
       </h1>
 
       <p class="hero-copy">
-        Daemon OS watches your systems, analyzes what is happening,
-        detects meaningful changes and turns infrastructure telemetry
-        into decisions you can act on.
+        Daemon OS watches your infrastructure, detects what is changing,
+        explains why it matters, and helps you decide what to investigate
+        before a signal becomes an incident.
       </p>
+
+      <div style="margin:22px 0 8px;padding-left:15px;border-left:2px solid rgba(98,232,255,.55);color:#c9d4e5;font-size:13px;line-height:1.7;">
+        <strong style="color:#fff;">See the signal.</strong>
+        Understand the impact.
+        <strong style="color:#fff;">Act with intelligence.</strong>
+      </div>
 
       <div class="actions">
 
@@ -4419,8 +4430,8 @@ body::after {
 
 
 
-        <a class="btn btn-secondary" href="#intelligence">
-          See how it works
+        <a class="btn btn-secondary" href="/demo/">
+          See Daemon in Action →
         </a>
 
       </div>
@@ -4553,6 +4564,57 @@ body::after {
 
 <!-- PROOF -->
 
+<section id="daemon-conversion-intelligence" style="position:relative;margin:24px auto 0;max-width:1180px;">
+  <div style="border:1px solid rgba(98,232,255,.16);border-radius:20px;background:linear-gradient(135deg,rgba(98,232,255,.045),rgba(167,120,255,.035));box-shadow:0 18px 60px rgba(0,0,0,.25);overflow:hidden;">
+
+    <div style="display:flex;align-items:center;justify-content:space-between;gap:18px;padding:16px 20px;border-bottom:1px solid rgba(255,255,255,.07);">
+      <div style="display:flex;align-items:center;gap:10px;">
+        <span class="dot"></span>
+        <span style="font-size:11px;font-weight:900;letter-spacing:.14em;color:#8feeff;">DAEMON INTELLIGENCE</span>
+      </div>
+      <span style="font-size:10px;letter-spacing:.12em;color:#667386;">REPRESENTATIVE DEMO SCENARIO</span>
+    </div>
+
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);">
+
+      <div style="padding:22px;border-right:1px solid rgba(255,255,255,.07);">
+        <div style="font-size:10px;letter-spacing:.12em;color:#667386;margin-bottom:10px;">01 / SIGNAL</div>
+        <strong style="font-size:16px;">Disk utilization</strong>
+        <div style="margin-top:7px;font-size:12px;color:#8a96a8;">93.2% on demo-server</div>
+      </div>
+
+      <div style="padding:22px;border-right:1px solid rgba(255,255,255,.07);">
+        <div style="font-size:10px;letter-spacing:.12em;color:#667386;margin-bottom:10px;">02 / DETECTION</div>
+        <strong style="font-size:16px;color:#ffd66b;">Capacity risk</strong>
+        <div style="margin-top:7px;font-size:12px;color:#8a96a8;">Threshold requires attention</div>
+      </div>
+
+      <div style="padding:22px;border-right:1px solid rgba(255,255,255,.07);">
+        <div style="font-size:10px;letter-spacing:.12em;color:#667386;margin-bottom:10px;">03 / IMPACT</div>
+        <strong style="font-size:16px;">Potential workload impact</strong>
+        <div style="margin-top:7px;font-size:12px;color:#8a96a8;">Investigate affected workloads</div>
+      </div>
+
+      <div style="padding:22px;">
+        <div style="font-size:10px;letter-spacing:.12em;color:#667386;margin-bottom:10px;">04 / ACTION</div>
+        <strong style="font-size:16px;color:#59e6a5;">Investigate now</strong>
+        <div style="margin-top:7px;font-size:12px;color:#8a96a8;">Review capacity before it becomes constrained</div>
+      </div>
+
+    </div>
+
+    <div style="display:flex;align-items:center;justify-content:space-between;gap:18px;padding:15px 20px;background:rgba(0,0,0,.18);">
+      <span style="font-size:12px;color:#9ba7b8;">
+        Dashboards show the signal. <strong style="color:#fff;">Daemon helps explain what it means.</strong>
+      </span>
+
+      <a href="/demo/" class="btn btn-secondary" style="white-space:nowrap;">
+        See Daemon Think →
+      </a>
+    </div>
+
+  </div>
+</section>
 <section class="proof">
 
   <div class="container proof-grid">
@@ -10992,4 +11054,6 @@ refreshMatrix();
   });
 })();
 </script>
+
+
 
