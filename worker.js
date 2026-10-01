@@ -1,4 +1,4 @@
-﻿export default {
+export default {
   async fetch(request, env) {
     const url = new URL(request.url);
 
@@ -1597,7 +1597,7 @@
     }
     /*
      * ------------------------------------------------------------
-     * PUBLIC INTELLIGENCE
+     * DAEMON UNIFIED INTELLIGENCE ENGINE
      * ------------------------------------------------------------
      */
 
@@ -1605,28 +1605,45 @@
       const cacheKey = "cache:intelligence";
       const cached = await env.TELEMETRY.get(cacheKey);
 
+      let previous = null;
+
       if (cached) {
         try {
-          return json(JSON.parse(cached));
+          previous = JSON.parse(cached);
         } catch {}
       }
-      const publicValue = await env.TELEMETRY.get("public:demo");
-      const list = { keys: publicValue ? [{ name: "public:demo" }] : [] };
 
-      if (!list.keys.length) {
+      const publicValue = await env.TELEMETRY.get("public:demo");
+
+      if (!publicValue) {
         const offline = {
-          health_score: 0,
           status: "OFFLINE",
-          cpu_status: "OFFLINE",
-          memory_status: "OFFLINE",
-          disk_status: "OFFLINE",
-          recommendations: ["Connect a Daemon device to begin monitoring."],
+          health_score: 0,
+          intelligence_state: "NO_SIGNAL",
+          observability: {
+            infrastructure: "OFFLINE",
+            ai_systems: "OFFLINE",
+            telemetry: "OFFLINE"
+          },
+          signals: [],
+          anomalies: [],
+          changes: [],
+          correlations: [],
+          impact: [],
+          risk: [],
+          root_cause_hypotheses: [],
+          recommendations: [
+            "Connect a Daemon device to begin unified infrastructure intelligence."
+          ],
+          next_actions: [
+            "Connect telemetry",
+            "Establish a baseline",
+            "Begin dependency and workload correlation"
+          ],
           trend: "STABLE",
           anomaly_detected: false,
-          anomaly_signals: [],
-          cpu_change_percent: 0,
-          memory_change_percent: 0,
-          disk_change_percent: 0
+          received_at: null,
+          device_id: null
         };
 
         await env.TELEMETRY.put(
@@ -1638,65 +1655,109 @@
         return json(offline);
       }
 
-      const records = [];
+      let record;
 
-      for (const key of list.keys) {
-        const value = await env.TELEMETRY.get(key.name);
-        if (!value) continue;
-
-        try {
-          records.push(JSON.parse(value));
-        } catch {}
+      try {
+        record = JSON.parse(publicValue);
+      } catch {
+        record = null;
       }
-
-      records.sort((a, b) =>
-        String(b.received_at || "").localeCompare(
-          String(a.received_at || "")
-        )
-      );
-
-      const record = records[0];
 
       if (!record) {
-        const offline = {
+        return json({
+          status: "DEGRADED",
           health_score: 0,
-          status: "OFFLINE",
-          cpu_status: "OFFLINE",
-          memory_status: "OFFLINE",
-          disk_status: "OFFLINE",
-          recommendations: ["Connect a Daemon device to begin monitoring."],
-          trend: "STABLE",
-          anomaly_detected: false,
-          anomaly_signals: [],
-          cpu_change_percent: 0,
-          memory_change_percent: 0,
-          disk_change_percent: 0
-        };
-
-        await env.TELEMETRY.put(
-          cacheKey,
-          JSON.stringify(offline),
-          { expirationTtl: 60 }
-        );
-
-        return json(offline);
+          intelligence_state: "INVALID_TELEMETRY",
+          signals: ["Telemetry payload could not be parsed."],
+          anomalies: [],
+          correlations: [],
+          impact: [],
+          risk: [],
+          root_cause_hypotheses: [],
+          recommendations: ["Inspect the connected telemetry source."]
+        }, 503);
       }
 
       const telemetry = record.telemetry || record;
 
-      const cpu = Number(telemetry.cpu_usage || 0);
-      const memoryUsed = Number(telemetry.memory_used || 0);
-      const memoryTotal = Number(telemetry.memory_total || 0);
-      const diskUsed = Number(telemetry.disk_used || 0);
-      const diskTotal = Number(telemetry.disk_total || 0);
+      const num = (value, fallback = 0) => {
+        const n = Number(value);
+        return Number.isFinite(n) ? n : fallback;
+      };
 
-      const memoryPercent = memoryTotal
-        ? (memoryUsed / memoryTotal) * 100
-        : memoryUsed;
+      const pct = (used, total, direct) => {
+        if (num(total) > 0) return (num(used) / num(total)) * 100;
+        return num(direct);
+      };
 
-      const diskPercent = diskTotal
-        ? (diskUsed / diskTotal) * 100
-        : diskUsed;
+      const cpu = num(telemetry.cpu_usage ?? telemetry.cpu);
+      const memoryPercent = pct(
+        telemetry.memory_used,
+        telemetry.memory_total,
+        telemetry.memory_percent ?? telemetry.memory
+      );
+      const diskPercent = pct(
+        telemetry.disk_used,
+        telemetry.disk_total,
+        telemetry.disk_percent ?? telemetry.disk
+      );
+
+      const gpuPercent = num(
+        telemetry.gpu_usage ??
+        telemetry.gpu_utilization ??
+        telemetry.gpu_percent
+      );
+
+      const networkPercent = num(
+        telemetry.network_utilization ??
+        telemetry.network_percent
+      );
+
+      const inferenceLatency = num(
+        telemetry.inference_latency_ms ??
+        telemetry.ai?.inference_latency_ms
+      );
+
+      const tokenRate = num(
+        telemetry.tokens_per_second ??
+        telemetry.ai?.tokens_per_second
+      );
+
+      const errorRate = num(
+        telemetry.error_rate ??
+        telemetry.ai?.error_rate
+      );
+
+      const requestRate = num(
+        telemetry.request_rate ??
+        telemetry.ai?.request_rate
+      );
+
+      const agentFailures = num(
+        telemetry.agent_failures ??
+        telemetry.ai?.agent_failures
+      );
+
+      const ragLatency = num(
+        telemetry.rag_latency_ms ??
+        telemetry.ai?.rag_latency_ms
+      );
+
+      const vectorLatency = num(
+        telemetry.vector_latency_ms ??
+        telemetry.ai?.vector_latency_ms
+      );
+
+      const costRate = num(
+        telemetry.cost_rate ??
+        telemetry.cloud?.cost_rate
+      );
+
+      const services = telemetry.services || [];
+      const workloads = telemetry.workloads || [];
+      const dependencies = telemetry.dependencies || [];
+      const aiSystems = telemetry.ai_systems || telemetry.ai?.systems || [];
+
       const cpuStatus =
         cpu >= 90 ? "CRITICAL" :
         cpu >= 75 ? "WARNING" :
@@ -1712,14 +1773,219 @@
         diskPercent >= 85 ? "WARNING" :
         "HEALTHY";
 
-      let healthScore = 100;
+      const gpuStatus =
+        gpuPercent >= 95 ? "CRITICAL" :
+        gpuPercent >= 85 ? "WARNING" :
+        "HEALTHY";
 
-      for (const resourceStatus of [cpuStatus, memoryStatus, diskStatus]) {
-        if (resourceStatus === "CRITICAL") healthScore -= 30;
-        else if (resourceStatus === "WARNING") healthScore -= 15;
+      const anomalySignals = [];
+      const signals = [];
+      const changes = [];
+      const correlations = [];
+      const impact = [];
+      const risk = [];
+      const recommendations = [];
+      const rootCauseHypotheses = [];
+      const nextActions = [];
+
+      if (cpuStatus !== "HEALTHY") {
+        signals.push(`CPU utilization ${cpu.toFixed(1)}%`);
       }
 
-      healthScore = Math.max(0, Math.min(100, healthScore));
+      if (memoryStatus !== "HEALTHY") {
+        signals.push(`Memory utilization ${memoryPercent.toFixed(1)}%`);
+      }
+
+      if (diskStatus !== "HEALTHY") {
+        signals.push(`Disk utilization ${diskPercent.toFixed(1)}%`);
+      }
+
+      if (gpuStatus !== "HEALTHY") {
+        signals.push(`GPU utilization ${gpuPercent.toFixed(1)}%`);
+      }
+
+      if (errorRate > 5) {
+        anomalySignals.push(`AI/application error rate is ${errorRate.toFixed(1)}%`);
+      }
+
+      if (agentFailures > 0) {
+        anomalySignals.push(`${agentFailures} agent failures reported`);
+      }
+
+      if (inferenceLatency > 2000) {
+        anomalySignals.push(`Inference latency is ${inferenceLatency.toFixed(0)}ms`);
+      }
+
+      if (ragLatency > 1000) {
+        anomalySignals.push(`RAG latency is ${ragLatency.toFixed(0)}ms`);
+      }
+
+      if (vectorLatency > 1000) {
+        anomalySignals.push(`Vector retrieval latency is ${vectorLatency.toFixed(0)}ms`);
+      }
+
+      if (previous) {
+        const oldCpu = num(previous.metrics?.cpu_usage, num(previous.cpu_usage));
+        const oldMemory = num(previous.metrics?.memory_percent, num(previous.memory_used_percent));
+        const oldDisk = num(previous.metrics?.disk_percent, num(previous.disk_used_percent));
+
+        const cpuChange = oldCpu ? ((cpu - oldCpu) / oldCpu) * 100 : 0;
+        const memoryChange = oldMemory ? ((memoryPercent - oldMemory) / oldMemory) * 100 : 0;
+        const diskChange = oldDisk ? ((diskPercent - oldDisk) / oldDisk) * 100 : 0;
+
+        if (Math.abs(cpuChange) >= 20) {
+          changes.push(`CPU changed ${cpuChange.toFixed(1)}% from the previous intelligence baseline.`);
+        }
+
+        if (Math.abs(memoryChange) >= 15) {
+          changes.push(`Memory changed ${memoryChange.toFixed(1)}% from the previous intelligence baseline.`);
+        }
+
+        if (Math.abs(diskChange) >= 10) {
+          changes.push(`Disk utilization changed ${diskChange.toFixed(1)}% from the previous intelligence baseline.`);
+        }
+      }
+
+      if (cpu >= 75 && memoryPercent >= 80) {
+        correlations.push(
+          "CPU and memory pressure are occurring together, indicating possible workload saturation."
+        );
+        impact.push("Compute-bound workloads may experience latency or scheduling pressure.");
+        rootCauseHypotheses.push(
+          "A workload or deployment may be consuming disproportionate compute and memory resources."
+        );
+      }
+
+      if (gpuPercent >= 85 && inferenceLatency > 1000) {
+        correlations.push(
+          "GPU utilization and inference latency are elevated together."
+        );
+        impact.push("AI inference workloads may be experiencing compute saturation.");
+        rootCauseHypotheses.push(
+          "GPU saturation may be contributing to increased model inference latency."
+        );
+      }
+
+      if (ragLatency > 1000 && inferenceLatency > 1000) {
+        correlations.push(
+          "RAG retrieval latency and model inference latency are elevated together."
+        );
+        impact.push("AI response latency may be affected by both retrieval and inference stages.");
+        rootCauseHypotheses.push(
+          "Retrieval or vector-store latency may be propagating into end-to-end AI response latency."
+        );
+      }
+
+      if (errorRate > 5 && agentFailures > 0) {
+        correlations.push(
+          "Application/AI errors and agent failures are occurring together."
+        );
+        impact.push("Agent workflows may be failing before completing their intended actions.");
+        rootCauseHypotheses.push(
+          "A shared dependency, tool, model, or downstream service may be contributing to agent failures."
+        );
+      }
+
+      if (networkPercent >= 85 && requestRate > 0) {
+        correlations.push(
+          "High network utilization coincides with active request traffic."
+        );
+        impact.push("Network saturation may affect service and AI workload latency.");
+      }
+
+      if (diskPercent >= 90) {
+        risk.push("Storage exhaustion risk");
+        recommendations.push(
+          "Investigate high-volume logs, caches, artifacts, containers, and persistent data."
+        );
+        nextActions.push("Inspect storage consumers and reclaim or expand capacity.");
+      }
+
+      if (cpu >= 90) {
+        risk.push("Compute saturation risk");
+        recommendations.push(
+          "Identify the workloads consuming the most CPU and investigate sustained saturation."
+        );
+        nextActions.push("Inspect top CPU-consuming workloads and recent deployments.");
+      }
+
+      if (memoryPercent >= 90) {
+        risk.push("Memory exhaustion risk");
+        recommendations.push(
+          "Investigate memory-heavy workloads and possible memory pressure or leaks."
+        );
+        nextActions.push("Inspect memory consumers, limits, requests, and recent workload changes.");
+      }
+
+      if (gpuPercent >= 90) {
+        risk.push("GPU saturation risk");
+        recommendations.push(
+          "Investigate GPU-bound inference and AI workloads for queueing or capacity pressure."
+        );
+        nextActions.push("Inspect GPU workloads, queues, model utilization, and inference latency.");
+      }
+
+      if (errorRate > 5) {
+        risk.push("Application/AI reliability risk");
+        recommendations.push(
+          "Correlate elevated errors with deployments, dependencies, agents, models, and downstream services."
+        );
+        nextActions.push("Trace failing requests through their dependency chain.");
+      }
+
+      if (dependencies.length > 0) {
+        correlations.push(
+          `${dependencies.length} dependency relationship(s) are available for cross-system correlation.`
+        );
+      }
+
+      if (services.length > 0 || workloads.length > 0) {
+        impact.push(
+          `${services.length + workloads.length} service/workload signal(s) are available for blast-radius analysis.`
+        );
+      }
+
+      if (aiSystems.length > 0) {
+        signals.push(`${aiSystems.length} AI system signal(s) detected.`);
+      }
+
+      if (costRate > 0 && (cpu >= 75 || gpuPercent >= 75)) {
+        correlations.push(
+          "Infrastructure utilization and reported cost-rate signals are available for cost/performance correlation."
+        );
+        nextActions.push("Compare resource utilization with workload cost and performance.");
+      }
+
+      if (!recommendations.length) {
+        recommendations.push(
+          "No immediate resource threshold breach detected. Continue baseline collection and correlation."
+        );
+      }
+
+      if (!nextActions.length) {
+        nextActions.push(
+          "Continue collecting telemetry to strengthen historical baselines and dependency intelligence."
+        );
+      }
+
+      let healthScore = 100;
+
+      for (const statusValue of [
+        cpuStatus,
+        memoryStatus,
+        diskStatus,
+        gpuStatus
+      ]) {
+        if (statusValue === "CRITICAL") healthScore -= 22;
+        else if (statusValue === "WARNING") healthScore -= 10;
+      }
+
+      if (errorRate > 5) healthScore -= 12;
+      if (agentFailures > 0) healthScore -= 8;
+      if (inferenceLatency > 2000) healthScore -= 6;
+      if (risk.length >= 3) healthScore -= 8;
+
+      healthScore = Math.max(0, Math.min(100, Math.round(healthScore)));
 
       const status =
         healthScore >= 90 ? "HEALTHY" :
@@ -1727,40 +1993,112 @@
         healthScore >= 40 ? "AT_RISK" :
         "CRITICAL";
 
-      const recommendations = [];
+      const anomalyDetected =
+        anomalySignals.length > 0 ||
+        changes.length > 0 ||
+        correlations.length > 0;
 
-      if (cpuStatus === "CRITICAL") {
-        recommendations.push("CPU utilization is critically high. Investigate the processes consuming the most CPU.");
-      } else if (cpuStatus === "WARNING") {
-        recommendations.push("CPU utilization is elevated. Monitor active workloads for sustained CPU pressure.");
-      }
+      const intelligenceState =
+        risk.length >= 3 ? "HIGH_RISK" :
+        anomalyDetected ? "INVESTIGATING" :
+        "BASELINE";
 
-      if (memoryStatus === "CRITICAL") {
-        recommendations.push("Memory utilization is critically high. Investigate memory-heavy processes and reclaim available memory.");
-      } else if (memoryStatus === "WARNING") {
-        recommendations.push("Memory utilization is elevated. Monitor workloads for increasing memory pressure.");
-      }
-
-      if (diskStatus === "CRITICAL") {
-        recommendations.push("Disk utilization is critically high. Free space or expand storage immediately.");
-      } else if (diskStatus === "WARNING") {
-        recommendations.push("Disk utilization is elevated. Plan cleanup or additional storage.");
-      }
+      const trend =
+        changes.some(change => /changed -/i.test(change))
+          ? "CHANGING"
+          : changes.length
+            ? "CHANGING"
+            : "STABLE";
 
       const intelligence = {
-        health_score: healthScore,
         status,
-        cpu_status: cpuStatus,
-        memory_status: memoryStatus,
-        disk_status: diskStatus,
+        health_score: healthScore,
+        intelligence_state: intelligenceState,
+
+        observability: {
+          infrastructure: "ONLINE",
+          ai_systems: aiSystems.length || inferenceLatency || gpuPercent ? "ACTIVE" : "READY",
+          telemetry: "ACTIVE"
+        },
+
+        metrics: {
+          cpu_usage: cpu,
+          memory_percent: memoryPercent,
+          disk_percent: diskPercent,
+          gpu_percent: gpuPercent,
+          network_percent: networkPercent,
+          inference_latency_ms: inferenceLatency,
+          rag_latency_ms: ragLatency,
+          vector_latency_ms: vectorLatency,
+          request_rate: requestRate,
+          error_rate: errorRate,
+          agent_failures: agentFailures,
+          tokens_per_second: tokenRate,
+          cost_rate: costRate
+        },
+
+        resource_status: {
+          cpu: cpuStatus,
+          memory: memoryStatus,
+          disk: diskStatus,
+          gpu: gpuStatus
+        },
+
+        signals,
+        anomalies: anomalySignals,
+        changes,
+        correlations,
+        impact,
+        risk,
+        root_cause_hypotheses: rootCauseHypotheses,
         recommendations,
-        trend: "STABLE",
-        anomaly_detected: false,
-        anomaly_signals: [],
-        cpu_change_percent: 0,
-        memory_change_percent: 0,
-        disk_change_percent: 0,
-        received_at: record.received_at || null,
+        next_actions: nextActions,
+
+        intelligence_graph: {
+          application: telemetry.application || telemetry.app || null,
+          ai: telemetry.ai || null,
+          data: telemetry.data || null,
+          compute: telemetry.compute || null,
+          cloud: telemetry.cloud || null,
+          dependencies,
+          services,
+          workloads
+        },
+
+        trend,
+        anomaly_detected: anomalyDetected,
+
+        metrics_collected: {
+          infrastructure: true,
+          kubernetes: Boolean(
+            telemetry.kubernetes ||
+            telemetry.cluster ||
+            telemetry.pods ||
+            telemetry.nodes
+          ),
+          cloud: Boolean(telemetry.cloud),
+          bare_metal: Boolean(telemetry.bare_metal),
+          ai: Boolean(
+            telemetry.ai ||
+            telemetry.ai_systems ||
+            inferenceLatency ||
+            gpuPercent
+          ),
+          rag: Boolean(
+            telemetry.rag ||
+            ragLatency
+          ),
+          vector_database: Boolean(
+            telemetry.vector_database ||
+            vectorLatency
+          ),
+          inference: Boolean(
+            telemetry.inference ||
+            inferenceLatency
+          )
+        },
+
+        received_at: record.received_at || new Date().toISOString(),
         device_id: record.device_id || null
       };
 
@@ -1772,6 +2110,7 @@
 
       return json(intelligence);
     }
+
 /*
      * ------------------------------------------------------------
      * FRONTEND
