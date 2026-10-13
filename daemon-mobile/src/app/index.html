@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#06080d">
-<meta name="description" content="Daemon OS â€” intelligent infrastructure monitoring, analysis and automation.">
+<meta name="description" content="Daemon OS — intelligent infrastructure monitoring, analysis and automation.">
 <meta property="og:type" content="website"><meta property="og:title" content="Daemon OS | Infrastructure Intelligence"><meta property="og:description" content="AI-powered infrastructure intelligence for real-time telemetry, anomaly detection, security monitoring, and actionable system recommendations."><meta property="og:url" content="https://daemon-os.lebarionellison.workers.dev/"><meta property="og:image" content="https://daemon-os.lebarionellison.workers.dev/og-card.png"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta property="og:image:alt" content="Daemon OS infrastructure intelligence command center showing telemetry, anomaly detection, security monitoring, and system state."><meta name="twitter:card" content="summary_large_image"><meta name="twitter:image" content="https://daemon-os.lebarionellison.workers.dev/og-card.png"><meta name="twitter:image:alt" content="Daemon OS infrastructure intelligence command center showing telemetry, anomaly detection, security monitoring, and system state."><meta name="twitter:title" content="Daemon OS | Infrastructure Intelligence"><meta name="twitter:description" content="AI-powered infrastructure intelligence for real-time telemetry, anomaly detection, security monitoring, and actionable system recommendations.">
 <title>Daemon OS | Infrastructure Intelligence</title>
 
@@ -1798,7 +1798,7 @@ body::after {
 }
 </style>
 <style id="daemon-ambient-ai">
-/* DAEMON OS â€” Ambient AI/Data Motion */
+/* DAEMON OS — Ambient AI/Data Motion */
 .daemon-ambient-field {
     position: fixed;
     inset: 0;
@@ -2666,9 +2666,9 @@ body::after {
   }
 }
 </style>
-<style id="daemon-live-intelligence-rail">
+<style id="daemon-live-intelligence-rail-styles">
 /* ============================================================
-   DAEMON OS â€” LIVE INTELLIGENCE LANDING RAIL
+   DAEMON OS — LIVE INTELLIGENCE LANDING RAIL
    Real telemetry / intelligence / security / history
    ============================================================ */
 
@@ -3311,6 +3311,126 @@ body::after {
 .dui-ai strong{color:#67e5ff;letter-spacing:.15em;font-size:12px}
 @media(max-width:900px){.dui-grid{grid-template-columns:1fr}.dui-head{display:block}.dui-live{display:inline-block;margin-top:20px}}
 </style>
+<style id="daemon-hunter-styles">
+#daemon-hunter-engine {
+  margin: 30px 0;
+  padding: clamp(18px,3vw,34px);
+  border: 1px solid rgba(76,190,255,.28);
+  border-radius: 22px;
+  background:
+    radial-gradient(ellipse at 10% 0%,rgba(0,172,255,.12),transparent 46%),
+    radial-gradient(ellipse at 100% 100%,rgba(123,75,255,.10),transparent 44%),
+    #080c14;
+  color: #edf5ff;
+  font-family: inherit;
+}
+#daemon-hunter-engine * { box-sizing: border-box; }
+#daemon-hunter-engine .dh-eyebrow {
+  color: #70d8ff; font-size: 11px; font-weight: 800;
+  letter-spacing: .18em; text-transform: uppercase;
+}
+#daemon-hunter-engine .dh-heading {
+  margin: 10px 0; font-size: clamp(28px,4vw,46px);
+  line-height: 1.08; letter-spacing: -.04em;
+}
+#daemon-hunter-engine .dh-muted { color: #a5b4ca; line-height: 1.7; }
+#daemon-hunter-engine .dh-grid {
+  display: grid; grid-template-columns: minmax(0,1.25fr) minmax(250px,.75fr);
+  gap: 16px; margin-top: 24px;
+}
+#daemon-hunter-engine .dh-panel {
+  min-width: 0; padding: 18px; border: 1px solid #25354b;
+  border-radius: 16px; background: rgba(13,21,34,.88);
+}
+#daemon-hunter-engine .dh-panel h3 { margin: 0 0 12px; font-size: 16px; }
+#daemon-hunter-engine .dh-state {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 7px 10px; border: 1px solid #29485b;
+  border-radius: 99px; color: #83e5ff; font-size: 11px;
+  font-weight: 800; letter-spacing: .08em;
+}
+#daemon-hunter-engine .dh-dot {
+  width: 7px; height: 7px; border-radius: 50%;
+  background: #55e6ba; box-shadow: 0 0 12px #55e6ba;
+}
+#daemon-hunter-engine .dh-cases {
+  display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 9px;
+}
+#daemon-hunter-engine .dh-case {
+  width: 100%; min-height: 74px; padding: 12px;
+  text-align: left; color: #e8f2ff; background: #101b2b;
+  border: 1px solid #293b53; border-radius: 12px;
+  cursor: pointer; font: inherit; font-size: 13px;
+  transition: border-color .18s, transform .18s, background .18s;
+}
+#daemon-hunter-engine .dh-case:hover,
+#daemon-hunter-engine .dh-case[aria-pressed="true"] {
+  border-color: #43caff; background: #11283a;
+}
+#daemon-hunter-engine .dh-case:focus-visible,
+#daemon-hunter-engine .dh-stage:focus-visible {
+  outline: 2px solid #80e0ff; outline-offset: 3px;
+}
+#daemon-hunter-engine .dh-case small {
+  display: block; margin-top: 7px; color: #9aacc3; font-size: 11px;
+}
+#daemon-hunter-engine .dh-graph {
+  display: grid; gap: 8px; justify-items: center; margin: 18px 0;
+}
+#daemon-hunter-engine .dh-node {
+  width: min(100%,290px); padding: 10px 12px; text-align: center;
+  border: 1px solid #31506a; border-radius: 10px;
+  background: #101e30; font-size: 12px;
+}
+#daemon-hunter-engine .dh-node.dh-alert {
+  border-color: #ffbd69; background: #302416; color: #ffdaa0;
+}
+#daemon-hunter-engine .dh-link { color: #62ceff; font-size: 17px; line-height: 1; }
+#daemon-hunter-engine .dh-stages {
+  display: grid; grid-template-columns: repeat(7,minmax(0,1fr));
+  gap: 6px; margin-top: 18px;
+}
+#daemon-hunter-engine .dh-stage {
+  padding: 10px 3px; min-width: 0; color: #b8c8dc;
+  border: 1px solid #27374d; border-radius: 9px;
+  background: #0c1420; cursor: pointer; font: inherit;
+  font-size: 10px; font-weight: 800; overflow-wrap: anywhere;
+}
+#daemon-hunter-engine .dh-stage[aria-pressed="true"] {
+  color: #85e2ff; border-color: #40c7ff; background: #10283a;
+}
+#daemon-hunter-engine .dh-result-title { margin: 0 0 8px; font-size: 21px; }
+#daemon-hunter-engine .dh-evidence {
+  padding-left: 18px; color: #b9c9dc; line-height: 1.8; font-size: 13px;
+}
+#daemon-hunter-engine .dh-note {
+  margin-top: 14px; color: #91a5bd; font-size: 11px; line-height: 1.6;
+}
+#daemon-hunter-engine .dh-pill {
+  display: inline-block; padding: 5px 8px; margin-bottom: 10px;
+  border-radius: 6px; background: #202d3e; color: #a9dfff;
+  font-size: 10px; font-weight: 800; letter-spacing: .08em;
+}
+#daemon-hunter-engine .dh-action {
+  display: inline-block; padding: 11px 14px; margin-top: 12px;
+  border-radius: 9px; border: 1px solid #3abef5;
+  background: #10283a; color: #dff7ff; font-size: 12px;
+  font-weight: 800; text-decoration: none; cursor: pointer;
+}
+#daemon-hunter-engine .dh-action:hover { background: #173b52; }
+@media(max-width:760px) {
+  #daemon-hunter-engine .dh-grid { grid-template-columns: 1fr; }
+  #daemon-hunter-engine .dh-stages { grid-template-columns: repeat(4,minmax(0,1fr)); }
+}
+@media(max-width:420px) {
+  #daemon-hunter-engine .dh-cases { grid-template-columns: 1fr; }
+  #daemon-hunter-engine .dh-stages { grid-template-columns: repeat(2,minmax(0,1fr)); }
+}
+@media(prefers-reduced-motion:reduce) {
+  #daemon-hunter-engine *, #daemon-hunter-engine *::before,
+  #daemon-hunter-engine *::after { transition: none !important; animation: none !important; }
+}
+</style>
 </head>
 
 <body>
@@ -3329,7 +3449,7 @@ body::after {
     </div>
 
     <a class="daemon-top-cta" href="#pricing">
-      Start Daemon â€” 14 Days Free
+      Start Daemon — 14 Days Free
     </a>
   </div>
 </nav>
@@ -3884,7 +4004,7 @@ body::after {
 
     greetingEl.textContent=greeting;
     timeEl.textContent=time;
-    contextEl.textContent="Local context â€¢ "+zoneLabel;
+    contextEl.textContent="Local context • "+zoneLabel;
   }
 
   function updateState(){
@@ -4040,7 +4160,7 @@ body::after {
 
       <div class="daemon-live-description">
         Daemon watches telemetry, security, system behavior and historical
-        state continuously â€” then turns meaningful changes into intelligence.
+        state continuously — then turns meaningful changes into intelligence.
       </div>
 
       <div class="daemon-live-metrics">
@@ -4110,7 +4230,7 @@ body::after {
               type="button"
               aria-label="Open Daemon alert"
               title="Open Daemon alert"
-            >×</button>
+            >×</button>
 
             <div>
               <div class="daemon-live-severity" id="daemon-live-severity">
@@ -4389,7 +4509,7 @@ body::after {
       <div class="actions">
 
         <a class="btn btn-primary" href="#pricing">
-          Start Daemon â€” 14 Days Free
+          Start Daemon — 14 Days Free
         </a>
 
 <div class="product-hunt-badge" id="product-hunt-badge">
@@ -5749,6 +5869,70 @@ body::after {
 </section>
 
 <section id="daemon-unified-intelligence" aria-label="Daemon Unified Intelligence">
+<div id="daemon-hunter-engine" aria-labelledby="dh-title">
+  <div class="dh-eyebrow">Daemon OS / Hunter Intelligence</div>
+  <h2 class="dh-heading" id="dh-title">Your infrastructure doesn't have to fail before Daemon finds the problem.</h2>
+  <p class="dh-muted">Hunt for abnormal behavior. Map the blast radius. Investigate evidence. Find the safest path back to healthy operations.</p>
+
+  <div style="display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between;margin-top:18px">
+    <span class="dh-state"><span class="dh-dot"></span> INTERACTIVE INVESTIGATION DEMO</span>
+    <span class="dh-muted" style="font-size:11px">Simulated cases · Not connected to live infrastructure</span>
+  </div>
+
+  <div class="dh-grid">
+    <div class="dh-panel">
+      <h3>01 / Select a hunt</h3>
+      <div class="dh-cases" role="group" aria-label="Choose a simulated infrastructure incident">
+        <button type="button" class="dh-case" data-case="gpu" aria-pressed="true">AI inference latency<small>GPU / model serving</small></button>
+        <button type="button" class="dh-case" data-case="kube" aria-pressed="false">Kubernetes instability<small>Pod restarts / workload</small></button>
+        <button type="button" class="dh-case" data-case="memory" aria-pressed="false">Memory pressure<small>Node / resource saturation</small></button>
+        <button type="button" class="dh-case" data-case="storage" aria-pressed="false">Storage capacity risk<small>Disk / workload impact</small></button>
+      </div>
+
+      <h3 style="margin-top:24px">02 / Dependency map</h3>
+      <div class="dh-graph" id="dh-graph" aria-live="polite">
+        <div class="dh-node">Client application</div><div class="dh-link">↓</div>
+        <div class="dh-node">Inference API / service</div><div class="dh-link">↓</div>
+        <div class="dh-node dh-alert" id="dh-alert-node">Model serving · Latency elevated</div><div class="dh-link">↓</div>
+        <div class="dh-node">GPU workload / compute node</div><div class="dh-link">↓</div>
+        <div class="dh-node">Network · Storage · Cloud</div>
+      </div>
+      <p class="dh-note">Illustrative dependency path. Real dependency discovery requires connected instrumentation and graph data.</p>
+    </div>
+
+    <div class="dh-panel" aria-live="polite" aria-atomic="true">
+      <div class="dh-pill" id="dh-severity">SIMULATED FINDING</div>
+      <h3 class="dh-result-title" id="dh-result-title">Inference latency is elevated</h3>
+      <p class="dh-muted" id="dh-result-copy">Daemon flags a service-level symptom and begins investigating the connected workload and compute path.</p>
+      <h3 style="margin-top:20px">Evidence to examine</h3>
+      <ul class="dh-evidence" id="dh-evidence">
+        <li>Compare inference latency with its historical baseline.</li>
+        <li>Inspect GPU utilization, memory and queue depth.</li>
+        <li>Correlate node, network and model-serving telemetry.</li>
+      </ul>
+      <h3 style="margin-top:20px">Recommended next step</h3>
+      <p class="dh-muted" id="dh-recommendation">Compare model-serving latency with GPU and queue metrics before attributing the cause.</p>
+      <button type="button" class="dh-action" id="dh-next">Explore investigation →</button>
+      <p class="dh-note" id="dh-confidence">Diagnosis status: hypothesis pending evidence. No repair has been executed.</p>
+    </div>
+  </div>
+
+  <div class="dh-panel" style="margin-top:16px">
+    <h3>03 / Hunter lifecycle</h3>
+    <div class="dh-stages" role="group" aria-label="Explore the Hunter lifecycle">
+      <button class="dh-stage" type="button" data-stage="0" aria-pressed="true">01 HUNT</button>
+      <button class="dh-stage" type="button" data-stage="1" aria-pressed="false">02 MAP</button>
+      <button class="dh-stage" type="button" data-stage="2" aria-pressed="false">03 INVESTIGATE</button>
+      <button class="dh-stage" type="button" data-stage="3" aria-pressed="false">04 DIAGNOSE</button>
+      <button class="dh-stage" type="button" data-stage="4" aria-pressed="false">05 RESOLVE</button>
+      <button class="dh-stage" type="button" data-stage="5" aria-pressed="false">06 VERIFY</button>
+      <button class="dh-stage" type="button" data-stage="6" aria-pressed="false">07 LEARN</button>
+    </div>
+    <h3 id="dh-stage-title" style="margin-top:18px">Hunt for abnormal behavior</h3>
+    <p class="dh-muted" id="dh-stage-copy">Identify deviations, degraded service behavior and emerging health risks from available signals.</p>
+  </div>
+</div>
+
   <div class="dui-shell">
     <div class="dui-head">
       <div>
@@ -7675,7 +7859,7 @@ body{background:#05070a}
   draw();
 })();
 </script>
-<style id="daemon-live-motion">
+<style id="daemon-live-motion-styles">
 #daemon-live-motion{position:fixed;inset:0;z-index:-1;pointer-events:none;overflow:hidden;opacity:.7}
 .daemon-orb{position:absolute;border-radius:50%;filter:blur(55px);opacity:.13;animation:daemonFloat 14s ease-in-out infinite}
 .daemon-orb.a{width:280px;height:280px;left:8%;top:18%;background:#00dcff}
@@ -7998,7 +8182,7 @@ body{background:#05070a}
   <div class="daemon-stream"></div>
   <div class="daemon-stream"></div>
   <div class="daemon-stream"></div>
-</div><style id="daemon-personal-console">
+</div><style id="daemon-personal-console-styles">
 #daemon-personal-console{position:fixed;top:18px;right:18px;width:330px;max-height:calc(100vh - 36px);overflow-y:auto;z-index:9998;background:rgba(7,10,18,.88);border:1px solid rgba(120,170,255,.22);border-radius:20px;box-shadow:0 20px 70px rgba(0,0,0,.5),0 0 45px rgba(70,130,255,.08);backdrop-filter:blur(22px);-webkit-backdrop-filter:blur(22px);color:#edf4ff;font-family:inherit}
 #daemon-personal-console .dpc-head{padding:20px 20px 15px;border-bottom:1px solid rgba(255,255,255,.08)}
 #daemon-personal-console .dpc-kicker{font-size:9px;letter-spacing:.22em;color:#78aaff;font-weight:800;margin-bottom:7px}
@@ -8335,7 +8519,7 @@ body{background:#05070a}
     <div class="dpc-greeting" id="dpc-greeting">Welcome back.</div>
     <div class="dpc-time" id="dpc-time">--:--:--</div>
     <button class="dpc-voice" id="dpc-voice">?  VOICE COMMAND</button>
-    <div class="dpc-command" id="dpc-command">Say â€œsystem statusâ€, â€œshow alertsâ€, â€œshow logsâ€, or â€œadd taskâ€.</div>
+    <div class="dpc-command" id="dpc-command">Say "system status", "show alerts", "show logs", or "add task".</div>
   </div>
 
   <div class="dpc-section">
@@ -8510,7 +8694,7 @@ body{background:#05070a}
   refresh();
 
 })();
-</script><style id="daemon-proactive-intelligence">
+</script><style id="daemon-proactive-intelligence-styles">
 #dpc-insight{margin:10px 0 12px;padding:12px 14px;border:1px solid rgba(120,220,255,.24);border-radius:14px;background:linear-gradient(135deg,rgba(10,25,42,.92),rgba(20,12,42,.78));box-shadow:0 0 24px rgba(60,180,255,.08)}
 #dpc-insight-label{font-size:9px;letter-spacing:.18em;opacity:.6;margin-bottom:5px}
 #dpc-insight-text{font-size:12px;line-height:1.45}
@@ -8844,7 +9028,7 @@ body{background:#05070a}
 
  const activity=document.createElement("div");
  activity.id="dpc-activity";
- activity.innerHTML='<div id="dpc-activity-title" style="font-size:9px;letter-spacing:.15em;opacity:.55;margin-bottom:5px">PERSONAL ACTIVITY</div>';
+ activity.innerHTML='<div class="dpc-activity-title" style="font-size:9px;letter-spacing:.15em;opacity:.55;margin-bottom:5px">PERSONAL ACTIVITY</div>';
  const logs=$("dpc-logs");
  if(logs && logs.parentNode) logs.parentNode.insertBefore(activity,logs);
 
@@ -8868,7 +9052,7 @@ body{background:#05070a}
  function renderEvents(){
    if(!activity)return;
    const recent=events.slice(0,5);
-   activity.innerHTML='<div id="dpc-activity-title" style="font-size:9px;letter-spacing:.15em;opacity:.55;margin-bottom:5px">PERSONAL ACTIVITY</div>'+
+   activity.innerHTML='<div class="dpc-activity-title" style="font-size:9px;letter-spacing:.15em;opacity:.55;margin-bottom:5px">PERSONAL ACTIVITY</div>'+
      (recent.length?recent.map(e=>'<div class="dpc-activity"><strong>'+escapeHtml(e.text)+'</strong><time>'+new Date(e.time).toLocaleTimeString([], {hour:"numeric",minute:"2-digit"})+'</time></div>').join(""):'<div class="dpc-activity">No activity recorded yet.</div>');
  }
 
@@ -8924,10 +9108,10 @@ body{background:#05070a}
    const current={cpu,mem,disk,security:securityText};
 
    if(snapshot){
-     if(snapshot.cpu<80 && cpu>=80)addEvent("CPU crossed 80% â€” Daemon detected a meaningful change.","telemetry");
-     if(snapshot.mem<80 && mem>=80)addEvent("Memory crossed 80% â€” Daemon detected a meaningful change.","telemetry");
-     if(snapshot.disk<90 && disk>=90)addEvent("Disk usage crossed 90% â€” Daemon detected a capacity risk.","telemetry");
-     if(snapshot.security!==securityText && securityText)addEvent("Security state changed â€” Daemon recorded the change.","security");
+     if(snapshot.cpu<80 && cpu>=80)addEvent("CPU crossed 80% — Daemon detected a meaningful change.","telemetry");
+     if(snapshot.mem<80 && mem>=80)addEvent("Memory crossed 80% — Daemon detected a meaningful change.","telemetry");
+     if(snapshot.disk<90 && disk>=90)addEvent("Disk usage crossed 90% — Daemon detected a capacity risk.","telemetry");
+     if(snapshot.security!==securityText && securityText)addEvent("Security state changed — Daemon recorded the change.","security");
    }
 
    snapshot=current;
@@ -9024,7 +9208,7 @@ body{background:#05070a}
  monitor();
  
 })();
-</script><style id="daemon-live-intelligence-field">
+</script><style id="daemon-live-intelligence-field-styles">
 /* DAEMON LIVE INTELLIGENCE ENVIRONMENT */
 #daemon-live-intelligence-field{
 position:fixed;
@@ -9514,7 +9698,7 @@ animation:daemonSystemReaction .9s ease-out;
 <span>DAEMON LIVE INTELLIGENCE</span>
 <span id="daemon-live-pulse"></span>
 </div>
-<div id="daemon-live-state">CONNECTING TO SYSTEM</div>
+<div id="daemon-telemetry-state">CONNECTING TO SYSTEM</div>
 <div class="daemon-signal-row">
 <span>CPU</span><div class="daemon-signal-track"><div id="daemon-signal-cpu" class="daemon-signal-fill"></div></div><span id="daemon-value-cpu">--</span>
 </div>
@@ -9567,7 +9751,7 @@ Math.abs(disk-previous.disk)>=5
 ))state="CHANGE DETECTED";
 else state="WATCHING SYSTEM";
 
-q("daemon-live-state").textContent=state;
+q("daemon-telemetry-state").textContent=state;
 
 if(previous && (
 Math.abs(cpu-previous.cpu)>=15||
@@ -9581,7 +9765,7 @@ document.body.classList.add("daemon-system-change");
 
 previous={cpu,mem,disk};
 }catch{
-q("daemon-live-state").textContent="INTELLIGENCE OFFLINE";
+q("daemon-telemetry-state").textContent="INTELLIGENCE OFFLINE";
 }
 }
 
@@ -9627,7 +9811,7 @@ return '<div style="padding:16px;border:1px solid rgba(80,180,255,.11);border-ra
 '<span style="font-size:10px;letter-spacing:.12em;color:#7ee7c8;">'+(e.status||"MONITORING")+'</span>'+
 '</div>'+
 '<div style="margin-top:9px;font-size:13px;line-height:1.55;color:rgba(225,238,250,.72);">'+(e.description||"No explanation available.")+'</div>'+
-(evidence.length?'<div style="margin-top:10px;font-size:11px;line-height:1.7;color:rgba(150,205,255,.65);">'+evidence.map(x=>'â€¢ '+x).join("<br>")+'</div>':"")+
+(evidence.length?'<div style="margin-top:10px;font-size:11px;line-height:1.7;color:rgba(150,205,255,.65);">'+evidence.map(x=>'• '+x).join("<br>")+'</div>':"")+
 '<div style="display:flex;gap:18px;margin-top:10px;font-size:10px;color:rgba(220,235,255,.42);"><span>CONFIDENCE '+confidence+'%</span><span>'+time+'</span></div>'+
 '</div>';
 }).join("");
@@ -9667,7 +9851,7 @@ const time=e.updated_at?new Date(e.updated_at*1000).toLocaleString():"Unknown";
 return '<div style="padding:17px;border:1px solid rgba(100,180,255,.12);border-radius:14px;background:rgba(255,255,255,.025);margin-bottom:10px;">'+
 '<div style="display:flex;justify-content:space-between;gap:12px;"><strong style="color:#eaf6ff;font-size:14px;">'+esc(e.name)+'</strong><span style="font-size:10px;color:#7ee7c8;">'+esc(e.status||"MONITORING")+'</span></div>'+
 '<div style="margin-top:9px;color:rgba(225,238,250,.76);font-size:13px;line-height:1.55;">'+esc(e.description||"No explanation available.")+'</div>'+
-(evidence.length?'<div style="margin-top:11px;color:rgba(150,205,255,.65);font-size:11px;line-height:1.7;">'+evidence.map(x=>"â€¢ "+esc(x)).join("<br>")+"</div>":"")+
+(evidence.length?'<div style="margin-top:11px;color:rgba(150,205,255,.65);font-size:11px;line-height:1.7;">'+evidence.map(x=>"• "+esc(x)).join("<br>")+"</div>":"")+
 '<div style="margin-top:10px;font-size:10px;color:rgba(220,235,255,.4);display:flex;gap:18px;"><span>CONFIDENCE '+confidence+'%</span><span>'+esc(time)+'</span></div></div>';
 }
 function renderMatrix(){
@@ -10300,7 +10484,7 @@ refreshMatrix();
       $("daemon-live-analysis").textContent =
         "Signal opened: " +
         state.incident.title +
-        " â€” Daemon is correlating telemetry, security and historical context.";
+        " — Daemon is correlating telemetry, security and historical context.";
 
       document
         .getElementById("daemon-live-incident")
@@ -10560,8 +10744,124 @@ refreshMatrix();
     />
   </a>
 </div>
-</body>
-</html>
+
+<!-- Smol Startup Featured Badge -->
+<section id="smolstartup-featured-badge"
+         aria-label="Daemon OS launch recognition"
+         style="display:flex;justify-content:center;align-items:center;padding:24px 16px;">
+  <a href="https://smolstartup.com/projects/daemon-os?utm_source=badge"
+     target="_blank"
+     rel="noopener noreferrer"
+     aria-label="Featured on Smol Startup">
+    <img src="https://smolstartup.com/smolstartup/images/badges/featured-on-dark.svg"
+         alt="Featured on Smol Startup"
+         style="display:block;height:44px;width:auto;max-width:100%;" />
+  </a>
+</section>
+<!-- End Smol Startup Featured Badge -->
+<script id="daemon-hunter-interactions">
+(function () {
+  "use strict";
+  var root = document.getElementById("daemon-hunter-engine");
+  if (!root || root.dataset.ready === "true") return;
+  root.dataset.ready = "true";
+
+  var cases = {
+    gpu: {
+      title: "Inference latency is elevated",
+      copy: "A model-serving service is slower than expected. Investigate the full request path before assigning a root cause.",
+      evidence: ["Compare latency percentiles with the historical baseline.", "Inspect GPU utilization, memory pressure and queue depth.", "Correlate node, network and model-serving telemetry."],
+      recommendation: "Compare model-serving latency with GPU, queue and network metrics. Check for a recent deployment or configuration change.",
+      node: "Model serving · Latency elevated",
+      severity: "SIMULATED FINDING"
+    },
+    kube: {
+      title: "Workload restart activity increased",
+      copy: "A Kubernetes workload is restarting repeatedly. The triggering condition and downstream impact still need verification.",
+      evidence: ["Inspect pod events and previous container termination reasons.", "Compare resource limits with actual CPU and memory use.", "Check readiness probes, recent changes and dependent services."],
+      recommendation: "Inspect pod events and termination details first. Confirm the cause before changing resource limits or restarting workloads.",
+      node: "Kubernetes workload · Restarts",
+      severity: "SIMULATED FINDING"
+    },
+    memory: {
+      title: "Memory pressure may affect service health",
+      copy: "Resource pressure may degrade workloads or trigger eviction. Establish which process or workload is responsible.",
+      evidence: ["Compare memory working set with the node baseline.", "Inspect container limits, eviction events and swap behavior where applicable.", "Check whether pressure coincides with a deployment or traffic increase."],
+      recommendation: "Identify the consuming workload and verify its memory trend before scaling or adjusting limits.",
+      node: "Compute node · Memory pressure",
+      severity: "SIMULATED FINDING"
+    },
+    storage: {
+      title: "Storage capacity risk detected",
+      copy: "A simulated capacity warning could affect writes, logs or workload stability if consumption continues.",
+      evidence: ["Inspect free capacity and the rate of consumption.", "Identify high-growth directories, volumes or log streams.", "Check volume dependencies and retention policies before cleanup."],
+      recommendation: "Determine the growth source and projected time to capacity. Confirm retention and backup policies before deleting data.",
+      node: "Storage volume · Capacity risk",
+      severity: "SIMULATED FINDING"
+    }
+  };
+
+  var stages = [
+    ["Hunt for abnormal behavior", "Identify deviations, degraded service behavior and emerging health risks from available signals."],
+    ["Map the affected dependencies", "Trace the selected component through its upstream and downstream relationships. Validate graph edges against observed system data."],
+    ["Investigate the evidence", "Correlate available metrics, logs, traces, events, baselines and recent changes to narrow the possible causes."],
+    ["Diagnose with uncertainty visible", "Separate observed facts from hypotheses. Explain supporting evidence, confidence and what remains unknown."],
+    ["Recommend a safe resolution", "Present prioritized next steps, expected outcome, operational risk and rollback guidance. Require authorization for protected actions."],
+    ["Verify recovery", "After an authorized action, compare health signals with pre-action measurements and confirm whether the expected recovery occurred."],
+    ["Learn from the outcome", "Record the incident, action, evidence and result. Continue watching for recurrence and avoid treating an unverified fix as successful."]
+  ];
+
+  var currentCase = "gpu";
+  var currentStage = 0;
+
+  function showCase(key) {
+    var item = cases[key];
+    if (!item) return;
+    currentCase = key;
+    root.querySelectorAll("[data-case]").forEach(function (button) {
+      button.setAttribute("aria-pressed", String(button.dataset.case === key));
+    });
+    document.getElementById("dh-result-title").textContent = item.title;
+    document.getElementById("dh-result-copy").textContent = item.copy;
+    document.getElementById("dh-recommendation").textContent = item.recommendation;
+    document.getElementById("dh-severity").textContent = item.severity;
+    document.getElementById("dh-alert-node").textContent = item.node;
+    var list = document.getElementById("dh-evidence");
+    list.replaceChildren();
+    item.evidence.forEach(function (line) {
+      var li = document.createElement("li");
+      li.textContent = line;
+      list.appendChild(li);
+    });
+    document.getElementById("dh-confidence").textContent =
+      "Diagnosis status: hypothesis pending evidence. This scenario is simulated; no live diagnosis or repair has occurred.";
+    currentStage = 0;
+    showStage(0);
+  }
+
+  function showStage(index) {
+    currentStage = index;
+    root.querySelectorAll("[data-stage]").forEach(function (button) {
+      button.setAttribute("aria-pressed", String(Number(button.dataset.stage) === index));
+    });
+    document.getElementById("dh-stage-title").textContent = stages[index][0];
+    document.getElementById("dh-stage-copy").textContent = stages[index][1];
+    var next = document.getElementById("dh-next");
+    next.textContent = index < 6 ? "Explore next stage →" : "Restart investigation ↺";
+  }
+
+  root.querySelectorAll("[data-case]").forEach(function (button) {
+    button.addEventListener("click", function () { showCase(button.dataset.case); });
+  });
+  root.querySelectorAll("[data-stage]").forEach(function (button) {
+    button.addEventListener("click", function () { showStage(Number(button.dataset.stage)); });
+  });
+  document.getElementById("dh-next").addEventListener("click", function () {
+    showStage(currentStage < 6 ? currentStage + 1 : 0);
+  });
+})();
+</script>
+
 
 
 
@@ -11056,7 +11356,7 @@ refreshMatrix();
 </script>
 
 
-<script id="daemon-manage-billing">
+<script id="daemon-manage-billing-handler">
 (function () {
   const button = document.getElementById("daemon-manage-billing");
   if (!button) return;
@@ -11142,6 +11442,5 @@ refreshMatrix();
   });
 })();
 </script>
-
-
-
+</body>
+</html>
