@@ -1,5 +1,7 @@
 # Daemon OS
 
+An infrastructure intelligence platform from **Daemon Engineering Solutions**.
+
 ## Infrastructure Intelligence for Modern Systems
 
 **Your infrastructure is alive. Give it intelligence.**
@@ -36,13 +38,13 @@ Monitor and understand GPU infrastructure for modern AI and machine-learning wor
 
 ## Pricing
 
-### Pro — .99/month
+### Pro â€” .99/month
 
 Designed for individuals and smaller teams that need infrastructure intelligence without enterprise pricing.
 
 **14-day free trial**
 
-### Business — .99/month
+### Business â€” .99/month
 
 For teams that need broader operational visibility and infrastructure intelligence.
 
@@ -125,6 +127,6 @@ This project is currently under active development. Licensing and commercial-use
 
 ## Daemon OS
 
-**Infrastructure Intelligence · Security · Intelligence · Operations**
+**Infrastructure Intelligence Â· Security Â· Intelligence Â· Operations**
 
 https://lebarionellison.github.io/daemon-os/
